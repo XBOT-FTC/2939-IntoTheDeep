@@ -12,7 +12,7 @@ public class Teleop extends LinearOpMode{
     @Override
     public void runOpMode() throws InterruptedException {
 
-        IMU imu = hardwareMap.get(IMU.class, "imu");
+        IMU imu = hardwareMap.get(IMU.class, ElectricalContract.imu());
         JohnMecanumDrive drive = new JohnMecanumDrive(hardwareMap, DcMotorSimple.Direction.REVERSE);
 
         // IMU adjustments for RevHub orientation

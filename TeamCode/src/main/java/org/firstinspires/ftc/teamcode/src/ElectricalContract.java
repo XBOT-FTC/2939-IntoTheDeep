@@ -20,16 +20,16 @@ public class ElectricalContract {
         return "imu";
     }
     public static String FrontLeftDriveMotor() {
-        return "fl_drive";  // Example: Expansion Hub, Port 2
+        return "lf_drive";  // Example: Expansion Hub, Port 2
     }
     public static String BackLeftDriveMotor() {
-        return "bl_drive";  // Example: Expansion Hub, Port 2
+        return "lb_drive";  // Example: Expansion Hub, Port 2
     }
     public static String FrontRightDriveMotor() {
-        return "fr_drive";  // Example: Expansion Hub, Port 2
+        return "rf_drive";  // Example: Expansion Hub, Port 2
     }
     public static String BackRightDriveMotor() {
-        return "br_drive";  // Example: Expansion Hub, Port 2
+        return "rb_drive";  // Example: Expansion Hub, Port 2
     }
 
 
