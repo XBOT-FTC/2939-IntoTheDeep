@@ -24,10 +24,10 @@ public class JohnMecanumDrive {
     double precisionModeLimit = 0;
 
     public JohnMecanumDrive(HardwareMap hardwareMap, DcMotorSimple.Direction direction) {
-        leftFrontDrive  = hardwareMap.get(DcMotorEx.class, ElectricalContract.FrontLeftDriveMotor());
-        leftBackDrive = hardwareMap.get(DcMotorEx.class, ElectricalContract.BackLeftDriveMotor());
-        rightFrontDrive  = hardwareMap.get(DcMotorEx.class, ElectricalContract.FrontRightDriveMotor());
-        rightBackDrive = hardwareMap.get(DcMotorEx.class, ElectricalContract.BackRightDriveMotor());
+        leftFrontDrive  = hardwareMap.get(DcMotorEx.class, ElectricalContract.LeftFrontDriveMotor());
+        leftBackDrive = hardwareMap.get(DcMotorEx.class, ElectricalContract.LeftBackDriveMotor());
+        rightFrontDrive  = hardwareMap.get(DcMotorEx.class, ElectricalContract.RightFrontDriveMotor());
+        rightBackDrive = hardwareMap.get(DcMotorEx.class, ElectricalContract.RightBackDriveMotor());
 
         leftFrontDrive.setDirection(direction);
         leftBackDrive.setDirection(direction);
