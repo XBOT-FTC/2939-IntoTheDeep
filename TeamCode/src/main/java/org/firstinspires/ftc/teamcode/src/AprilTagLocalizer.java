@@ -49,14 +49,15 @@ public class AprilTagLocalizer {
     /**
      * The variable to store our instance of the AprilTag processor.
      */
-    private AprilTagProcessor aprilTag;
+    AprilTagProcessor aprilTag;
     /**
      * The variable to store our instance of the vision portal.
      */
-    private VisionPortal visionPortal;
+    VisionPortal visionPortal;
     /**
      * Initialize the AprilTag processor.
      */
+
     public AprilTagLocalizer(HardwareMap hardwareMap) {
         // Create the AprilTag processor.
         aprilTag = new AprilTagProcessor.Builder()
@@ -133,5 +134,9 @@ public class AprilTagLocalizer {
     }
     public VisionPortal getVisionPortal() {
         return visionPortal;
+    }
+
+    public AprilTagProcessor getAprilTag() {
+        return aprilTag;
     }
 }
