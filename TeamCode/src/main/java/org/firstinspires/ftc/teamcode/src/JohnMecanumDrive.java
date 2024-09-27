@@ -1,8 +1,7 @@
 package org.firstinspires.ftc.teamcode.src;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.outoftheboxrobotics.photoncore.hardware.motor.PhotonAdvancedDcMotor;
+import com.outoftheboxrobotics.photoncore.hardware.motor.PhotonDcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
@@ -11,10 +10,15 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 public class JohnMecanumDrive {
-    private DcMotorEx leftFrontDrive = null;
-    private DcMotorEx leftBackDrive = null;
-    private DcMotorEx rightFrontDrive = null;
-    private DcMotorEx rightBackDrive = null;
+    PhotonDcMotor leftFrontMotor = null;
+    PhotonDcMotor leftBackMotor = null;
+    PhotonDcMotor rightFrontMotor = null;
+    PhotonDcMotor rightBackMotor = null;
+    PhotonAdvancedDcMotor leftFrontDrive = null;
+    PhotonAdvancedDcMotor leftBackDrive = null;
+    PhotonAdvancedDcMotor rightFrontDrive = null;
+    PhotonAdvancedDcMotor rightBackDrive = null;
+
     private double powerLimit = 1;
     int count = (int) (powerLimit * 10);
     int powerLimitLoop = 0;
@@ -23,18 +27,21 @@ public class JohnMecanumDrive {
     boolean precisionMode = false;
     double precisionModeLimit = 0;
 
-    public JohnMecanumDrive(HardwareMap hardwareMap, DcMotorSimple.Direction direction) {
-        leftFrontDrive  = hardwareMap.get(DcMotorEx.class, ElectricalContract.FrontLeftDriveMotor());
-        leftBackDrive = hardwareMap.get(DcMotorEx.class, ElectricalContract.BackLeftDriveMotor());
-        rightFrontDrive  = hardwareMap.get(DcMotorEx.class, ElectricalContract.FrontRightDriveMotor());
-        rightBackDrive = hardwareMap.get(DcMotorEx.class, ElectricalContract.BackRightDriveMotor());
+    public JohnMecanumDrive(HardwareMap hardwareMap) {
+        leftFrontMotor = (PhotonDcMotor) hardwareMap.dcMotor.get(ElectricalContract.leftFrontDriveMotor());
+        leftBackMotor = (PhotonDcMotor) hardwareMap.dcMotor.get(ElectricalContract.leftBackDriveMotor());
+        rightFrontMotor = (PhotonDcMotor) hardwareMap.dcMotor.get(ElectricalContract.rightFrontDriveMotor());
+        rightBackMotor = (PhotonDcMotor) hardwareMap.dcMotor.get(ElectricalContract.rightBackDriveMotor());
 
-        leftFrontDrive.setDirection(direction);
-        leftBackDrive.setDirection(direction);
-        rightFrontDrive.setDirection(direction.inverted());
-        rightBackDrive.setDirection(direction.inverted());
+        leftFrontDrive = new PhotonAdvancedDcMotor(leftFrontMotor);
+        leftBackDrive = new PhotonAdvancedDcMotor(leftBackMotor);
+        rightFrontDrive = new PhotonAdvancedDcMotor(rightFrontMotor);
+        rightBackDrive = new PhotonAdvancedDcMotor(rightBackMotor);
 
-        encoderSetUp();
+        leftFrontDrive.setCacheTolerance(0.01);
+        leftBackDrive.setCacheTolerance(0.01);
+        rightFrontDrive.setCacheTolerance(0.01);
+        rightBackDrive.setCacheTolerance(0.01);
     }
 
     public void drive(Gamepad gamepad, IMU imu, Telemetry telemetry) {
@@ -68,9 +75,10 @@ public class JohnMecanumDrive {
         precisionModeSwitch(gamepad);
 
         // Normalize wheel powers to be less than 1.0
+        //TODO: reverse power for left or right motors
         double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rotateIntent), 1);
-        double leftFrontPower = ((rotY + rotX + rotateIntent + headingPower) / denominator);
-        double leftBackPower = ((rotY - rotX + rotateIntent + headingPower) / denominator);
+        double leftFrontPower = -((rotY + rotX + rotateIntent + headingPower) / denominator);
+        double leftBackPower = -((rotY - rotX + rotateIntent + headingPower) / denominator);
         double rightFrontPower = ((rotY - rotX - rotateIntent - headingPower) / denominator);
         double rightBackPower = ((rotY + rotX - rotateIntent - headingPower) / denominator);
 
@@ -88,17 +96,7 @@ public class JohnMecanumDrive {
 
         telemetry.addData("Front Motor Powers:", "Left Front (%.2f), Right Front (%.2f)", leftFrontPower, rightFrontPower);
         telemetry.addData("Back Motor Powers:", "Left Back (%.2f), Right Back (%.2f)", leftBackPower, rightBackPower);
-
         telemetry.addData("current heading:", botHeadingDegrees);
-
-//        telemetry.addData("Left Front Ticks:", "(%.2f)", leftFrontDrive.getCurrentPosition());
-//        telemetry.addData("Left Back Ticks:", "(%.2f)", leftBackDrive.getCurrentPosition());
-//        telemetry.addData("Right Front Ticks:", "(%.2f)", rightFrontDrive.getCurrentPosition());
-//        telemetry.addData("Right Back Ticks:", "(%.2f)", rightBackDrive.getCurrentPosition());
-//        telemetry.addData("Left Front Expected Distance Inches: ", "(%.2f)",
-//                DriveLogic.getExpectedRobotDistanceInches(leftFrontDrive.getCurrentPosition()));
-//        telemetry.addData("Right Front Expected Distance Inches: ", "(%.2f)",
-//                DriveLogic.getExpectedRobotDistanceInches(rightFrontDrive.getCurrentPosition()));
     }
 
     public void setPowerLimit(double max) {
@@ -122,19 +120,6 @@ public class JohnMecanumDrive {
             powerLimitLoop = 0;
         }
         powerLimit = powerLimitIncrement * count;
-    }
-
-    public void encoderSetUp() {
-        leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        //TODO: see difference in RUN_USING_ENCODER and RUN_WITHOUT_ENCODER for driving
-        leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     public void precisionModeSwitch(Gamepad gamepad) {
