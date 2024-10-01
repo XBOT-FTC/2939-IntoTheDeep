@@ -34,7 +34,7 @@ public class JohnMecanumDrive {
         rightFrontDrive.setDirection(direction.inverted());
         rightBackDrive.setDirection(direction.inverted());
 
-        encoderSetUp();
+//        encoderSetUp();
     }
 
     public void drive(Gamepad gamepad, IMU imu, Telemetry telemetry) {
