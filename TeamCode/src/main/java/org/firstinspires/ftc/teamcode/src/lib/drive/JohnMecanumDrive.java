@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.src;
+package org.firstinspires.ftc.teamcode.src.lib.drive;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.teamcode.src.ElectricalContract;
 
 public class JohnMecanumDrive {
     private DcMotorEx leftFrontDrive = null;
