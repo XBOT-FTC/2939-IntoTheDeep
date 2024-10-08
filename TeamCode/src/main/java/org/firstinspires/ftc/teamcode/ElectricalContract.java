@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.src;
+package org.firstinspires.ftc.teamcode;
 
 public class ElectricalContract {
     public ElectricalContract() {
@@ -29,8 +29,11 @@ public class ElectricalContract {
     public static String RightBackDriveMotor() {
         return "rb_drive";  // Example: Expansion Hub, Port 2
     }
-    public static String webcam() {
+    public static String webcam1() {
         return "Webcam 1";
+    }
+    public static String webcam2() {
+        return "Webcam 2";
     }
 
 }

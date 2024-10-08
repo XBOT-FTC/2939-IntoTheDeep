@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.src;
+package org.firstinspires.ftc.teamcode.vision;
 import android.annotation.SuppressLint;
 import android.util.Size;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -8,6 +8,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
+import org.firstinspires.ftc.teamcode.ElectricalContract;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagGameDatabase;
@@ -85,7 +86,7 @@ public class AprilTagLocalizer {
         // Create the vision portal by using a builder.
         VisionPortal.Builder builder = new VisionPortal.Builder();
         // set the camera
-        builder.setCamera(hardwareMap.get(WebcamName.class, ElectricalContract.webcam()));
+        builder.setCamera(hardwareMap.get(WebcamName.class, ElectricalContract.webcam1()));
         // Choose a camera resolution. Not all cameras support all resolutions.
         builder.setCameraResolution(new Size(1920, 1080));
         // Enable the RC preview (LiveView).  Set "false" to omit camera monitoring.
