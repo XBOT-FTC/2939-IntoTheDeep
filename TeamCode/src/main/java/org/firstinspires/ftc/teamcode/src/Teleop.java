@@ -6,7 +6,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.IMU;
 
-import org.firstinspires.ftc.vision.VisionPortal;
+
+import org.firstinspires.ftc.teamcode.src.lib.drive.JohnMecanumDrive;
 
 @TeleOp(name = "TeleOp", group= "Linear OpMode")
 public class Teleop extends LinearOpMode{
