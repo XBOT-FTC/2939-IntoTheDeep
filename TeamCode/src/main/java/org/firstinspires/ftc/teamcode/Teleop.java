@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.src;
+package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -6,7 +6,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.IMU;
 
-import org.firstinspires.ftc.teamcode.src.lib.drive.JohnMecanumDrive;
+import org.firstinspires.ftc.teamcode.ElectricalContract;
+import org.firstinspires.ftc.teamcode.lib.drive.JohnMecanumDrive;
 
 @TeleOp(name = "TeleOp", group= "Linear OpMode")
 public class Teleop extends LinearOpMode{

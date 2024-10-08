@@ -1,20 +1,14 @@
-package org.firstinspires.ftc.teamcode.src.test;
+package org.firstinspires.ftc.teamcode.test;
 
 
 import com.acmerobotics.roadrunner.Action;
-import com.acmerobotics.roadrunner.PathBuilder;
 import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.Rotation2d;
 import com.acmerobotics.roadrunner.SequentialAction;
-import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
-import com.acmerobotics.roadrunner.TrajectoryBuilder;
-import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-import org.firstinspires.ftc.teamcode.src.rr.MecanumDrive;
+import org.firstinspires.ftc.teamcode.rr.MecanumDrive;
 
 
 @Autonomous(name= "RoadRunnerTest", group="Autonomous")
