@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.src.rr.messages;
+package org.firstinspires.ftc.teamcode.src.lib.rr.messages;
 
 import com.acmerobotics.roadrunner.ftc.PositionVelocityPair;
 

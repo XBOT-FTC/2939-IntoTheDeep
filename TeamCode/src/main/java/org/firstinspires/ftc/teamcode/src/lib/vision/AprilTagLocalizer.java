@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.src;
+package org.firstinspires.ftc.teamcode.src.lib.vision;
 import android.annotation.SuppressLint;
 import android.util.Size;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -8,6 +8,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
+import org.firstinspires.ftc.teamcode.src.ElectricalContract;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagGameDatabase;

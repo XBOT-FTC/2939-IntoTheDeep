@@ -8,6 +8,8 @@ import com.qualcomm.robotcore.hardware.IMU;
 
 
 import org.firstinspires.ftc.teamcode.src.lib.drive.JohnMecanumDrive;
+import org.firstinspires.ftc.teamcode.src.lib.vision.AprilTagLocalizer;
+import org.firstinspires.ftc.vision.VisionPortal;
 
 @TeleOp(name = "TeleOp", group= "Linear OpMode")
 public class Teleop extends LinearOpMode{
