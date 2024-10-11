@@ -115,11 +115,11 @@ public class ConceptAprilTagMultiPortal extends LinearOpMode
             // Just show some basic telemetry to demonstrate both processors are working in parallel
             // on their respective cameras. If you want to see more detail about the information you
             // can get back from the processor, you should look at ConceptAprilTag.
-//            telemetry.addData("Number of tags in Camera 1", aprilTagProcessor1.getDetections().size());
+//            telemetry.addData("Number o   f tags in Camera 1", aprilTagProcessor1.getDetections().size());
 //            telemetry.addData("Number of tags in Camera 2", aprilTagProcessor2.getDetections().size());
 //            telemetryAprilTag(aprilTagProcessor1, telemetry, "Camera 1");
             telemetryAprilTag(aprilTagProcessor2, telemetry, "Camera 2");
-            portal2.getFps();
+            telemetry.addData("Arducam FPS:", portal2.getFps());
 
 
             telemetry.update();
@@ -136,14 +136,14 @@ public class ConceptAprilTagMultiPortal extends LinearOpMode
                 .setTagLibrary(AprilTagGameDatabase.getIntoTheDeepTagLibrary())
                 .setOutputUnits(DistanceUnit.INCH, AngleUnit.DEGREES)
                 .setCameraPose(cameraPosition, cameraOrientation)
-                .setLensIntrinsics(578.538, 578.538, 643.249, 387.098)
+                .setLensIntrinsics(908.494, 908.494, 677.866, 366.005)
                 .build();
     }
 
     public VisionPortal buildAprilTagVisionPortal(String cameraName, int viewID, AprilTagProcessor aprilTagProcessor) {
         return new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, cameraName))
-                .setCameraResolution(new Size(1280, 800))
+//                .setCameraResolution(new Size(1280, 800))
                 .setLiveViewContainerId(viewID)
                 .setStreamFormat(VisionPortal.StreamFormat.MJPEG)
                 .addProcessor(aprilTagProcessor)
@@ -152,7 +152,7 @@ public class ConceptAprilTagMultiPortal extends LinearOpMode
     public VisionPortal buildAprilTagVisionPortalBad(String cameraName, int viewID, AprilTagProcessor aprilTagProcessor) {
         return new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, cameraName))
-                .setCameraResolution(new Size(1280, 800))
+//                .setCameraResolution(new Size(1280, 800))
                 .setLiveViewContainerId(viewID)
                 .addProcessor(aprilTagProcessor)
                 .build();
@@ -172,9 +172,21 @@ public class ConceptAprilTagMultiPortal extends LinearOpMode
                         detection.robotPose.getPosition().y));
                 telemetry.addLine(String.format("%6.1f (deg)",
                         detection.robotPose.getOrientation().getYaw(AngleUnit.DEGREES)));
-                telemetry.addLine(String.format("Range and Bearing %6.1f %6.1f ",
+
+                telemetry.addLine("ftcPose data:");
+                telemetry.addLine(String.format("XYZ, Range, Bearing, Elevation " +
+                                "%6.1f %6.1f %6.1f %6.1f %6.1f ",
+                        detection.ftcPose.x,
+                        detection.ftcPose.y,
+                        detection.ftcPose.z,
                         detection.ftcPose.range,
-                        detection.ftcPose.bearing));
+                        detection.ftcPose.bearing,
+                        detection.ftcPose.elevation));
+                telemetry.addLine("rawPose data:");
+                telemetry.addLine(String.format("XYZ" + "%6.1f %6.1f %6.1f",
+                        detection.rawPose.x,
+                        detection.rawPose.y,
+                        detection.rawPose.z));
 
 
 
