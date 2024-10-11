@@ -95,8 +95,10 @@ public class ConceptAprilTagMultiPortal extends LinearOpMode
         // one for each portal. If you want to see more detail about different
         // options that you have when creating these processors, go check out
         // the ConceptAprilTag OpMode.
-//        aprilTagProcessor1 = buildAprilTagProcessor(cameraPosition1, cameraOrientation1);
+        aprilTagProcessor1 = buildAprilTagProcessor(cameraPosition1, cameraOrientation1);
         aprilTagProcessor2 = buildAprilTagProcessor(cameraPosition2, cameraOrientation2);
+
+        aprilTagProcessor2.setDecimation(3);
 
         // Now we build both portals. The CRITICAL thing to notice here is the call to
         // setLiveViewContainerId(), where we pass in the IDs we received earlier from
@@ -134,6 +136,7 @@ public class ConceptAprilTagMultiPortal extends LinearOpMode
                 .setTagLibrary(AprilTagGameDatabase.getIntoTheDeepTagLibrary())
                 .setOutputUnits(DistanceUnit.INCH, AngleUnit.DEGREES)
                 .setCameraPose(cameraPosition, cameraOrientation)
+                .setLensIntrinsics(578.538, 578.538, 643.249, 387.098)
                 .build();
     }
 
@@ -163,11 +166,18 @@ public class ConceptAprilTagMultiPortal extends LinearOpMode
         for (AprilTagDetection detection : currentDetections) {
             if (detection.metadata != null) {
                 telemetry.addLine(String.format("\n==== (ID %d) %s", detection.id, detection.metadata.name));
+                telemetry.addLine("Robot pose data:");
                 telemetry.addLine(String.format("XYZ %6.1f %6.1f  (inch)",
                         detection.robotPose.getPosition().x,
                         detection.robotPose.getPosition().y));
                 telemetry.addLine(String.format("%6.1f (deg)",
                         detection.robotPose.getOrientation().getYaw(AngleUnit.DEGREES)));
+                telemetry.addLine(String.format("Range and Bearing %6.1f %6.1f ",
+                        detection.ftcPose.range,
+                        detection.ftcPose.bearing));
+
+
+
             } else {
                 telemetry.addLine(String.format("\n==== (ID %d) Unknown", detection.id));
                 telemetry.addLine(String.format("Center %6.0f %6.0f   (pixels)", detection.center.x, detection.center.y));
