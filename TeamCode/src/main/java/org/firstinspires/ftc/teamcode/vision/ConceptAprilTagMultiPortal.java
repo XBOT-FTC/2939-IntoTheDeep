@@ -39,6 +39,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.ExposureControl;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.GainControl;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
@@ -51,6 +53,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagGameDatabase;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * This OpMode demonstrates the basics of using multiple vision portals simultaneously
@@ -103,9 +106,19 @@ public class ConceptAprilTagMultiPortal extends LinearOpMode
         // Now we build both portals. The CRITICAL thing to notice here is the call to
         // setLiveViewContainerId(), where we pass in the IDs we received earlier from
         // makeMultiPortalView().
-//        portal1 = buildAprilTagVisionPortalBad(ElectricalContract.webcam1(), portal1ViewId, aprilTagProcessor1);
+        portal1 = buildAprilTagVisionPortalBad(ElectricalContract.webcam1(), portal1ViewId, aprilTagProcessor1);
         portal2 = buildAprilTagVisionPortal(ElectricalContract.webcam2(), portal2ViewId, aprilTagProcessor2);
 
+
+        while (portal2.getCameraState() != VisionPortal.CameraState.STREAMING) {
+        }
+
+        ExposureControl exposure  = portal2.getCameraControl(ExposureControl.class);
+        exposure.setMode(ExposureControl.Mode.Manual);
+        exposure.setExposure(15, TimeUnit.MILLISECONDS);
+
+        GainControl gain = portal2.getCameraControl(GainControl.class);
+        gain.setGain(100); //max gain 100
 
         waitForStart();
 
@@ -117,9 +130,11 @@ public class ConceptAprilTagMultiPortal extends LinearOpMode
             // can get back from the processor, you should look at ConceptAprilTag.
 //            telemetry.addData("Number o   f tags in Camera 1", aprilTagProcessor1.getDetections().size());
 //            telemetry.addData("Number of tags in Camera 2", aprilTagProcessor2.getDetections().size());
-//            telemetryAprilTag(aprilTagProcessor1, telemetry, "Camera 1");
+            telemetryAprilTag(aprilTagProcessor1, telemetry, "Camera 1");
             telemetryAprilTag(aprilTagProcessor2, telemetry, "Camera 2");
             telemetry.addData("Arducam FPS:", portal2.getFps());
+//            telemetry.addData("max gain", gain.getMaxGain());
+//            telemetry.addData("exposure", exposure.isExposureSupported());
 
 
             telemetry.update();
@@ -136,14 +151,14 @@ public class ConceptAprilTagMultiPortal extends LinearOpMode
                 .setTagLibrary(AprilTagGameDatabase.getIntoTheDeepTagLibrary())
                 .setOutputUnits(DistanceUnit.INCH, AngleUnit.DEGREES)
                 .setCameraPose(cameraPosition, cameraOrientation)
-                .setLensIntrinsics(908.494, 908.494, 677.866, 366.005)
+                .setLensIntrinsics(918.709, 918.709, 643.226, 395.994)
                 .build();
     }
 
     public VisionPortal buildAprilTagVisionPortal(String cameraName, int viewID, AprilTagProcessor aprilTagProcessor) {
         return new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, cameraName))
-//                .setCameraResolution(new Size(1280, 800))
+                .setCameraResolution(new Size(1280, 800))
                 .setLiveViewContainerId(viewID)
                 .setStreamFormat(VisionPortal.StreamFormat.MJPEG)
                 .addProcessor(aprilTagProcessor)
@@ -174,19 +189,23 @@ public class ConceptAprilTagMultiPortal extends LinearOpMode
                         detection.robotPose.getOrientation().getYaw(AngleUnit.DEGREES)));
 
                 telemetry.addLine("ftcPose data:");
-                telemetry.addLine(String.format("XYZ, Range, Bearing, Elevation " +
-                                "%6.1f %6.1f %6.1f %6.1f %6.1f ",
-                        detection.ftcPose.x,
-                        detection.ftcPose.y,
-                        detection.ftcPose.z,
+//                telemetry.addLine(String.format("XYZ, Range, Bearing, Elevation " +
+//                                "%6.1f %6.1f %6.1f %6.1f %6.1f ",
+//                        detection.ftcPose.x,
+//                        detection.ftcPose.y,
+//                        detection.ftcPose.z,
+//                        detection.ftcPose.range,
+//                        detection.ftcPose.bearing,
+//                        detection.ftcPose.elevation));
+                telemetry.addLine(String.format("Range, Bearing" +
+                                "%6.1f %6.1f",
                         detection.ftcPose.range,
-                        detection.ftcPose.bearing,
-                        detection.ftcPose.elevation));
-                telemetry.addLine("rawPose data:");
-                telemetry.addLine(String.format("XYZ" + "%6.1f %6.1f %6.1f",
-                        detection.rawPose.x,
-                        detection.rawPose.y,
-                        detection.rawPose.z));
+                        detection.ftcPose.bearing));
+//                telemetry.addLine("rawPose data:");
+//                telemetry.addLine(String.format("XYZ" + "%6.1f %6.1f %6.1f",
+//                        detection.rawPose.x,
+//                        detection.rawPose.y,
+//                        detection.rawPose.z));
 
 
 
