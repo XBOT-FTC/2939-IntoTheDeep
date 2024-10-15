@@ -21,6 +21,14 @@ public class DriveLogic {
         return pidController.calculate(actual, target);
     }
 
+    public static double pidControlAT(double actual, double target, double kP, double kI, double kD){
+
+        PIDController pidController = new PIDController(kP, kI, kD);
+        pidController.setPID(kP, kI, kD);
+
+        return pidController.calculate(actual, target);
+    }
+
     public static double getLinearVelocity(double RPS) {
         // linear velocity of a wheel is the radius * angular velocity
         double radius = WHEEL_DIAMETER / 2;

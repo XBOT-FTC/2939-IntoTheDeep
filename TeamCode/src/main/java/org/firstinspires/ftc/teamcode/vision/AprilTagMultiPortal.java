@@ -32,9 +32,11 @@ package org.firstinspires.ftc.teamcode.vision;
 import android.annotation.SuppressLint;
 import android.util.Size;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
@@ -46,6 +48,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.teamcode.ElectricalContract;
+import org.firstinspires.ftc.teamcode.lib.drive.DriveLogic;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.VisionProcessor;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
@@ -55,13 +58,8 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-/**
- * This OpMode demonstrates the basics of using multiple vision portals simultaneously
- */
-@TeleOp(name = "Concept: AprilTagMultiPortal", group = "Concept")
-//@Disabled
-public class ConceptAprilTagMultiPortal extends LinearOpMode
-{
+@Config
+public class AprilTagMultiPortal {
     VisionPortal portal1;
     VisionPortal portal2;
 
@@ -78,36 +76,26 @@ public class ConceptAprilTagMultiPortal extends LinearOpMode
     private final YawPitchRollAngles cameraOrientation2 = new YawPitchRollAngles(AngleUnit.DEGREES,
             0, -90, 0, 0);
 
+    String webcam1;
+    String webcam2;
 
-    @Override
-    public void runOpMode() throws InterruptedException
-    {
-        // Because we want to show two camera feeds simultaneously, we need to inform
-        // the SDK that we want it to split the camera monitor area into two smaller
-        // areas for us. It will then give us View IDs which we can pass to the individual
-        // vision portals to allow them to properly hook into the UI in tandem.
+    public static double kP = 0.019, kI = 0, kD = 0;
+
+    public AprilTagMultiPortal(String webcam1, String webcam2, HardwareMap hardwareMap) {
+        this.webcam1 = webcam1;
+        this.webcam2 = webcam2;
+
         int[] viewIds = VisionPortal.makeMultiPortalView(2, VisionPortal.MultiPortalLayout.VERTICAL);
 
-        // We extract the two view IDs from the array to make our lives a little easier later.
-        // NB: the array is 2 long because we asked for 2 portals up above.
         int portal1ViewId = viewIds[0];
         int portal2ViewId = viewIds[1];
 
-        // If we want to run AprilTag detection on two portals simultaneously,
-        // we need to create two distinct instances of the AprilTag processor,
-        // one for each portal. If you want to see more detail about different
-        // options that you have when creating these processors, go check out
-        // the ConceptAprilTag OpMode.
         aprilTagProcessor1 = buildAprilTagProcessor(cameraPosition1, cameraOrientation1);
         aprilTagProcessor2 = buildAprilTagProcessor(cameraPosition2, cameraOrientation2);
 
         aprilTagProcessor2.setDecimation(3);
-
-        // Now we build both portals. The CRITICAL thing to notice here is the call to
-        // setLiveViewContainerId(), where we pass in the IDs we received earlier from
-        // makeMultiPortalView().
-        portal1 = buildAprilTagVisionPortalBad(ElectricalContract.webcam1(), portal1ViewId, aprilTagProcessor1);
-        portal2 = buildAprilTagVisionPortal(ElectricalContract.webcam2(), portal2ViewId, aprilTagProcessor2);
+        portal1 = buildAprilTagVisionPortalBad(ElectricalContract.webcam1(), portal1ViewId, aprilTagProcessor1, hardwareMap);
+        portal2 = buildAprilTagVisionPortal(ElectricalContract.webcam2(), portal2ViewId, aprilTagProcessor2, hardwareMap);
 
 
         while (portal2.getCameraState() != VisionPortal.CameraState.STREAMING) {
@@ -120,26 +108,6 @@ public class ConceptAprilTagMultiPortal extends LinearOpMode
         GainControl gain = portal2.getCameraControl(GainControl.class);
         gain.setGain(100); //max gain 100
 
-        waitForStart();
-
-        // Main Loop
-        while (opModeIsActive())
-        {
-            // Just show some basic telemetry to demonstrate both processors are working in parallel
-            // on their respective cameras. If you want to see more detail about the information you
-            // can get back from the processor, you should look at ConceptAprilTag.
-//            telemetry.addData("Number o   f tags in Camera 1", aprilTagProcessor1.getDetections().size());
-//            telemetry.addData("Number of tags in Camera 2", aprilTagProcessor2.getDetections().size());
-//            telemetryAprilTag(aprilTagProcessor1, telemetry, "Camera 1");
-            telemetryAprilTag(aprilTagProcessor2, telemetry, "Camera 2");
-            telemetry.addData("Arducam FPS:", portal2.getFps());
-//            telemetry.addData("max gain", gain.getMaxGain());
-//            telemetry.addData("exposure", exposure.isExposureSupported());
-
-
-            telemetry.update();
-            sleep(20);
-        }
     }
 
     public AprilTagProcessor buildAprilTagProcessor(Position cameraPosition, YawPitchRollAngles cameraOrientation) {
@@ -155,7 +123,8 @@ public class ConceptAprilTagMultiPortal extends LinearOpMode
                 .build();
     }
 
-    public VisionPortal buildAprilTagVisionPortal(String cameraName, int viewID, AprilTagProcessor aprilTagProcessor) {
+    public VisionPortal buildAprilTagVisionPortal(String cameraName, int viewID, AprilTagProcessor aprilTagProcessor,
+                                                  HardwareMap hardwareMap) {
         return new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, cameraName))
                 .setCameraResolution(new Size(1280, 800))
@@ -164,7 +133,8 @@ public class ConceptAprilTagMultiPortal extends LinearOpMode
                 .addProcessor(aprilTagProcessor)
                 .build();
     }
-    public VisionPortal buildAprilTagVisionPortalBad(String cameraName, int viewID, AprilTagProcessor aprilTagProcessor) {
+    public VisionPortal buildAprilTagVisionPortalBad(String cameraName, int viewID, AprilTagProcessor aprilTagProcessor,
+                                                     HardwareMap hardwareMap) {
         return new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, cameraName))
 //                .setCameraResolution(new Size(1280, 800))
@@ -174,9 +144,9 @@ public class ConceptAprilTagMultiPortal extends LinearOpMode
     }
 
     @SuppressLint("DefaultLocale") // suppress the warning
-    public void telemetryAprilTag(AprilTagProcessor aprilTagProcessor, Telemetry telemetry, String camera) {
-        List<AprilTagDetection> currentDetections = aprilTagProcessor.getDetections();
-        telemetry.addData("# AprilTags Detected in " + camera, currentDetections.size());
+    public void telemetryAprilTag(Telemetry telemetry) {
+        List<AprilTagDetection> currentDetections = aprilTagProcessor2.getDetections();
+        telemetry.addData("# AprilTags Detected in " + webcam2, currentDetections.size());
         // Step through the list of detections and display info for each one.
         for (AprilTagDetection detection : currentDetections) {
             if (detection.metadata != null) {
@@ -189,31 +159,35 @@ public class ConceptAprilTagMultiPortal extends LinearOpMode
                         detection.robotPose.getOrientation().getYaw(AngleUnit.DEGREES)));
 
                 telemetry.addLine("ftcPose data:");
-//                telemetry.addLine(String.format("XYZ, Range, Bearing, Elevation " +
-//                                "%6.1f %6.1f %6.1f %6.1f %6.1f ",
-//                        detection.ftcPose.x,
-//                        detection.ftcPose.y,
-//                        detection.ftcPose.z,
-//                        detection.ftcPose.range,
-//                        detection.ftcPose.bearing,
-//                        detection.ftcPose.elevation));
                 telemetry.addLine(String.format("Range, Bearing" +
                                 "%6.1f %6.1f",
                         detection.ftcPose.range,
                         detection.ftcPose.bearing));
-//                telemetry.addLine("rawPose data:");
-//                telemetry.addLine(String.format("XYZ" + "%6.1f %6.1f %6.1f",
-//                        detection.rawPose.x,
-//                        detection.rawPose.y,
-//                        detection.rawPose.z));
-
-
 
             } else {
                 telemetry.addLine(String.format("\n==== (ID %d) Unknown", detection.id));
                 telemetry.addLine(String.format("Center %6.0f %6.0f   (pixels)", detection.center.x, detection.center.y));
             }
         }
+    }
+
+    public double getATLockOnPower() {
+        List<AprilTagDetection> currentDetections = aprilTagProcessor2.getDetections();
+        AprilTagDetection aprilTag = null;
+
+        double actual = 0;
+
+        if (currentDetections.size() > 0) {
+            aprilTag = currentDetections.get(0);
+        }
+        if (aprilTag == null) {
+            actual = 0;
+        }
+        else {
+            actual = aprilTag.ftcPose.bearing;
+        }
+
+        return DriveLogic.pidControlAT(actual, 0, kP, kI, kD);
     }
 
 }

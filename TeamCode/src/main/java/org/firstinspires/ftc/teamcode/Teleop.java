@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.teamcode.lib.drive.JohnMecanumDrive;
 import org.firstinspires.ftc.teamcode.vision.AprilTagLocalizer;
+import org.firstinspires.ftc.teamcode.vision.AprilTagMultiPortal;
 import org.firstinspires.ftc.vision.VisionPortal;
 
 @TeleOp(name = "TeleOp", group= "Linear OpMode")
@@ -17,8 +18,12 @@ public class Teleop extends LinearOpMode{
     public void runOpMode() throws InterruptedException {
 
         IMU imu = hardwareMap.get(IMU.class, ElectricalContract.imu());
-        JohnMecanumDrive drive = new JohnMecanumDrive(hardwareMap, DcMotorSimple.Direction.REVERSE);
-        AprilTagLocalizer aprilTagLocalizer = new AprilTagLocalizer(hardwareMap);
+        AprilTagMultiPortal aprilTagMultiPortal = new AprilTagMultiPortal(ElectricalContract.webcam1(),
+                ElectricalContract.webcam2(), hardwareMap);
+
+                JohnMecanumDrive drive = new JohnMecanumDrive(hardwareMap, DcMotorSimple.Direction.REVERSE, aprilTagMultiPortal);
+//        AprilTagLocalizer aprilTagLocalizer = new AprilTagLocalizer(hardwareMap);
+
 
         // IMU adjustments for RevHub orientation
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
@@ -27,14 +32,14 @@ public class Teleop extends LinearOpMode{
         imu.initialize(parameters);
 
         while (!opModeIsActive()) {
-            if (aprilTagLocalizer.getVisionPortal().getCameraState() == VisionPortal.CameraState.STREAMING) {
-                telemetry.addData("Camera", "Ready");
-                telemetry.update();
-            }
-            else {
-                telemetry.addData("Camera", "Waiting");
-                telemetry.update();
-            }
+//            if (aprilTagLocalizer.getVisionPortal().getCameraState() == VisionPortal.CameraState.STREAMING) {
+//                telemetry.addData("Camera", "Ready");
+//                telemetry.update();
+//            }
+//            else {
+//                telemetry.addData("Camera", "Waiting");
+//                telemetry.update();
+//            }
         }
 
         waitForStart();
@@ -42,8 +47,8 @@ public class Teleop extends LinearOpMode{
 
         while (opModeIsActive()) {
             drive.drive(gamepad1, imu, telemetry);
-            aprilTagLocalizer.telemetryAprilTag(telemetry);
-
+//            aprilTagLocalizer.telemetryAprilTag(telemetry);
+            aprilTagMultiPortal.telemetryAprilTag(telemetry);
 
             telemetry.update();
         }

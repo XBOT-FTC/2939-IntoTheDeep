@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.IMU;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.ElectricalContract;
+import org.firstinspires.ftc.teamcode.vision.AprilTagMultiPortal;
 
 public class JohnMecanumDrive {
     private DcMotorEx leftFrontDrive = null;
@@ -24,7 +25,9 @@ public class JohnMecanumDrive {
     boolean precisionMode = false;
     double precisionModeLimit = 0;
 
-    public JohnMecanumDrive(HardwareMap hardwareMap, DcMotorSimple.Direction direction) {
+    AprilTagMultiPortal aprilTagMultiPortal;
+
+    public JohnMecanumDrive(HardwareMap hardwareMap, DcMotorSimple.Direction direction, AprilTagMultiPortal aprilTagMultiPortal) {
         leftFrontDrive  = hardwareMap.get(DcMotorEx.class, ElectricalContract.LeftFrontDriveMotor());
         leftBackDrive = hardwareMap.get(DcMotorEx.class, ElectricalContract.LeftBackDriveMotor());
         rightFrontDrive  = hardwareMap.get(DcMotorEx.class, ElectricalContract.RightFrontDriveMotor());
@@ -35,7 +38,8 @@ public class JohnMecanumDrive {
         rightFrontDrive.setDirection(direction.inverted());
         rightBackDrive.setDirection(direction.inverted());
 
-        encoderSetUp();
+//        encoderSetUp();
+        this.aprilTagMultiPortal = aprilTagMultiPortal;
     }
 
     public void drive(Gamepad gamepad, IMU imu, Telemetry telemetry) {
@@ -64,6 +68,10 @@ public class JohnMecanumDrive {
 
         // get headingPower from drive logic for quick rotate
         double headingPower = DriveLogic.getQuickRotatePower(quickRotateY, quickRotateX, botHeadingDegrees, telemetry);
+
+        if (gamepad.y) {
+            headingPower += aprilTagMultiPortal.getATLockOnPower();
+        }
 
         adjustPowerLimit(gamepad);
         precisionModeSwitch(gamepad);
