@@ -24,7 +24,7 @@ public class JohnMecanumDrive {
     double powerLimitIncrement = 0.1;
     int precisionLoop = 0;
     boolean precisionMode = false;
-    double precisionModeLimit = 0;
+    double precisionModeLimit = 0.5;
     PIDManager quickRotatePID = new PIDManager(0,0,0);
     PIDManager driveToPositionPID = new PIDManager(0,0,0);
 
@@ -47,13 +47,13 @@ public class JohnMecanumDrive {
     }
 
     public void drive(Gamepad gamepad, IMU imu, Telemetry telemetry) {
-        double y = -gamepad.left_stick_y; // TODO: Reverse y value if needed (change sign)
+        double y = -gamepad.left_stick_y;
         double x = gamepad.left_stick_x;
 
         // get rotation intent from triggers
         double rotateIntent = -gamepad.left_trigger + gamepad.right_trigger;
         // rightStick quick rotate
-        double quickRotateY = -gamepad.right_stick_y; // TODO: Reverse y value if needed (change sign)
+        double quickRotateY = -gamepad.right_stick_y;
         double quickRotateX = gamepad.right_stick_x;
 
         // recalibrate drive
@@ -61,29 +61,30 @@ public class JohnMecanumDrive {
             imu.resetYaw();
         }
 
+        // retrieve heading from IMU
+        // TODO: Use pose heading from PoseSubsystem
         double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
         double botHeadingDegrees = Math.toDegrees(botHeading);
 
+        // use pid to calculate power to drive to the Net Zone
+        double translationXError = driveToPositionPID.pidControl(pose.getPose(telemetry).position.x, PoseSubsystem.netZonePose.position.x);
+        double translationYError = driveToPositionPID.pidControl(pose.getPose(telemetry).position.y, PoseSubsystem.netZonePose.position.y);
+        double rotateError = quickRotatePID.pidControl(pose.getPose(telemetry).heading.toDouble(), PoseSubsystem.netZonePose.heading.toDouble());
+
         // Rotate the movement direction counter to the bot's rotation
-        double rotX = x * Math.cos(-botHeading) - y * Math.sin(-botHeading);
-        double rotY = x * Math.sin(-botHeading) + y * Math.cos(-botHeading);
+        // add power from driveToNetZone
+        double rotX = x * Math.cos(-botHeading) - y * Math.sin(-botHeading) + translationXError;
+        double rotY = x * Math.sin(-botHeading) + y * Math.cos(-botHeading) + translationYError;
 
         rotX *= 1.1;  // Counteract imperfect strafing
 
         // get headingPower from drive logic for quick rotate
-        double headingPower = DriveLogic.getQuickRotatePower(quickRotateY, quickRotateX, botHeadingDegrees, quickRotatePID, telemetry);
+        // add power from driveToNetZone
+        double headingPower = DriveLogic.getQuickRotatePower(quickRotateY, quickRotateX, botHeadingDegrees, quickRotatePID, telemetry) + rotateError;
 
         adjustPowerLimit(gamepad);
         precisionModeSwitch(gamepad);
 
-//        double translationError = driveToPositionPID.pidControl(pose.getPose()
-//        double rotateError =
-
-        // add power from driveToNetZone
-        double leftFrontPower  = translationError - rotateError;
-        double rightFrontPower = translationError + rotateError;
-        double leftBackPower   = translationError - rotateError;
-        double rightBackPower  = translationError + rotateError;
 
         // Normalize wheel powers to be less than 1.0
         double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rotateIntent), 1);
@@ -108,15 +109,6 @@ public class JohnMecanumDrive {
         telemetry.addData("Back Motor Powers:", "Left Back (%.2f), Right Back (%.2f)", leftBackPower, rightBackPower);
 
         telemetry.addData("current heading:", botHeadingDegrees);
-
-//        telemetry.addData("Left Front Ticks:", "(%.2f)", leftFrontDrive.getCurrentPosition());
-//        telemetry.addData("Left Back Ticks:", "(%.2f)", leftBackDrive.getCurrentPosition());
-//        telemetry.addData("Right Front Ticks:", "(%.2f)", rightFrontDrive.getCurrentPosition());
-//        telemetry.addData("Right Back Ticks:", "(%.2f)", rightBackDrive.getCurrentPosition());
-//        telemetry.addData("Left Front Expected Distance Inches: ", "(%.2f)",
-//                DriveLogic.getExpectedRobotDistanceInches(leftFrontDrive.getCurrentPosition()));
-//        telemetry.addData("Right Front Expected Distance Inches: ", "(%.2f)",
-//                DriveLogic.getExpectedRobotDistanceInches(rightFrontDrive.getCurrentPosition()));
     }
 
     public void setPowerLimit(double max) {

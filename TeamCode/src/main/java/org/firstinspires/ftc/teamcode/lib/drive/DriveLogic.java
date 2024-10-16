@@ -66,18 +66,18 @@ public class DriveLogic {
             headingPower *= -1;
         }
 
-        telemetry.addData("currentHeading", currentHeading);
-        telemetry.addData("goalHeading", goalHeading);
-        telemetry.addData("state", state);
-        telemetry.addData("target", target);
-        telemetry.addData("error", error);
-        telemetry.addData("absError", absError);
-        telemetry.addData("headingPower", headingPower);
-        if (error > 0 ) {
-            telemetry.addLine("Supposed to be turning LEFT");
-        }else {
-            telemetry.addLine("Supposed to be turning RIGHT");
-        }
+//        telemetry.addData("currentHeading", currentHeading);
+//        telemetry.addData("goalHeading", goalHeading);
+//        telemetry.addData("state", state);
+//        telemetry.addData("target", target);
+//        telemetry.addData("error", error);
+//        telemetry.addData("absError", absError);
+//        telemetry.addData("headingPower", headingPower);
+//        if (error > 0 ) {
+//            telemetry.addLine("Supposed to be turning LEFT");
+//        }else {
+//            telemetry.addLine("Supposed to be turning RIGHT");
+//        }
 
         return headingPower;
     }
