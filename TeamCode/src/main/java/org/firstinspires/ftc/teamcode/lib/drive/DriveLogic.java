@@ -4,22 +4,15 @@ import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.controller.PIDController;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.lib.PIDManager;
 
 @Config
 public class DriveLogic {
-    public static double kP = 0, kI = 0, kD = 0;
+    PIDManager quickRotatePID = new PIDManager(0,0,0);
     public static final double TICKS_PER_REV = 537.7;
     public static final double WHEEL_DIAMETER = 97; // MM
     public static final double RPM = 312;
     public static final double k = 1; // scaling variable: measured distance / expected distance
-
-    public static double pidControl(double actual, double target){
-
-        PIDController pidController = new PIDController(kP, kI, kD);
-        pidController.setPID(kP, kI, kD);
-
-        return pidController.calculate(actual, target);
-    }
 
     public static double getLinearVelocity(double RPS) {
         // linear velocity of a wheel is the radius * angular velocity
@@ -33,7 +26,8 @@ public class DriveLogic {
         return (encoderTicks * distancePerTick * k) / 25.4;
     }
 
-    public static double getQuickRotatePower(double rightJoystickY, double rightJoystickX, double currentHeading, Telemetry telemetry) {
+    public static double getQuickRotatePower(double rightJoystickY, double rightJoystickX, double currentHeading,
+                                             PIDManager pidManager, Telemetry telemetry) {
         double goalHeading;
 
         //TODO: refine quadrants
@@ -65,7 +59,7 @@ public class DriveLogic {
         double state = Math.abs(goalHeading) - absError;
         double target = Math.abs(goalHeading);
 
-        double headingPower = pidControl(state, target);
+        double headingPower = pidManager.pidControl(state, target);
 
         // handling which direction to rotate
         if (error > 0) {
