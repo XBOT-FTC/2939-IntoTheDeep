@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.IMU;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.ElectricalContract;
+import org.firstinspires.ftc.teamcode.lib.PIDManager;
 
 public class JohnMecanumDrive {
     private DcMotorEx leftFrontDrive = null;
@@ -23,6 +24,7 @@ public class JohnMecanumDrive {
     int precisionLoop = 0;
     boolean precisionMode = false;
     double precisionModeLimit = 0;
+    PIDManager quickRotatePID = new PIDManager(0,0,0);
 
     public JohnMecanumDrive(HardwareMap hardwareMap, DcMotorSimple.Direction direction) {
         leftFrontDrive  = hardwareMap.get(DcMotorEx.class, ElectricalContract.FrontLeftDriveMotor());
@@ -63,7 +65,7 @@ public class JohnMecanumDrive {
         rotX *= 1.1;  // Counteract imperfect strafing
 
         // get headingPower from drive logic for quick rotate
-        double headingPower = DriveLogic.getQuickRotatePower(quickRotateY, quickRotateX, botHeadingDegrees, telemetry);
+        double headingPower = DriveLogic.getQuickRotatePower(quickRotateY, quickRotateX, botHeadingDegrees, quickRotatePID, telemetry);
 
         adjustPowerLimit(gamepad);
         precisionModeSwitch(gamepad);
