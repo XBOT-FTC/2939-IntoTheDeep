@@ -22,9 +22,16 @@ public class PIDManager {
     }
 
     public double pidControl(double actual, double target){
-
         PIDController pidController = new PIDController(kP, kI, kD);
         pidController.setPID(kP, kI, kD);
+
+        return pidController.calculate(actual, target);
+    }
+
+    public double pidControl(double actual, double target, double tolerance){
+        PIDController pidController = new PIDController(kP, kI, kD);
+        pidController.setPID(kP, kI, kD);
+        pidController.setTolerance(tolerance);
 
         return pidController.calculate(actual, target);
     }
