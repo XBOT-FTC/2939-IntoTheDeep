@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.lib;
 
 import android.transition.Slide;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.button.GamepadButton;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -11,16 +12,17 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.ElectricalContract;
 import org.firstinspires.ftc.teamcode.lib.PIDManager;
-
+@Config
 public class LinearSlide {
     private DcMotor linearSlideLeft = null;
     private DcMotor linearSlideRight = null;
-    public int MAX_POSITION = 4000;
-    public int MIN_POSITION = 0;
+    public final int MAX_POSITION = 3500;
+    public final int MIN_POSITION = 0;
+    public final double IN_PER_TICK = 0; //TODO: tune
     public SlidePositions extension;
     public int targetPosition = 0;
-    PIDManager armPID = new PIDManager(0,0,0, 0);
-    double positionTolerance = 100;
+    private final PIDManager armPID = new PIDManager(0,0,0, 0); //TODO: tune
+    public final double positionTolerance = 100;
     private final ButtonToggle highBasketToggle = new ButtonToggle();
     private final ButtonToggle lowBasketToggle = new ButtonToggle();
     private final ButtonToggle specimenToggle = new ButtonToggle();
@@ -71,19 +73,25 @@ public class LinearSlide {
             extension = SlidePositions.HOMED;
         }
 
-        // set targetPosition as ticks converted from SlidePositions
+        // set targetPosition to ticks converted from SlidePositions
         targetPosition = getSlidePositionTicks(extension);
 
+        double power;
+        int currentPosition = linearSlideLeft.getCurrentPosition();
+
         // safety check
-        if (targetPosition > MAX_POSITION) {
-            targetPosition = MAX_POSITION;
-        } else if (targetPosition < MIN_POSITION) {
-            targetPosition = MIN_POSITION;
+        if (currentPosition > MAX_POSITION) {
+            power = -0.4; // if slides are exceeding its max position send some negative power to move it down
+        }
+        else if (currentPosition < MIN_POSITION) {
+            power = 0; // if slides are exceeding its min position, stop giving the motor power
+        }
+        else {
+            // PID for adjusting motor power
+            power = armPID.pidControl(linearSlideLeft.getCurrentPosition(), targetPosition, positionTolerance);
         }
 
-        // PID control for adjusting motor power
-        double power = armPID.pidControl(linearSlideLeft.getCurrentPosition(), targetPosition, positionTolerance);
-
+        // finally set power
         linearSlideLeft.setPower(power);
         linearSlideRight.setPower(power);
 
@@ -116,6 +124,7 @@ public class LinearSlide {
         return ticks;
     }
 
+    // class to handle button toggling
     public static class ButtonToggle {
         private boolean toggled = false;
         private boolean previousState = false;
