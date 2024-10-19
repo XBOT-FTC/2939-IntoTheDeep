@@ -1,13 +1,16 @@
-package org.firstinspires.ftc.teamcode.src;
+package org.firstinspires.ftc.teamcode.lib.drive;
 
 import com.outoftheboxrobotics.photoncore.hardware.motor.PhotonAdvancedDcMotor;
 import com.outoftheboxrobotics.photoncore.hardware.motor.PhotonDcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.teamcode.ElectricalContract;
+import org.firstinspires.ftc.teamcode.lib.PIDManager;
 
 public class JohnMecanumDrive {
     PhotonDcMotor leftFrontMotor = null;
@@ -26,12 +29,16 @@ public class JohnMecanumDrive {
     int precisionLoop = 0;
     boolean precisionMode = false;
     double precisionModeLimit = 0;
+    PIDManager quickRotatePID = new PIDManager(0,0,0);
 
     public JohnMecanumDrive(HardwareMap hardwareMap) {
         leftFrontMotor = (PhotonDcMotor) hardwareMap.dcMotor.get(ElectricalContract.leftFrontDriveMotor());
         leftBackMotor = (PhotonDcMotor) hardwareMap.dcMotor.get(ElectricalContract.leftBackDriveMotor());
         rightFrontMotor = (PhotonDcMotor) hardwareMap.dcMotor.get(ElectricalContract.rightFrontDriveMotor());
         rightBackMotor = (PhotonDcMotor) hardwareMap.dcMotor.get(ElectricalContract.rightBackDriveMotor());
+
+        leftFrontMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftBackMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         leftFrontDrive = new PhotonAdvancedDcMotor(leftFrontMotor);
         leftBackDrive = new PhotonAdvancedDcMotor(leftBackMotor);
@@ -69,7 +76,7 @@ public class JohnMecanumDrive {
         rotX *= 1.1;  // Counteract imperfect strafing
 
         // get headingPower from drive logic for quick rotate
-        double headingPower = DriveLogic.getQuickRotatePower(quickRotateY, quickRotateX, botHeadingDegrees, telemetry);
+        double headingPower = DriveLogic.getQuickRotatePower(quickRotateY, quickRotateX, botHeadingDegrees, quickRotatePID, telemetry);
 
         adjustPowerLimit(gamepad);
         precisionModeSwitch(gamepad);
@@ -77,8 +84,8 @@ public class JohnMecanumDrive {
         // Normalize wheel powers to be less than 1.0
         //TODO: reverse power for left or right motors
         double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rotateIntent), 1);
-        double leftFrontPower = -((rotY + rotX + rotateIntent + headingPower) / denominator);
-        double leftBackPower = -((rotY - rotX + rotateIntent + headingPower) / denominator);
+        double leftFrontPower = ((rotY + rotX + rotateIntent + headingPower) / denominator);
+        double leftBackPower = ((rotY - rotX + rotateIntent + headingPower) / denominator);
         double rightFrontPower = ((rotY - rotX - rotateIntent - headingPower) / denominator);
         double rightBackPower = ((rotY + rotX - rotateIntent - headingPower) / denominator);
 
