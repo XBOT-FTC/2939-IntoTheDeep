@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.lib;
+package org.firstinspires.ftc.teamcode.lib.arm;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -8,6 +8,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.ElectricalContract;
+import org.firstinspires.ftc.teamcode.lib.ButtonToggle;
+import org.firstinspires.ftc.teamcode.lib.PIDManager;
 
 @Config
 public class ScoringSlide {
@@ -36,14 +38,12 @@ public class ScoringSlide {
     public ScoringSlide(HardwareMap hardwareMap, DcMotorSimple.Direction direction) {
         // motor for left linear slide, sets up encoders
         linearSlideLeft = hardwareMap.get(DcMotor.class, ElectricalContract.leftSlideMotor());
-        linearSlideLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); // Reset the motor encoder
         linearSlideLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // using external pid
         linearSlideLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         linearSlideLeft.setDirection(direction);
 
         // motor for right linear slide, sets up encoders
         linearSlideRight = hardwareMap.get(DcMotor.class, ElectricalContract.rightSlideMotor());
-        linearSlideRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); // Reset the motor encoder
         linearSlideRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // using external pid
         linearSlideRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         linearSlideRight.setDirection(direction.inverted());
@@ -120,23 +120,6 @@ public class ScoringSlide {
                     break;
         }
         return ticks;
-    }
-
-    // class to handle button toggling
-    public static class ButtonToggle {
-        private boolean toggled = false;
-        private boolean previousState = false;
-
-        public void update(boolean currentState) {
-            if (currentState && !previousState) {
-                toggled = !toggled;
-            }
-            previousState = currentState;
-        }
-
-        public boolean isToggled() {
-            return toggled;
-        }
     }
 
 }

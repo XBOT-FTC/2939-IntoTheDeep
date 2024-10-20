@@ -1,15 +1,15 @@
-package org.firstinspires.ftc.teamcode.lib;
+package org.firstinspires.ftc.teamcode.lib.intake;
 
 import com.arcrobotics.ftclib.hardware.motors.CRServo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.ElectricalContract;
 
-public class Intake {
+public class IntakeWheels {
     CRServo leftCRServo = null;
     CRServo rightCRServo = null;
     //TODO: add rotation servos to this class
-    public Intake(HardwareMap hardwareMap) {
+    public IntakeWheels(HardwareMap hardwareMap) {
         leftCRServo = hardwareMap.get(CRServo.class, ElectricalContract.leftIntakeServo());
         rightCRServo = hardwareMap.get(CRServo.class, ElectricalContract.rightIntakeServo());
         //TODO: invert servo

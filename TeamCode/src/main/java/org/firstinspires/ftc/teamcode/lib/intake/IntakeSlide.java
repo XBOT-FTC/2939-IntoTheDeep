@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.lib;
+package org.firstinspires.ftc.teamcode.lib.intake;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -101,23 +101,6 @@ public class IntakeSlide {
                 break;
         }
         return ticks;
-    }
-
-    // class to handle button toggling, not used in this class but may be used in future
-    public static class ButtonToggle {
-        private boolean toggled = false;
-        private boolean previousState = false;
-
-        public void update(boolean currentState) {
-            if (currentState && !previousState) {
-                toggled = !toggled;
-            }
-            previousState = currentState;
-        }
-
-        public boolean isToggled() {
-            return toggled;
-        }
     }
 
 }
