@@ -1,9 +1,6 @@
 package org.firstinspires.ftc.teamcode.lib;
 
-import android.transition.Slide;
-
 import com.acmerobotics.dashboard.config.Config;
-import com.arcrobotics.ftclib.command.button.GamepadButton;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -11,35 +8,28 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.ElectricalContract;
-import org.firstinspires.ftc.teamcode.lib.PIDManager;
+
 @Config
-public class LinearSlide {
+public class IntakeSlide {
     private DcMotor linearSlideLeft = null;
     private DcMotor linearSlideRight = null;
-    public final int MAX_POSITION = 3500;
+    public final int MAX_POSITION = 0; // TODO: Get max
     public final int MIN_POSITION = 0;
-    public final double IN_PER_TICK = 0; //TODO: tune
     public SlidePositions extension;
     public int targetPosition = 0;
-    private final PIDManager armPID = new PIDManager(0,0,0, 0); //TODO: tune
-    public final double positionTolerance = 100;
-    private final ButtonToggle highBasketToggle = new ButtonToggle();
-    private final ButtonToggle lowBasketToggle = new ButtonToggle();
-    private final ButtonToggle specimenToggle = new ButtonToggle();
-    private final ButtonToggle hangToggle = new ButtonToggle();
+    public final double slidePower = 0.5; // TODO: Tune
     enum SlidePositions {
-        HIGH_BASKET,
-        LOW_BASKET,
-        SPECIMEN,
-        HANG,
+        READY,
+        INTAKE,
         HOMED
     }
 
-    public LinearSlide(HardwareMap hardwareMap, DcMotorSimple.Direction direction) {
+    // TODO: test which motors are inverted
+    public IntakeSlide(HardwareMap hardwareMap, DcMotorSimple.Direction direction) {
         // motor for left linear slide, sets up encoders
         linearSlideLeft = hardwareMap.get(DcMotor.class, ElectricalContract.leftSlideMotor());
         linearSlideLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); // Reset the motor encoder
-        linearSlideLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // using external pid
+        linearSlideLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER); // using external pid
         linearSlideLeft.setTargetPosition(0);
         linearSlideLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         linearSlideLeft.setDirection(direction);
@@ -47,34 +37,27 @@ public class LinearSlide {
         // motor for right linear slide, sets up encoders
         linearSlideRight = hardwareMap.get(DcMotor.class, ElectricalContract.rightSlideMotor());
         linearSlideRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); // Reset the motor encoder
-        linearSlideRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // using external pid
+        linearSlideRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER); // using external pid
         linearSlideRight.setTargetPosition(0);
         linearSlideRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         linearSlideRight.setDirection(direction.inverted());
     }
 
     public void slide(Gamepad gamepad, Telemetry telemetry) {
-        // get inputs
-        highBasketToggle.update(gamepad.a);
-        lowBasketToggle.update(gamepad.b);
-        specimenToggle.update(gamepad.x);
-        hangToggle.update(gamepad.y);
 
-        // if a button is toggled, set extension to corresponding SlidePosition
-        if (highBasketToggle.isToggled()) {
-            extension = SlidePositions.HIGH_BASKET;
-        } else if (lowBasketToggle.isToggled()) {
-            extension = SlidePositions.LOW_BASKET;
-        } else if (specimenToggle.isToggled()) {
-            extension = SlidePositions.SPECIMEN;
-        } else if (hangToggle.isToggled()) {
-            extension = SlidePositions.HANG;
-        } else {
-            extension = SlidePositions.HOMED;
+        if (gamepad.y) {
+            extension = SlidePositions.READY;
+            if (gamepad.right_trigger > 0.2) {
+                extension = SlidePositions.INTAKE;
+            }
         }
 
         // set targetPosition to ticks converted from SlidePositions
         targetPosition = getSlidePositionTicks(extension);
+        linearSlideLeft.setTargetPosition(targetPosition);
+        linearSlideRight.setTargetPosition(targetPosition);
+        linearSlideLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        linearSlideRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         double power;
         int currentPosition = linearSlideLeft.getCurrentPosition();
@@ -88,7 +71,7 @@ public class LinearSlide {
         }
         else {
             // PID for adjusting motor power
-            power = armPID.pidControl(linearSlideLeft.getCurrentPosition(), targetPosition, positionTolerance);
+            power = slidePower;
         }
 
         // finally set power
@@ -102,29 +85,25 @@ public class LinearSlide {
         telemetry.update();
     }
 
+    // TODO: Get tick values
     public int getSlidePositionTicks(SlidePositions slidePosition) {
         int ticks = 0;
         switch(slidePosition) {
-            case HIGH_BASKET:
-                ticks = 3000;
+            case READY:
+                ticks = 0;
                 break;
-            case LOW_BASKET:
-                ticks = 1500;
-                break;
-            case SPECIMEN:
-                ticks = 1000;
-                break;
-            case HANG:
-                ticks = 500;
+            case INTAKE:
+                ticks = 0;
                 break;
             default:
-                case HOMED:
-                    break;
+            case HOMED:
+                ticks = 0;
+                break;
         }
         return ticks;
     }
 
-    // class to handle button toggling
+    // class to handle button toggling, not used in this class but may be used in future
     public static class ButtonToggle {
         private boolean toggled = false;
         private boolean previousState = false;
