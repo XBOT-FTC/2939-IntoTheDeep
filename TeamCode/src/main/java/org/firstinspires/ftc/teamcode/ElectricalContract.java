@@ -31,7 +31,16 @@ public class ElectricalContract {
     public static String BackRightDriveMotor() {
         return "rb_drive";  // Example: Expansion Hub, Port 2
     }
-
-
-
+    public static String leftSlideMotor() {
+        return "l_slide";
+    }
+    public static String rightSlideMotor() {
+        return "r_slide";
+    }
+    public static String leftIntakeServo() {
+        return "li_servo";
+    }
+    public static String rightIntakeServo() {
+        return "ri_servo";
+    }
 }
