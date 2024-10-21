@@ -36,13 +36,13 @@ public class ScoringSlide {
 
     // TODO: Test which motors are inverted
     public ScoringSlide(HardwareMap hardwareMap, DcMotorSimple.Direction direction) {
-        // motor for left linear slide, sets up encoders
+        // motor for left linear slide setup
         linearSlideLeft = hardwareMap.get(DcMotor.class, ElectricalContract.leftSlideMotor());
         linearSlideLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // using external pid
         linearSlideLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         linearSlideLeft.setDirection(direction);
 
-        // motor for right linear slide, sets up encoders
+        // motor for right linear slide setup
         linearSlideRight = hardwareMap.get(DcMotor.class, ElectricalContract.rightSlideMotor());
         linearSlideRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // using external pid
         linearSlideRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

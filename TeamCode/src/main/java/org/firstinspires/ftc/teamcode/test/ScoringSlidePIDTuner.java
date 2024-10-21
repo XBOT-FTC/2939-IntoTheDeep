@@ -20,12 +20,12 @@ public class ScoringSlidePIDTuner extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        // motor for left linear slide, sets up encoders
+        // motor for left linear slide setup
         DcMotor linearSlideLeft = hardwareMap.get(DcMotor.class, ElectricalContract.leftSlideMotor());
         linearSlideLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         linearSlideLeft.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        // motor for right linear slide, sets up encoders
+        // motor for right linear slide setup
         DcMotor linearSlideRight = hardwareMap.get(DcMotor.class, ElectricalContract.rightSlideMotor());
         linearSlideRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         linearSlideRight.setDirection(DcMotorSimple.Direction.REVERSE);
