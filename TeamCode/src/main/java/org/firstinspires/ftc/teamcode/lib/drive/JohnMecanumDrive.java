@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.lib.drive;
 
+import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -27,14 +28,13 @@ public class JohnMecanumDrive {
     double precisionModeLimit = 0.5;
     PIDManager quickRotatePID = new PIDManager(0,0,0);
     PIDManager driveToPositionPID = new PIDManager(0,0,0);
-
     PoseSubsystem pose;
 
     public JohnMecanumDrive(HardwareMap hardwareMap, DcMotorSimple.Direction direction, PoseSubsystem pose) {
-        leftFrontDrive  = hardwareMap.get(DcMotorEx.class, ElectricalContract.FrontLeftDriveMotor());
-        leftBackDrive = hardwareMap.get(DcMotorEx.class, ElectricalContract.BackLeftDriveMotor());
-        rightFrontDrive  = hardwareMap.get(DcMotorEx.class, ElectricalContract.FrontRightDriveMotor());
-        rightBackDrive = hardwareMap.get(DcMotorEx.class, ElectricalContract.BackRightDriveMotor());
+        leftFrontDrive  = hardwareMap.get(DcMotorEx.class, ElectricalContract.LeftFrontDriveMotor());
+        leftBackDrive = hardwareMap.get(DcMotorEx.class, ElectricalContract.LeftBackDriveMotor());
+        rightFrontDrive  = hardwareMap.get(DcMotorEx.class, ElectricalContract.RightFrontDriveMotor());
+        rightBackDrive = hardwareMap.get(DcMotorEx.class, ElectricalContract.RightBackDriveMotor());
 
         leftFrontDrive.setDirection(direction);
         leftBackDrive.setDirection(direction);
@@ -42,8 +42,6 @@ public class JohnMecanumDrive {
         rightBackDrive.setDirection(direction.inverted());
 
         this.pose = pose;
-
-//        encoderSetUp();
     }
 
     public void drive(Gamepad gamepad, IMU imu, Telemetry telemetry) {
@@ -56,20 +54,23 @@ public class JohnMecanumDrive {
         double quickRotateY = -gamepad.right_stick_y;
         double quickRotateX = gamepad.right_stick_x;
 
+        Pose2d currentPose = pose.getPose(telemetry);
+
         // recalibrate drive
         if (gamepad.options) {
             imu.resetYaw();
         }
 
-        // retrieve heading from IMU
-        // TODO: Use pose heading from PoseSubsystem
-        double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+        // retrieve heading from pose
+        //TODO: check whether pose heading is radians or degrees
+        double botHeading = currentPose.heading.toDouble();
         double botHeadingDegrees = Math.toDegrees(botHeading);
 
         // use pid to calculate power to drive to the Net Zone
-        double translationXError = driveToPositionPID.pidControl(pose.getPose(telemetry).position.x, PoseSubsystem.netZonePose.position.x);
-        double translationYError = driveToPositionPID.pidControl(pose.getPose(telemetry).position.y, PoseSubsystem.netZonePose.position.y);
-        double rotateError = quickRotatePID.pidControl(pose.getPose(telemetry).heading.toDouble(), PoseSubsystem.netZonePose.heading.toDouble());
+        double translationXError = driveToPositionPID.pidControl(currentPose.position.x, PoseSubsystem.netZonePose.position.x);
+        double translationYError = driveToPositionPID.pidControl(currentPose.position.y, PoseSubsystem.netZonePose.position.y);
+        // use pid to calculate power to drive to the Net Zone
+        double rotateError = quickRotatePID.pidControl(currentPose.heading.toDouble(), PoseSubsystem.netZonePose.heading.toDouble());
 
         // Rotate the movement direction counter to the bot's rotation
         // add power from driveToNetZone
@@ -132,19 +133,6 @@ public class JohnMecanumDrive {
             powerLimitLoop = 0;
         }
         powerLimit = powerLimitIncrement * count;
-    }
-
-    public void encoderSetUp() {
-        leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        //TODO: see difference in RUN_USING_ENCODER and RUN_WITHOUT_ENCODER for driving
-        leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     public void precisionModeSwitch(Gamepad gamepad) {

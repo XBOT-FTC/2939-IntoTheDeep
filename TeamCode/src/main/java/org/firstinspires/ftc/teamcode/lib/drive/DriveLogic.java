@@ -14,6 +14,25 @@ public class DriveLogic {
     public static final double RPM = 312;
     public static final double k = 1; // scaling variable: measured distance / expected distance
 
+<<<<<<< HEAD
+=======
+    public static double pidControl(double actual, double target){
+
+        PIDController pidController = new PIDController(kP, kI, kD);
+        pidController.setPID(kP, kI, kD);
+
+        return pidController.calculate(actual, target);
+    }
+
+    public static double pidControlAT(double actual, double target, double kP, double kI, double kD){
+
+        PIDController pidController = new PIDController(kP, kI, kD);
+        pidController.setPID(kP, kI, kD);
+
+        return pidController.calculate(actual, target);
+    }
+
+>>>>>>> apriltag
     public static double getLinearVelocity(double RPS) {
         // linear velocity of a wheel is the radius * angular velocity
         double radius = WHEEL_DIAMETER / 2;

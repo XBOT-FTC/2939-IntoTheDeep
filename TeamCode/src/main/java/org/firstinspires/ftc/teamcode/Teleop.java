@@ -1,13 +1,16 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.IMU;
 
-import org.firstinspires.ftc.teamcode.ElectricalContract;
 import org.firstinspires.ftc.teamcode.lib.drive.JohnMecanumDrive;
+import org.firstinspires.ftc.teamcode.vision.AprilTagLocalizer;
+import org.firstinspires.ftc.teamcode.vision.AprilTagMultiPortal;
+import org.firstinspires.ftc.vision.VisionPortal;
 
 @TeleOp(name = "TeleOp", group= "Linear OpMode")
 public class Teleop extends LinearOpMode{
@@ -24,6 +27,19 @@ public class Teleop extends LinearOpMode{
                 RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
                 RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD));
         imu.initialize(parameters);
+
+        pose.setPose(new Pose2d(0,0,0));
+
+        while (!opModeIsActive()) {
+            if (pose.getVisionPortal().getCameraState() == VisionPortal.CameraState.STREAMING) {
+                telemetry.addData("Camera", "Ready");
+                telemetry.update();
+            }
+            else {
+                telemetry.addData("Camera", "Waiting");
+                telemetry.update();
+            }
+        }
 
         waitForStart();
         if (isStopRequested()) return;
