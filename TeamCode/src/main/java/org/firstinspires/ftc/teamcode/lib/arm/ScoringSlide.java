@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.ElectricalContract;
@@ -35,26 +36,27 @@ public class ScoringSlide {
     }
 
     // TODO: Test which motors are inverted
-    public ScoringSlide(HardwareMap hardwareMap, DcMotorSimple.Direction direction) {
+    public ScoringSlide(HardwareMap hardwareMap) {
         // motor for left linear slide setup
         linearSlideLeft = hardwareMap.get(DcMotor.class, ElectricalContract.leftSlideMotor());
         linearSlideLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // using external pid
         linearSlideLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        linearSlideLeft.setDirection(direction);
+        linearSlideLeft.setDirection(DcMotorSimple.Direction.FORWARD);
 
         // motor for right linear slide setup
         linearSlideRight = hardwareMap.get(DcMotor.class, ElectricalContract.rightSlideMotor());
         linearSlideRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // using external pid
         linearSlideRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        linearSlideRight.setDirection(direction.inverted());
+        linearSlideRight.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     public void slide(Gamepad gamepad, Telemetry telemetry) {
         // get inputs
-        highBasketToggle.update(gamepad.a);
-        lowBasketToggle.update(gamepad.b);
-        specimenToggle.update(gamepad.x);
-        hangToggle.update(gamepad.y);
+        // TODO: Figure out button mapping
+        highBasketToggle.update(gamepad.dpad_up);
+        lowBasketToggle.update(gamepad.dpad_down);
+        specimenToggle.update(gamepad.dpad_left);
+        hangToggle.update(gamepad.dpad_right); // TODO: Remove if we don't have hanging
 
         // if a button is toggled, set extension to corresponding SlidePosition
         if (highBasketToggle.isToggled()) {

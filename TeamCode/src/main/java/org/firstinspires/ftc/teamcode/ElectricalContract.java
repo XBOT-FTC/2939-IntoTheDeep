@@ -43,4 +43,10 @@ public class ElectricalContract {
     public static String rightIntakeServo() {
         return "ri_servo";
     }
+    public static String leftPivotServo() {
+        return "lp_servo";
+    }
+    public static String rightPivotServo() {
+        return "rp_servo";
+    }
 }

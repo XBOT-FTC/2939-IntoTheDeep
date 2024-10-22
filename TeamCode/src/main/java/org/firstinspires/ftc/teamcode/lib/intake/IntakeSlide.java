@@ -25,14 +25,14 @@ public class IntakeSlide {
     }
 
     // TODO: test which motors are inverted
-    public IntakeSlide(HardwareMap hardwareMap, DcMotorSimple.Direction direction) {
+    public IntakeSlide(HardwareMap hardwareMap) {
         // motor for left linear slide, sets up encoders
         linearSlideLeft = hardwareMap.get(DcMotor.class, ElectricalContract.leftSlideMotor());
         linearSlideLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); // Reset the motor encoder
         linearSlideLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER); // using external pid
         linearSlideLeft.setTargetPosition(0);
         linearSlideLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        linearSlideLeft.setDirection(direction);
+        linearSlideLeft.setDirection(DcMotorSimple.Direction.FORWARD);
 
         // motor for right linear slide, sets up encoders
         linearSlideRight = hardwareMap.get(DcMotor.class, ElectricalContract.rightSlideMotor());
@@ -40,10 +40,11 @@ public class IntakeSlide {
         linearSlideRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER); // using external pid
         linearSlideRight.setTargetPosition(0);
         linearSlideRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        linearSlideRight.setDirection(direction.inverted());
+        linearSlideRight.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     public void slide(Gamepad gamepad, Telemetry telemetry) {
+
 
         if (gamepad.y) {
             extension = SlidePositions.READY;

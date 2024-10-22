@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.IMU;
 import org.firstinspires.ftc.teamcode.ElectricalContract;
 import org.firstinspires.ftc.teamcode.lib.drive.JohnMecanumDrive;
 
-@TeleOp(name = "TeleOp", group= "Linear OpMode")
+@TeleOp(name = "沈小婷", group= "Linear OpMode")
 public class Teleop extends LinearOpMode{
 
     @Override
