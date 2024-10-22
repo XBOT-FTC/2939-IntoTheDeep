@@ -116,10 +116,8 @@ public class ScoringSlide {
             case HANG:
                 ticks = 0;
                 break;
-            default:
-                case HOMED:
-                    ticks = 0;
-                    break;
+            case HOMED:
+                break;
         }
         return ticks;
     }

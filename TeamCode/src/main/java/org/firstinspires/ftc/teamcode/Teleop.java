@@ -16,15 +16,14 @@ public class Teleop extends LinearOpMode{
     public void runOpMode() throws InterruptedException {
 
         IMU imu = hardwareMap.get(IMU.class, ElectricalContract.imu());
-        JohnMecanumDrive drive = new JohnMecanumDrive(hardwareMap, DcMotorSimple.Direction.REVERSE);
+        JohnMecanumDrive drive = new JohnMecanumDrive(hardwareMap);
 
+        //TODO:
         // IMU adjustments for RevHub orientation
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
                 RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
                 RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD));
         imu.initialize(parameters);
-
-
 
         waitForStart();
         if (isStopRequested()) return;
