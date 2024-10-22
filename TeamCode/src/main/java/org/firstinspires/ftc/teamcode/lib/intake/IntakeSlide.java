@@ -43,14 +43,15 @@ public class IntakeSlide {
         linearSlideRight.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
-    public void slide(Gamepad gamepad, Telemetry telemetry) {
+    public void slide(Telemetry telemetry, SlidePositions position) {
 
-
-        if (gamepad.y) {
-            extension = SlidePositions.READY;
-            if (gamepad.right_trigger > 0.2) {
+        switch (position) {
+            case READY:
+                extension = SlidePositions.READY;
+            case INTAKE:
                 extension = SlidePositions.INTAKE;
-            }
+            case HOMED:
+                extension = SlidePositions.HOMED;
         }
 
         // set targetPosition to ticks converted from SlidePositions
@@ -103,5 +104,15 @@ public class IntakeSlide {
         }
         return ticks;
     }
+
+    // returns average position
+    public int getCurrentPosition() {
+        return (linearSlideLeft.getCurrentPosition() + linearSlideRight.getCurrentPosition()) / 2;
+    }
+
+    public int getTargetPosition() {
+        return linearSlideLeft.getTargetPosition();
+    }
+
 
 }
