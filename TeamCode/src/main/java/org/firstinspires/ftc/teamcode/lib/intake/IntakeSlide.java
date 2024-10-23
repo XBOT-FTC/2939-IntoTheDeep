@@ -25,14 +25,14 @@ public class IntakeSlide {
     }
 
     // TODO: test which motors are inverted
-    public IntakeSlide(HardwareMap hardwareMap, DcMotorSimple.Direction direction) {
+    public IntakeSlide(HardwareMap hardwareMap) {
         // motor for left linear slide, sets up encoders
         linearSlideLeft = hardwareMap.get(DcMotor.class, ElectricalContract.leftSlideMotor());
         linearSlideLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); // Reset the motor encoder
         linearSlideLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER); // using external pid
         linearSlideLeft.setTargetPosition(0);
         linearSlideLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        linearSlideLeft.setDirection(direction);
+        linearSlideLeft.setDirection(DcMotorSimple.Direction.FORWARD);
 
         // motor for right linear slide, sets up encoders
         linearSlideRight = hardwareMap.get(DcMotor.class, ElectricalContract.rightSlideMotor());
@@ -40,16 +40,18 @@ public class IntakeSlide {
         linearSlideRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER); // using external pid
         linearSlideRight.setTargetPosition(0);
         linearSlideRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        linearSlideRight.setDirection(direction.inverted());
+        linearSlideRight.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
-    public void slide(Gamepad gamepad, Telemetry telemetry) {
+    public void slide(Telemetry telemetry, SlidePositions position) {
 
-        if (gamepad.y) {
-            extension = SlidePositions.READY;
-            if (gamepad.right_trigger > 0.2) {
+        switch (position) {
+            case READY:
+                extension = SlidePositions.READY;
+            case INTAKE:
                 extension = SlidePositions.INTAKE;
-            }
+            case HOMED:
+                extension = SlidePositions.HOMED;
         }
 
         // set targetPosition to ticks converted from SlidePositions
@@ -102,5 +104,15 @@ public class IntakeSlide {
         }
         return ticks;
     }
+
+    // returns average position
+    public int getCurrentPosition() {
+        return (linearSlideLeft.getCurrentPosition() + linearSlideRight.getCurrentPosition()) / 2;
+    }
+
+    public int getTargetPosition() {
+        return linearSlideLeft.getTargetPosition();
+    }
+
 
 }

@@ -26,18 +26,16 @@ public class JohnMecanumDrive {
     double precisionModeLimit = 0;
     PIDManager quickRotatePID = new PIDManager(0,0,0);
 
-    public JohnMecanumDrive(HardwareMap hardwareMap, DcMotorSimple.Direction direction) {
+    public JohnMecanumDrive(HardwareMap hardwareMap) {
         leftFrontDrive  = hardwareMap.get(DcMotorEx.class, ElectricalContract.FrontLeftDriveMotor());
         leftBackDrive = hardwareMap.get(DcMotorEx.class, ElectricalContract.BackLeftDriveMotor());
         rightFrontDrive  = hardwareMap.get(DcMotorEx.class, ElectricalContract.FrontRightDriveMotor());
         rightBackDrive = hardwareMap.get(DcMotorEx.class, ElectricalContract.BackRightDriveMotor());
 
-        leftFrontDrive.setDirection(direction);
-        leftBackDrive.setDirection(direction);
-        rightFrontDrive.setDirection(direction.inverted());
-        rightBackDrive.setDirection(direction.inverted());
-
-        encoderSetUp();
+        leftFrontDrive.setDirection(DcMotorSimple.Direction.FORWARD);
+        leftBackDrive.setDirection(DcMotorSimple.Direction.FORWARD);
+        rightFrontDrive.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightBackDrive.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     public void drive(Gamepad gamepad, IMU imu, Telemetry telemetry) {
@@ -91,17 +89,7 @@ public class JohnMecanumDrive {
 
         telemetry.addData("Front Motor Powers:", "Left Front (%.2f), Right Front (%.2f)", leftFrontPower, rightFrontPower);
         telemetry.addData("Back Motor Powers:", "Left Back (%.2f), Right Back (%.2f)", leftBackPower, rightBackPower);
-
         telemetry.addData("current heading:", botHeadingDegrees);
-
-//        telemetry.addData("Left Front Ticks:", "(%.2f)", leftFrontDrive.getCurrentPosition());
-//        telemetry.addData("Left Back Ticks:", "(%.2f)", leftBackDrive.getCurrentPosition());
-//        telemetry.addData("Right Front Ticks:", "(%.2f)", rightFrontDrive.getCurrentPosition());
-//        telemetry.addData("Right Back Ticks:", "(%.2f)", rightBackDrive.getCurrentPosition());
-//        telemetry.addData("Left Front Expected Distance Inches: ", "(%.2f)",
-//                DriveLogic.getExpectedRobotDistanceInches(leftFrontDrive.getCurrentPosition()));
-//        telemetry.addData("Right Front Expected Distance Inches: ", "(%.2f)",
-//                DriveLogic.getExpectedRobotDistanceInches(rightFrontDrive.getCurrentPosition()));
     }
 
     public void setPowerLimit(double max) {
@@ -125,19 +113,6 @@ public class JohnMecanumDrive {
             powerLimitLoop = 0;
         }
         powerLimit = powerLimitIncrement * count;
-    }
-
-    public void encoderSetUp() {
-        leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        //TODO: see difference in RUN_USING_ENCODER and RUN_WITHOUT_ENCODER for driving
-        leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     public void precisionModeSwitch(Gamepad gamepad) {
