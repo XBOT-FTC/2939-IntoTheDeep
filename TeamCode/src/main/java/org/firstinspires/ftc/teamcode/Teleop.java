@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.teamcode.ElectricalContract;
 import org.firstinspires.ftc.teamcode.lib.drive.JohnMecanumDrive;
+import org.firstinspires.ftc.teamcode.lib.intake.Intake;
 
 @TeleOp(name = "沈小婷", group= "Linear OpMode")
 public class Teleop extends LinearOpMode{
@@ -17,6 +18,7 @@ public class Teleop extends LinearOpMode{
 
         IMU imu = hardwareMap.get(IMU.class, ElectricalContract.imu());
         JohnMecanumDrive drive = new JohnMecanumDrive(hardwareMap);
+        Intake intake = new Intake(hardwareMap);
 
         //TODO:
         // IMU adjustments for RevHub orientation
@@ -30,6 +32,7 @@ public class Teleop extends LinearOpMode{
 
         while (opModeIsActive()) {
             drive.drive(gamepad1, imu, telemetry);
+            intake.intake(gamepad2, telemetry);
 
             telemetry.update();
         }

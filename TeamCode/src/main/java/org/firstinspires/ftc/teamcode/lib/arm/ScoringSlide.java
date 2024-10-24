@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.ElectricalContract;
@@ -14,8 +13,8 @@ import org.firstinspires.ftc.teamcode.lib.PIDManager;
 
 @Config
 public class ScoringSlide {
-    private DcMotor linearSlideLeft = null;
-    private DcMotor linearSlideRight = null;
+    private DcMotor linearSlideLeft;
+    private DcMotor linearSlideRight;
     public final int MAX_POSITION = 3500; // TODO: Get max
     public final int MIN_POSITION = 0;
     public final double IN_PER_TICK = 0; // TODO: tune

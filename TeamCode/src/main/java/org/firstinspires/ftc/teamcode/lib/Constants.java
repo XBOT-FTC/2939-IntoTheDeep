@@ -2,10 +2,8 @@ package org.firstinspires.ftc.teamcode.lib;
 
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.sun.tools.javac.comp.Todo;
 
 public class Constants {
-
 
     // LIST: INTAKE
     // SUBLIST: WHEELS
@@ -27,10 +25,10 @@ public class Constants {
         return Servo.Direction.FORWARD; // TODO: Test direction
     }
     public static double getHomedPivotPosition() {
-        return 0; // TODO: This should be the corrent homed position, but double check
+        return 0; // TODO: This should be the homed position if we zero, but double check FIXME: this might be different for left and right servos
     }
     public static double getDeployedPivotPosition() {
-        return 0.15; // TODO: Tune
+        return 0.15; // TODO: Tune FIXME: this might be different for left and right servos
     }
 
     // SUBLIST: SLIDES
