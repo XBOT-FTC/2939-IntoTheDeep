@@ -97,9 +97,7 @@ public class IntakeSlide {
             case INTAKE:
                 ticks = 0;
                 break;
-            default:
             case HOMED:
-                ticks = 0;
                 break;
         }
         return ticks;
@@ -109,10 +107,5 @@ public class IntakeSlide {
     public int getCurrentPosition() {
         return (linearSlideLeft.getCurrentPosition() + linearSlideRight.getCurrentPosition()) / 2;
     }
-
-    public int getTargetPosition() {
-        return linearSlideLeft.getTargetPosition();
-    }
-
 
 }

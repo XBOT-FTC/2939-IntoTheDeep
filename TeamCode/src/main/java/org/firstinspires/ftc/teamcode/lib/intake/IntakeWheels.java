@@ -25,4 +25,9 @@ public class IntakeWheels {
         leftCRServo.set(-1);
         rightCRServo.set(-1);
     }
+
+    public void stop() {
+        leftCRServo.set(0);
+        rightCRServo.set(0);
+    }
 }
