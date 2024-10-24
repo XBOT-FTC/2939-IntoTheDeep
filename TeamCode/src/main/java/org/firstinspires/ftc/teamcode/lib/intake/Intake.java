@@ -21,11 +21,21 @@ public class Intake {
         // deploys slide to ready position, then deploys intake pivot if slide is out far enough
         if (gamepad.y) {
             slide.slide(telemetry, IntakeSlide.SlidePositions.READY);
+            pivot.home();
             if (gamepad.right_trigger > 0.2 && slide.getCurrentPosition() > slide.getSlidePositionTicks(IntakeSlide.SlidePositions.READY) - 60) { // TODO: Tune threshold for both
                 slide.slide(telemetry, IntakeSlide.SlidePositions.INTAKE);
                 pivot.deploy();
                 wheels.intake();
             }
+            else if (gamepad.right_bumper && slide.getCurrentPosition() > slide.getSlidePositionTicks(IntakeSlide.SlidePositions.READY) - 60) { // TODO: Tune threshold for both
+                pivot.deploy();
+                wheels.eject();
+            }
+        }
+        else {
+            slide.slide(telemetry, IntakeSlide.SlidePositions.HOMED);
+            pivot.home();
+            wheels.stop();
         }
     }
 }
