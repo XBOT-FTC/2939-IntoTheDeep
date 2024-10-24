@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.lib;
 
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+
 public class Constants {
 
     // LIST: INTAKE
@@ -8,6 +10,28 @@ public class Constants {
         return 1;
     }
 
-    public static 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //TODO: find these values for MecanumDrive
+    public static double getPrecisionModeLimit() {
+        return 0.5;
+    }
+    public static DcMotorSimple.Direction getLeftDriveMotorDirections() {
+        return DcMotorSimple.Direction.REVERSE;
+    }
 }
