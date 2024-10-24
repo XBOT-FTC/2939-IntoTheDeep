@@ -8,23 +8,22 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.ElectricalContract;
+import org.firstinspires.ftc.teamcode.lib.Constants;
 
 @Config
 public class IntakeSlide {
     private DcMotor linearSlideLeft = null;
     private DcMotor linearSlideRight = null;
-    public final int MAX_POSITION = 0; // TODO: Get max
-    public final int MIN_POSITION = 0;
-    public SlidePositions extension;
+    public final int MAX_POSITION = Constants.getMaxIntakeSlideExtension();
     public int targetPosition = 0;
-    public final double slidePower = 0.5; // TODO: Tune
+    public final double slidePower = Constants.getIntakeSlidePower();
+    public double killPowerThreshold = Constants.getHomedKillPowerThreshold();
     enum SlidePositions {
         READY,
         INTAKE,
         HOMED
     }
 
-    // TODO: test which motors are inverted
     public IntakeSlide(HardwareMap hardwareMap) {
         // motor for left linear slide, sets up encoders
         linearSlideLeft = hardwareMap.get(DcMotor.class, ElectricalContract.leftSlideMotor());
@@ -32,7 +31,7 @@ public class IntakeSlide {
         linearSlideLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER); // using external pid
         linearSlideLeft.setTargetPosition(0);
         linearSlideLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        linearSlideLeft.setDirection(DcMotorSimple.Direction.FORWARD);
+        linearSlideLeft.setDirection(Constants.getLeftIntakeMotorDirection());
 
         // motor for right linear slide, sets up encoders
         linearSlideRight = hardwareMap.get(DcMotor.class, ElectricalContract.rightSlideMotor());
@@ -40,39 +39,39 @@ public class IntakeSlide {
         linearSlideRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER); // using external pid
         linearSlideRight.setTargetPosition(0);
         linearSlideRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        linearSlideRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        linearSlideRight.setDirection(Constants.getLeftIntakeMotorDirection().inverted());
     }
 
     public void slide(Telemetry telemetry, SlidePositions position) {
 
         switch (position) {
             case READY:
-                extension = SlidePositions.READY;
+                targetPosition = Constants.getReadySlideExtension();
+                break;
             case INTAKE:
-                extension = SlidePositions.INTAKE;
+                targetPosition = Constants.getIntakeSlideExtension();
+                break;
             case HOMED:
-                extension = SlidePositions.HOMED;
+                targetPosition = 0;
         }
 
         // set targetPosition to ticks converted from SlidePositions
-        targetPosition = getSlidePositionTicks(extension);
         linearSlideLeft.setTargetPosition(targetPosition);
         linearSlideRight.setTargetPosition(targetPosition);
         linearSlideLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         linearSlideRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         double power;
-        int currentPosition = linearSlideLeft.getCurrentPosition();
+        int currentPosition = getCurrentPosition();
 
         // safety check
         if (currentPosition > MAX_POSITION) {
-            power = -0.4; // if slides are exceeding its max position send some negative power to move it down
+            power = -0.25; // if slides are exceeding its max position send some negative power to move it down
         }
-        else if (currentPosition < MIN_POSITION) {
-            power = 0; // if slides are exceeding its min position, stop giving the motor power
+        else if (position == SlidePositions.HOMED && currentPosition < targetPosition + killPowerThreshold && currentPosition > targetPosition - killPowerThreshold) {
+            power = 0; // if slides are in threshold for homed position, then kill power
         }
         else {
-            // PID for adjusting motor power
             power = slidePower;
         }
 
@@ -85,22 +84,6 @@ public class IntakeSlide {
         telemetry.addData("Right Slide Current Position", linearSlideRight.getCurrentPosition());
         telemetry.addData("Motor Power", power);
         telemetry.update();
-    }
-
-    // TODO: Get tick values
-    public int getSlidePositionTicks(SlidePositions slidePosition) {
-        int ticks = 0;
-        switch(slidePosition) {
-            case READY:
-                ticks = 0;
-                break;
-            case INTAKE:
-                ticks = 0;
-                break;
-            case HOMED:
-                break;
-        }
-        return ticks;
     }
 
     // returns average position
