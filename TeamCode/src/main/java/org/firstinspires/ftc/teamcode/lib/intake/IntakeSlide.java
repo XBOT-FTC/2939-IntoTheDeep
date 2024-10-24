@@ -2,8 +2,6 @@ package org.firstinspires.ftc.teamcode.lib.intake;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -12,12 +10,12 @@ import org.firstinspires.ftc.teamcode.lib.Constants;
 
 @Config
 public class IntakeSlide {
-    private DcMotor linearSlideLeft = null;
-    private DcMotor linearSlideRight = null;
-    public final int MAX_POSITION = Constants.getMaxIntakeSlideExtension();
+    private final DcMotor linearSlideLeft;
+    private final DcMotor linearSlideRight;
     public int targetPosition = 0;
+    public final int MAX_POSITION = Constants.getMaxIntakeSlideExtension();
     public final double slidePower = Constants.getIntakeSlidePower();
-    public double killPowerThreshold = Constants.getHomedKillPowerThreshold();
+    public final double killPowerThreshold = Constants.getHomedKillPowerThreshold();
     enum SlidePositions {
         READY,
         INTAKE,
