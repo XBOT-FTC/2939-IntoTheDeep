@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.ElectricalContract;
+import org.firstinspires.ftc.teamcode.lib.Constants;
 
 public class IntakeWheels {
     CRServo leftCRServo = null;
@@ -13,19 +14,18 @@ public class IntakeWheels {
     public IntakeWheels(HardwareMap hardwareMap) {
         leftCRServo = hardwareMap.get(CRServo.class, ElectricalContract.leftIntakeServo());
         rightCRServo = hardwareMap.get(CRServo.class, ElectricalContract.rightIntakeServo());
-        //TODO: test servo direction
-        leftCRServo.setInverted(true);
+        leftCRServo.setInverted(Constants.getLeftWheelInversion());
+        rightCRServo.setInverted(!Constants.getLeftWheelInversion());
     }
 
     public void intake() {
-        leftCRServo.set(1);
-        rightCRServo.set(1);
+        leftCRServo.set(Constants.getIntakePower());
+        rightCRServo.set(Constants.getIntakePower());
     }
     public void eject() {
-        leftCRServo.set(-1);
-        rightCRServo.set(-1);
+        leftCRServo.set(Constants.getEjectPower());
+        rightCRServo.set(Constants.getEjectPower());
     }
-
     public void stop() {
         leftCRServo.set(0);
         rightCRServo.set(0);

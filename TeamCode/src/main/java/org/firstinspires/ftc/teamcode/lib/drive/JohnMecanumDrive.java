@@ -27,10 +27,10 @@ public class JohnMecanumDrive {
         rightFrontDrive  = hardwareMap.get(DcMotorEx.class, ElectricalContract.FrontRightDriveMotor());
         rightBackDrive = hardwareMap.get(DcMotorEx.class, ElectricalContract.BackRightDriveMotor());
 
-        leftFrontDrive.setDirection(Constants.getLeftDriveMotorDirections());
-        leftBackDrive.setDirection(Constants.getLeftDriveMotorDirections());
-        rightFrontDrive.setDirection(Constants.getLeftDriveMotorDirections().inverted());
-        rightBackDrive.setDirection(Constants.getLeftDriveMotorDirections().inverted());
+        leftFrontDrive.setDirection(Constants.getLeftDriveMotorDirection());
+        leftBackDrive.setDirection(Constants.getLeftDriveMotorDirection());
+        rightFrontDrive.setDirection(Constants.getLeftDriveMotorDirection().inverted());
+        rightBackDrive.setDirection(Constants.getLeftDriveMotorDirection().inverted());
     }
 
     public void drive(Gamepad gamepad, IMU imu, Telemetry telemetry) {

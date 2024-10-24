@@ -5,43 +5,25 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.ElectricalContract;
+import org.firstinspires.ftc.teamcode.lib.Constants;
 
 public class IntakePivot {
     Servo left = null;
     Servo right = null;
 
-    enum PivotPositions {
-        DEPLOYED,
-        HOMED
-    }
-
     public IntakePivot(HardwareMap hardwareMap) {
         left = hardwareMap.get(Servo.class, ElectricalContract.leftPivotServo());
         right = hardwareMap.get(Servo.class, ElectricalContract.rightPivotServo());
-        //TODO: test servo direction
-        left.setDirection(Servo.Direction.REVERSE);
+        left.setDirection(Constants.getLeftPivotDirection());
+        right.setDirection(Constants.getRightPivotDirection());
     }
 
     public void deploy() {
-        right.setPosition(getPivotPosition(PivotPositions.DEPLOYED));
-        left.setPosition(getPivotPosition(PivotPositions.DEPLOYED));
+        right.setPosition(Constants.getDeployedPivotPosition());
+        left.setPosition(Constants.getDeployedPivotPosition());
     }
     public void home() {
-        right.setPosition(getPivotPosition(PivotPositions.HOMED));
-        left.setPosition(getPivotPosition(PivotPositions.HOMED));
+        right.setPosition(Constants.getHomedPivotPosition());
+        left.setPosition(Constants.getHomedPivotPosition());
     }
-
-    // TODO: Find position values
-    public double getPivotPosition(IntakePivot.PivotPositions pivotPosition) {
-        double position = 0; // TODO: Set this to whatever HOMED position is
-        switch(pivotPosition) {
-            case DEPLOYED:
-                position = 0.7;
-                break;
-            case HOMED:
-                break;
-        }
-        return position;
-    }
-
 }

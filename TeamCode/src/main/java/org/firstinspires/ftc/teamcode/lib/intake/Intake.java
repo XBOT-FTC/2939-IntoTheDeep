@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.lib.Constants;
 
 public class Intake {
     IntakeSlide slide = null;
@@ -18,21 +19,20 @@ public class Intake {
     }
 
     public void intake(Gamepad gamepad, Telemetry telemetry) {
-        // deploys slide to ready position, then deploys intake pivot if slide is out far enough
-        if (gamepad.y) {
+        if (gamepad.y) { // deploys slide to ready position, then gives option to intake or eject
             slide.slide(telemetry, IntakeSlide.SlidePositions.READY);
             pivot.home();
-            if (gamepad.right_trigger > 0.2 && slide.getCurrentPosition() > slide.getSlidePositionTicks(IntakeSlide.SlidePositions.READY) - 60) { // TODO: Tune threshold for both
+            if (gamepad.right_trigger > 0.2 && slide.getCurrentPosition() > Constants.getReadySlideExtension() - Constants.getReadyExtensionThreshold()) { // TODO: Tune threshold for both
                 slide.slide(telemetry, IntakeSlide.SlidePositions.INTAKE);
                 pivot.deploy();
                 wheels.intake();
             }
-            else if (gamepad.right_bumper && slide.getCurrentPosition() > slide.getSlidePositionTicks(IntakeSlide.SlidePositions.READY) - 60) { // TODO: Tune threshold for both
+            else if (gamepad.right_bumper && slide.getCurrentPosition() > Constants.getReadySlideExtension() - Constants.getReadyExtensionThreshold()) { // TODO: Tune threshold for both
                 pivot.deploy();
                 wheels.eject();
             }
         }
-        else {
+        else { // back to home position
             slide.slide(telemetry, IntakeSlide.SlidePositions.HOMED);
             pivot.home();
             wheels.stop();
