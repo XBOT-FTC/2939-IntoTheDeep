@@ -22,10 +22,10 @@ public class JohnMecanumDrive {
     PIDManager quickRotatePID = new PIDManager(0.018,0,0);
 
     public JohnMecanumDrive(HardwareMap hardwareMap) {
-        leftFrontDrive  = hardwareMap.get(DcMotorEx.class, ElectricalContract.FrontLeftDriveMotor());
-        leftBackDrive = hardwareMap.get(DcMotorEx.class, ElectricalContract.BackLeftDriveMotor());
-        rightFrontDrive  = hardwareMap.get(DcMotorEx.class, ElectricalContract.FrontRightDriveMotor());
-        rightBackDrive = hardwareMap.get(DcMotorEx.class, ElectricalContract.BackRightDriveMotor());
+        leftFrontDrive  = hardwareMap.get(DcMotorEx.class, ElectricalContract.leftFrontDriveMotor());
+        leftBackDrive = hardwareMap.get(DcMotorEx.class, ElectricalContract.leftBackDriveMotor());
+        rightFrontDrive  = hardwareMap.get(DcMotorEx.class, ElectricalContract.rightFrontDriveMotor());
+        rightBackDrive = hardwareMap.get(DcMotorEx.class, ElectricalContract.rightBackDriveMotor());
 
         leftFrontDrive.setDirection(Constants.getLeftDriveMotorDirection());
         leftBackDrive.setDirection(Constants.getLeftDriveMotorDirection());
