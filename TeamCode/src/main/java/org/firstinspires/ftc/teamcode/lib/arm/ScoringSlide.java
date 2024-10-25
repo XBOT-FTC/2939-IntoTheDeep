@@ -9,19 +9,21 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.ElectricalContract;
 import org.firstinspires.ftc.teamcode.lib.ButtonToggle;
+import org.firstinspires.ftc.teamcode.lib.Constants;
 import org.firstinspires.ftc.teamcode.lib.PIDManager;
 
 @Config
 public class ScoringSlide {
-    private DcMotor linearSlideLeft;
-    private DcMotor linearSlideRight;
+    private final DcMotor linearSlideLeft;
+    private final DcMotor linearSlideRight;
     public final int MAX_POSITION = 3500; // TODO: Get max
     public final int MIN_POSITION = 0;
     public final double IN_PER_TICK = 0; // TODO: tune
     public SlidePositions extension;
     public int targetPosition = 0;
-    private final PIDManager armPID = new PIDManager(0,0,0, 0); // TODO: tune
-    public final double positionTolerance = 100;
+    private final PIDManager armPID = new PIDManager(0.0093,0,0, 0.0001); // TODO: tune
+    public final double positionTolerance = 20; // TODO: tune
+    public final double velocityTolerance = 0.09; // TODO: tune
     private final ButtonToggle highBasketToggle = new ButtonToggle();
     private final ButtonToggle lowBasketToggle = new ButtonToggle();
     private final ButtonToggle specimenToggle = new ButtonToggle();
@@ -40,13 +42,13 @@ public class ScoringSlide {
         linearSlideLeft = hardwareMap.get(DcMotor.class, ElectricalContract.leftSlideMotor());
         linearSlideLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // using external pid
         linearSlideLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        linearSlideLeft.setDirection(DcMotorSimple.Direction.FORWARD);
+        linearSlideLeft.setDirection(Constants.getLeftScoringSlideDirection());
 
         // motor for right linear slide setup
         linearSlideRight = hardwareMap.get(DcMotor.class, ElectricalContract.rightSlideMotor());
         linearSlideRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // using external pid
         linearSlideRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        linearSlideRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        linearSlideRight.setDirection(Constants.getLeftScoringSlideDirection().inverted());
     }
 
     public void slide(Gamepad gamepad, Telemetry telemetry) {
@@ -85,7 +87,7 @@ public class ScoringSlide {
         }
         else {
             // PID for adjusting motor power
-            power = armPID.pidControl(linearSlideLeft.getCurrentPosition(), targetPosition, positionTolerance);
+            power = armPID.pidfControl(linearSlideLeft.getCurrentPosition(), targetPosition, positionTolerance, velocityTolerance);
         }
 
         // finally set power
@@ -104,16 +106,16 @@ public class ScoringSlide {
         int ticks = 0;
         switch(slidePosition) {
             case HIGH_BASKET:
-                ticks = 0;
+                ticks = Constants.getHighBasketSlidePosition();
                 break;
             case LOW_BASKET:
-                ticks = 0;
+                ticks = Constants.getLowBasketSlidePosition();
                 break;
             case SPECIMEN:
-                ticks = 0;
+                ticks = Constants.getSpecimenSlidePosition();
                 break;
             case HANG:
-                ticks = 0;
+                ticks = Constants.getHangSlidePosition();
                 break;
             case HOMED:
                 break;

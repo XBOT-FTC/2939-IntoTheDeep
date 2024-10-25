@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.lib;
 
 import com.arcrobotics.ftclib.controller.PIDController;
+import com.arcrobotics.ftclib.controller.PIDFController;
 
 public class PIDManager {
     private final double kP;
@@ -28,12 +29,12 @@ public class PIDManager {
         return pidController.calculate(actual, target);
     }
 
-    public double pidControl(double actual, double target, double tolerance){
-        PIDController pidController = new PIDController(kP, kI, kD);
-        pidController.setPID(kP, kI, kD);
-        pidController.setTolerance(tolerance);
+    public double pidfControl(double actual, double target, double positionTolerance, double velocityTolerance){
+        PIDFController pidfController = new PIDFController(kP, kI, kD, kF);
+        pidfController.setPIDF(kP, kI, kD, kF);
+        pidfController.setTolerance(positionTolerance, velocityTolerance);
 
-        return pidController.calculate(actual, target);
+        return pidfController.calculate(actual, target);
     }
 
 }

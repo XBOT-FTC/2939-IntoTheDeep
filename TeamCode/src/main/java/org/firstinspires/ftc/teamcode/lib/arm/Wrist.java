@@ -9,33 +9,33 @@ import org.firstinspires.ftc.teamcode.ElectricalContract;
 import org.firstinspires.ftc.teamcode.lib.ButtonToggle;
 import org.firstinspires.ftc.teamcode.lib.Constants;
 
-public class Grabber {
+public class Wrist {
     private Servo servo = null;
     public ButtonToggle buttonToggle = new ButtonToggle();
 
-    public Grabber(HardwareMap hardwareMap) {
-        servo = hardwareMap.get(Servo.class, ElectricalContract.grabber());
-        servo.setDirection(Constants.getGrabberDirection());
+    public Wrist(HardwareMap hardwareMap) {
+        servo = hardwareMap.get(Servo.class, ElectricalContract.wrist());
+        servo.setDirection(Constants.getWristDirection());
     }
 
-    public void openClose(Gamepad gamepad, Telemetry telemetry) {
+    public void transferScore(Gamepad gamepad, Telemetry telemetry) {
         buttonToggle.update(gamepad.x);
 
         if (buttonToggle.isToggled()) {
-            close();
+            transfer();
         }
         else {
-            open();
+            score();
         }
 
-        telemetry.addData("Grabber Position", servo.getPosition());
+        telemetry.addData("Wrist Position", servo.getPosition());
     }
     // TODO: Find position values
-    public void open() {
-        servo.setPosition(Constants.getOpenPosition());
+    public void transfer() {
+        servo.setPosition(Constants.getWristTransferPosition());
     }
-    public void close() {
-        servo.setPosition(Constants.getClosedPosition());
+    public void score() {
+        servo.setPosition(Constants.getWristScorePosition());
     }
 
 }

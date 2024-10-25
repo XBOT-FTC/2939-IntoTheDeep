@@ -37,7 +37,7 @@ public class ScoringSlidePIDTuner extends LinearOpMode {
             pidManager = new PIDManager(p, i, d, f);
             int currentPosition = linearSlideLeft.getCurrentPosition();
 
-            double power  = pidManager.pidControl(currentPosition, target);
+            double power  = pidManager.pidfControl(currentPosition, target, 20, 0.01);
 
             linearSlideLeft.setPower(power);
             linearSlideRight.setPower(power);

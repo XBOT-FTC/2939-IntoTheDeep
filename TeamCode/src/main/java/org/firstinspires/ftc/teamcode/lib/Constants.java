@@ -5,6 +5,63 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class Constants {
 
+    // LIST: ARM
+    // SUBLIST: GRABBER
+    public static Servo.Direction getGrabberDirection() {
+        return Servo.Direction.REVERSE; // TODO: Test direction
+    }
+    public static double getOpenPosition() {
+        return 0; // TODO: Tune
+    }
+    public static double getClosedPosition() {
+        return 0; // TODO: Tune
+    }
+
+    // SUBLIST: ARM_ROTATION
+    public static Servo.Direction getLeftArmRotateDirection() {
+        return Servo.Direction.REVERSE; // TODO: Test direction
+    }
+    public static Servo.Direction getRightArmRotateDirection() {
+        return Servo.Direction.REVERSE; // TODO: Test direction
+    }
+    public static double getHighBasketArmPosition() {
+        return 0; // TODO: Tune
+    }
+    public static double getSpecimenArmPosition() {
+        return 0; // TODO: Tune
+    }
+    public static double getTransferArmPosition() {
+        return 0; // TODO: Tune
+    }
+
+    // SUBLIST: SCORING_SLIDE
+    public static DcMotorSimple.Direction getLeftScoringSlideDirection() {
+        return DcMotorSimple.Direction.REVERSE; // TODO: Find direction
+    }
+    public static int getHighBasketSlidePosition() {
+        return 0; // TODO: Tune
+    }
+    public static int getLowBasketSlidePosition() {
+        return 0; // TODO: Tune
+    }
+    public static int getSpecimenSlidePosition() {
+        return 0; // TODO: Tune
+    }
+    public static int getHangSlidePosition() {
+        return 0; // TODO: Tune
+    }
+
+    // SUBLIST: WRIST
+    public static Servo.Direction getWristDirection() {
+        return Servo.Direction.REVERSE; // TODO: Test direction
+    }
+    public static double getWristTransferPosition() {
+        return 0; // TODO: Tune
+    }
+    public static double getWristScorePosition() {
+        return 0; // TODO: Tune
+    }
+
     // LIST: INTAKE
     // SUBLIST: WHEELS
     public static boolean getLeftWheelInversion() {

@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-
 public class ElectricalContract {
     public ElectricalContract() {
 
@@ -13,22 +11,19 @@ public class ElectricalContract {
     public static String rightOdometryWheel() {
         return "rightOdometryWheel"; // Example: Expansion Hub, Port 2
     }
-    public static String middleOdometryWheel() {
-        return "middleOdometryWheel"; // Example: Expansion Hub, Port 2
-    }
     public static String imu() {
         return "imu";
     }
-    public static String FrontLeftDriveMotor() {
+    public static String leftFrontDriveMotor() {
         return "lf_drive";  // Example: Expansion Hub, Port 2
     }
-    public static String BackLeftDriveMotor() {
+    public static String leftBackDriveMotor() {
         return "lb_drive";  // Example: Expansion Hub, Port 2
     }
-    public static String FrontRightDriveMotor() {
+    public static String rightFrontDriveMotor() {
         return "rf_drive";  // Example: Expansion Hub, Port 2
     }
-    public static String BackRightDriveMotor() {
+    public static String rightBackDriveMotor() {
         return "rb_drive";  // Example: Expansion Hub, Port 2
     }
     public static String leftSlideMotor() {
@@ -57,5 +52,8 @@ public class ElectricalContract {
     }
     public static String rightRotationServo() {
         return "rr_servo";
+    }
+    public static String wrist() {
+        return "wrist";
     }
 }
