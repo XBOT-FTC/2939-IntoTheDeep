@@ -24,7 +24,7 @@ public class Constants {
     public static Servo.Direction getRightArmRotationDirection() {
         return Servo.Direction.REVERSE; // TODO: Test direction
     }
-    public static double getHighBasketArmPosition() {
+    public static double getBasketArmPosition() {
         return 0; // TODO: Tune FIXME: this might be different for left and right servos
     }
     public static double getSpecimenArmPosition() {
@@ -52,6 +52,9 @@ public class Constants {
     }
     public static int getHangSlideExtension() {
         return 0; // TODO: Tune
+    }
+    public static int getScoringExtensionThreshold() {
+        return 40; // TODO: Find extension
     }
 
     // SUBLIST: WRIST

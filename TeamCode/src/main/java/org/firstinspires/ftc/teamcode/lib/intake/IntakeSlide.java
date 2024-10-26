@@ -85,7 +85,7 @@ public class IntakeSlide {
         telemetry.update();
     }
 
-    // returns average position
+    // returns average position of both slides
     public int getCurrentPosition() {
         return (linearSlideLeft.getCurrentPosition() + linearSlideRight.getCurrentPosition()) / 2;
     }

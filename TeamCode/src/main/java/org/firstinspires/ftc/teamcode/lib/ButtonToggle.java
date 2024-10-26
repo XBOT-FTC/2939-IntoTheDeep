@@ -3,13 +3,17 @@ package org.firstinspires.ftc.teamcode.lib;
 
 public class ButtonToggle {
     private boolean toggled = false;
-    private boolean previousState = false;
+    private boolean buttonPressed = false;
 
-    public void update(boolean currentState) {
-        if (currentState && !previousState) {
+    public void press() {
+        if (!buttonPressed) {
             toggled = !toggled;
         }
-        previousState = currentState;
+        buttonPressed = true;
+    }
+
+    public void letGo() {
+        buttonPressed = false;
     }
 
     public boolean isToggled() {
@@ -17,6 +21,6 @@ public class ButtonToggle {
     }
     public void setFalseToggle() {
         toggled = false;
-        previousState = false;
+        buttonPressed = false;
     }
 }
