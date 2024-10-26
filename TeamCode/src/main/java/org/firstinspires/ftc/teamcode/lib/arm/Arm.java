@@ -28,14 +28,14 @@ public class Arm {
 
     // method that runs everything
     public void controls(Gamepad gamepad, Telemetry telemetry) {
-        chooseToggle(gamepad);
+        chooseToggle(gamepad); // choose which dpad is toggled, only one can be toggled at a time
         if (dpadUp.isToggled()) {
             slide.slide(telemetry, ArmSlide.SlidePositions.HIGH_BASKET);
             rotateToScore(gamepad, ArmSlide.SlidePositions.HIGH_BASKET);
         }
         else if (dpadDown.isToggled()) {
             slide.slide(telemetry, ArmSlide.SlidePositions.LOW_BASKET);
-            rotateToScore(gamepad, ArmSlide.SlidePositions.HIGH_BASKET);
+            rotateToScore(gamepad, ArmSlide.SlidePositions.HIGH_BASKET); // rotation for arm and wrist are the same for both baskets
         }
         else if (dpadLeft.isToggled()) { // FIXME: Comment out if specimen scoring not being used
             slide.slide(telemetry, ArmSlide.SlidePositions.SPECIMEN);
@@ -46,13 +46,13 @@ public class Arm {
             rotation.transferPosition();
             wrist.transfer();
         }
-        else {
+        else { // if nothing is toggled, bring everything to default position
             slide.slide(telemetry, ArmSlide.SlidePositions.HOMED);
             rotation.transferPosition();
             wrist.transfer();
         }
 
-        if (leftBumper.isToggled()) {
+        if (leftBumper.isToggled()) { // individually control grabber
             grabber.close();
         }
         else {
@@ -60,6 +60,7 @@ public class Arm {
         }
     }
 
+    // toggle buttons based on gamepad inputs
     public void chooseToggle(Gamepad gamepad) {
         if (gamepad.dpad_up) {
             dpadUp.press();
@@ -98,6 +99,7 @@ public class Arm {
         }
     }
 
+    // clear toggle for all buttons except the button corresponding to the position parameter
     public void toggleOthersOff(ArmSlide.SlidePositions position) {
         if (position != ArmSlide.SlidePositions.HIGH_BASKET) {
             dpadUp.setFalseToggle();
