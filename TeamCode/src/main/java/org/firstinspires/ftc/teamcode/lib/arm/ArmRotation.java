@@ -17,9 +17,9 @@ public class ArmRotation {
         right.setDirection(Constants.getRightArmRotationDirection());
     }
 
-    public void highBasketPosition() {
-        right.setPosition(Constants.getHighBasketArmPosition());
-        left.setPosition(Constants.getHighBasketArmPosition());
+    public void basketPosition() {
+        right.setPosition(Constants.getBasketArmPosition());
+        left.setPosition(Constants.getBasketArmPosition());
     }
     public void specimenPosition() {
         right.setPosition(Constants.getSpecimenArmPosition());

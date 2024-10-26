@@ -87,4 +87,9 @@ public class ArmSlide {
         telemetry.addData("Arm Slide Motor Power", power);
         telemetry.update();
     }
+
+    // returns average position of both slides
+    public int getCurrentPosition() {
+        return (linearSlideLeft.getCurrentPosition() + linearSlideRight.getCurrentPosition()) / 2;
+    }
 }
