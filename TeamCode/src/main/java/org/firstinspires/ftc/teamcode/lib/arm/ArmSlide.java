@@ -31,16 +31,16 @@ public class ArmSlide {
 
     public ArmSlide(HardwareMap hardwareMap) {
         // motor for left linear slide setup
-        linearSlideLeft = hardwareMap.get(DcMotor.class, ElectricalContract.leftSlideMotor());
+        linearSlideLeft = hardwareMap.get(DcMotor.class, ElectricalContract.leftArmSlideMotor());
         linearSlideLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // using external pid
         linearSlideLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        linearSlideLeft.setDirection(Constants.getLeftScoringSlideDirection());
+        linearSlideLeft.setDirection(Constants.getLeftArmSlideDirection());
 
         // motor for right linear slide setup
-        linearSlideRight = hardwareMap.get(DcMotor.class, ElectricalContract.rightSlideMotor());
+        linearSlideRight = hardwareMap.get(DcMotor.class, ElectricalContract.rightArmSlideMotor());
         linearSlideRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // using external pid
         linearSlideRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        linearSlideRight.setDirection(Constants.getLeftScoringSlideDirection().inverted());
+        linearSlideRight.setDirection(Constants.getLeftArmSlideDirection().inverted());
     }
 
     public void slide(Telemetry telemetry, SlidePositions position) {

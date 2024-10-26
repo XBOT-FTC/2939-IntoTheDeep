@@ -38,7 +38,7 @@ public class Constants {
     public static int getMaxArmSlideExtension() {
         return 0; // TODO: Find extension
     }
-    public static DcMotorSimple.Direction getLeftScoringSlideDirection() {
+    public static DcMotorSimple.Direction getLeftArmSlideDirection() {
         return DcMotorSimple.Direction.REVERSE; // TODO: Find direction
     }
     public static int getHighBasketSlideExtension() {
@@ -80,10 +80,10 @@ public class Constants {
         return false; // TODO: Test inversion
     }
     public static double getIntakePower() {
-        return 1; // TODO: Tune
+        return 0.6; // TODO: Tune
     }
     public static double getEjectPower() {
-        return -1; // TODO: Tune
+        return -0.6; // TODO: Tune
     }
 
     // SUBLIST: PIVOT
