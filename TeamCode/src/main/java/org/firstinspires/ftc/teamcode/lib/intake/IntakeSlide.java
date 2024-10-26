@@ -42,6 +42,7 @@ public class IntakeSlide {
 
     public void slide(Telemetry telemetry, SlidePositions position) {
 
+        // retrieve targetPosition based on position parameter
         switch (position) {
             case READY:
                 targetPosition = Constants.getReadySlideExtension();
@@ -53,7 +54,7 @@ public class IntakeSlide {
                 targetPosition = 0;
         }
 
-        // set targetPosition to ticks converted from SlidePositions
+        // set target positions to targetPosition
         linearSlideLeft.setTargetPosition(targetPosition);
         linearSlideRight.setTargetPosition(targetPosition);
         linearSlideLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -77,10 +78,10 @@ public class IntakeSlide {
         linearSlideLeft.setPower(power);
         linearSlideRight.setPower(power);
 
-        telemetry.addData("Target Position", targetPosition);
-        telemetry.addData("Left Slide Current Position", linearSlideLeft.getCurrentPosition());
-        telemetry.addData("Right Slide Current Position", linearSlideRight.getCurrentPosition());
-        telemetry.addData("Motor Power", power);
+        telemetry.addData("Intake Slide Target Position", targetPosition);
+        telemetry.addData("Left Intake Slide Current Position", linearSlideLeft.getCurrentPosition());
+        telemetry.addData("Right Intake Slide Current Position", linearSlideRight.getCurrentPosition());
+        telemetry.addData("Intake SLide Motor Power", power);
         telemetry.update();
     }
 

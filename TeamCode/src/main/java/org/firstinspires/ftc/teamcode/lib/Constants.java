@@ -17,37 +17,40 @@ public class Constants {
         return 0; // TODO: Tune
     }
 
-    // SUBLIST: ARM_ROTATION
-    public static Servo.Direction getLeftArmRotateDirection() {
+    // SUBLIST: ROTATION
+    public static Servo.Direction getLeftArmRotationDirection() {
         return Servo.Direction.REVERSE; // TODO: Test direction
     }
-    public static Servo.Direction getRightArmRotateDirection() {
+    public static Servo.Direction getRightArmRotationDirection() {
         return Servo.Direction.REVERSE; // TODO: Test direction
     }
     public static double getHighBasketArmPosition() {
-        return 0; // TODO: Tune
+        return 0; // TODO: Tune FIXME: this might be different for left and right servos
     }
     public static double getSpecimenArmPosition() {
-        return 0; // TODO: Tune
+        return 0; // TODO: Tune FIXME: this might be different for left and right servos
     }
     public static double getTransferArmPosition() {
-        return 0; // TODO: Tune
+        return 0; // TODO: Tune FIXME: this might be different for left and right servos
     }
 
-    // SUBLIST: SCORING_SLIDE
+    // SUBLIST: SLIDES
+    public static int getMaxArmSlideExtension() {
+        return 0; // TODO: Find extension
+    }
     public static DcMotorSimple.Direction getLeftScoringSlideDirection() {
         return DcMotorSimple.Direction.REVERSE; // TODO: Find direction
     }
-    public static int getHighBasketSlidePosition() {
+    public static int getHighBasketSlideExtension() {
         return 0; // TODO: Tune
     }
-    public static int getLowBasketSlidePosition() {
+    public static int getLowBasketSlideExtension() {
         return 0; // TODO: Tune
     }
-    public static int getSpecimenSlidePosition() {
+    public static int getSpecimenSlideExtension() {
         return 0; // TODO: Tune
     }
-    public static int getHangSlidePosition() {
+    public static int getHangSlideExtension() {
         return 0; // TODO: Tune
     }
 
