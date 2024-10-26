@@ -13,10 +13,10 @@ import org.firstinspires.ftc.teamcode.lib.Constants;
 import org.firstinspires.ftc.teamcode.lib.PIDManager;
 
 public class JohnMecanumDrive {
-    private DcMotorEx leftFrontDrive = null;
-    private DcMotorEx leftBackDrive = null;
-    private DcMotorEx rightFrontDrive = null;
-    private DcMotorEx rightBackDrive = null;
+    private final DcMotorEx leftFrontDrive;
+    private final DcMotorEx leftBackDrive;
+    private final DcMotorEx rightFrontDrive;
+    private final DcMotorEx rightBackDrive;
     private final double precisionModeLimit = Constants.getPrecisionModeLimit();
     ButtonToggle precisionModeToggle =  new ButtonToggle();
     PIDManager quickRotatePID = new PIDManager(0.018,0,0);
@@ -63,7 +63,12 @@ public class JohnMecanumDrive {
             headingPower += DriveLogic.getQuickRotateToHeadingPower(botHeadingDegrees, -45, quickRotatePID, telemetry);
         }
 
-        precisionModeToggle.update(gamepad.a);
+        if (gamepad.a) {
+            precisionModeToggle.press();
+        }
+        else {
+            precisionModeToggle.letGo();
+        }
 
         // Normalize wheel powers to be less than 1.0
         double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rotateIntent), 1);

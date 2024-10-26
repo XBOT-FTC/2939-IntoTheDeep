@@ -53,6 +53,12 @@ public class Constants {
     public static int getHangSlideExtension() {
         return 0; // TODO: Tune
     }
+    public static int getHomedSlideExtension() {
+        return 0; // TODO: Tune
+    }
+    public static int getTransferSlideExtension() {
+        return 0; // TODO: Tune
+    }
     public static int getScoringExtensionThreshold() {
         return 40; // TODO: Find extension
     }

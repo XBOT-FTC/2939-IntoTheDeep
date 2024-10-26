@@ -25,7 +25,8 @@ public class ArmSlide {
         LOW_BASKET,
         SPECIMEN,
         HANG,
-        HOMED
+        HOMED,
+        TRANSFER
     }
 
     public ArmSlide(HardwareMap hardwareMap) {
@@ -59,6 +60,10 @@ public class ArmSlide {
                 targetPosition = Constants.getHangSlideExtension(); // TODO: Remove if we don't have hanging
                 break;
             case HOMED:
+                targetPosition = Constants.getHomedSlideExtension();
+                break;
+            case TRANSFER:
+                targetPosition = Constants.getTransferSlideExtension();
                 break;
         }
 
