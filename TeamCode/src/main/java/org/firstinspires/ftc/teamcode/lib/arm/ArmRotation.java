@@ -7,18 +7,16 @@ import org.firstinspires.ftc.teamcode.ElectricalContract;
 import org.firstinspires.ftc.teamcode.lib.Constants;
 
 public class ArmRotation {
-    Servo left = null;
-    Servo right = null;
+    Servo left;
+    Servo right;
 
     public ArmRotation(HardwareMap hardwareMap) {
         left = hardwareMap.get(Servo.class, ElectricalContract.leftRotationServo());
         right = hardwareMap.get(Servo.class, ElectricalContract.rightRotationServo());
-        //TODO: test servo direction
-        left.setDirection(Constants.getLeftArmRotateDirection());
-        right.setDirection(Constants.getRightArmRotateDirection());
+        left.setDirection(Constants.getLeftArmRotationDirection());
+        right.setDirection(Constants.getRightArmRotationDirection());
     }
 
-    // TODO: Find position values
     public void highBasketPosition() {
         right.setPosition(Constants.getHighBasketArmPosition());
         left.setPosition(Constants.getHighBasketArmPosition());

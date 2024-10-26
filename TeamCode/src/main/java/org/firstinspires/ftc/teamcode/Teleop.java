@@ -32,7 +32,7 @@ public class Teleop extends LinearOpMode{
 
         while (opModeIsActive()) {
             drive.drive(gamepad1, imu, telemetry);
-            intake.intake(gamepad2, telemetry);
+            intake.controls(gamepad2, telemetry);
 
             telemetry.update();
         }

@@ -15,4 +15,8 @@ public class ButtonToggle {
     public boolean isToggled() {
         return toggled;
     }
+    public void setFalseToggle() {
+        toggled = false;
+        previousState = false;
+    }
 }
