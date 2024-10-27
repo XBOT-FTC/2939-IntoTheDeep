@@ -1,33 +1,33 @@
 package org.firstinspires.ftc.teamcode.lib.intake;
 
-import com.arcrobotics.ftclib.hardware.motors.CRServo;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.ElectricalContract;
 import org.firstinspires.ftc.teamcode.lib.Constants;
 
 public class IntakeWheels {
-    private final CRServo leftCRServo;
-    private final CRServo rightCRServo;
+    private final com.qualcomm.robotcore.hardware.CRServo leftCRServo;
+    private final com.qualcomm.robotcore.hardware.CRServo rightCRServo;
 
 
     public IntakeWheels(HardwareMap hardwareMap) {
-        leftCRServo = hardwareMap.get(CRServo.class, ElectricalContract.leftIntakeServo());
+        leftCRServo = hardwareMap.get(com.qualcomm.robotcore.hardware.CRServo.class, ElectricalContract.leftIntakeServo());
         rightCRServo = hardwareMap.get(CRServo.class, ElectricalContract.rightIntakeServo());
-        leftCRServo.setInverted(Constants.getLeftWheelInversion());
-        rightCRServo.setInverted(!Constants.getLeftWheelInversion());
+        leftCRServo.setDirection(Constants.getLeftWheelDirection());
+        rightCRServo.setDirection(Constants.getRightWheelDirection());
     }
 
     public void intake() {
-        leftCRServo.set(Constants.getIntakePower());
-        rightCRServo.set(Constants.getIntakePower());
+        leftCRServo.setPower(Constants.getIntakePower());
+        rightCRServo.setPower(Constants.getIntakePower());
     }
     public void eject() {
-        leftCRServo.set(Constants.getEjectPower());
-        rightCRServo.set(Constants.getEjectPower());
+        leftCRServo.setPower(Constants.getEjectPower());
+        rightCRServo.setPower(Constants.getEjectPower());
     }
     public void stop() {
-        leftCRServo.set(0);
-        rightCRServo.set(0);
+        leftCRServo.setPower(0);
+        rightCRServo.setPower(0);
     }
 }

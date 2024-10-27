@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.lib;
 
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -76,8 +77,11 @@ public class Constants {
 
     // LIST: INTAKE
     // SUBLIST: WHEELS
-    public static boolean getLeftWheelInversion() {
-        return false; // TODO: Test inversion
+    public static DcMotorSimple.Direction getLeftWheelDirection() {
+        return DcMotorSimple.Direction.REVERSE; // TODO: Test direction
+    }
+    public static DcMotorSimple.Direction getRightWheelDirection() {
+        return DcMotorSimple.Direction.FORWARD; // TODO: Test direction
     }
     public static double getIntakePower() {
         return 0.6; // TODO: Tune
