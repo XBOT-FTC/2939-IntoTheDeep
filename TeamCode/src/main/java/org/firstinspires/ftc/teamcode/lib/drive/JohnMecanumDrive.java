@@ -89,4 +89,33 @@ public class JohnMecanumDrive {
         telemetry.addData("current heading:", botHeadingDegrees);
     }
 
+    public void strafe (double speed, String direction) {
+        if (direction.equals("left")) {
+            drivesSetPowerX(speed);
+        }
+        else {
+            drivesSetPowerX(-speed);
+        }
+    }
+    public void forwardBackwards (double speed, String direction) {
+        if (direction.equals("forward")) {
+            drivesSetPowerY(speed);
+        }
+        else {
+            drivesSetPowerY(speed);
+        }
+    }
+    public void drivesSetPowerY(double speed) {
+        leftFrontDrive.setPower(speed);
+        leftBackDrive.setPower(speed);
+        rightFrontDrive.setPower(speed);
+        rightBackDrive.setPower(speed);
+    }
+    public void drivesSetPowerX(double speed) {
+        leftFrontDrive.setPower(-speed);
+        leftBackDrive.setPower(speed);
+        rightFrontDrive.setPower(speed);
+        rightBackDrive.setPower(-speed);
+    }
+
 }

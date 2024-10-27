@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.teamcode.ElectricalContract;
+import org.firstinspires.ftc.teamcode.lib.Constants;
 import org.firstinspires.ftc.teamcode.lib.PIDManager;
 
 @Config
@@ -23,12 +24,14 @@ public class ScoringSlidePIDTuner extends LinearOpMode {
         // motor for left linear slide setup
         DcMotor linearSlideLeft = hardwareMap.get(DcMotor.class, ElectricalContract.leftArmSlideMotor());
         linearSlideLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        linearSlideLeft.setDirection(DcMotorSimple.Direction.FORWARD);
+        linearSlideLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        linearSlideLeft.setDirection(Constants.getLeftArmSlideDirection());
 
         // motor for right linear slide setup
         DcMotor linearSlideRight = hardwareMap.get(DcMotor.class, ElectricalContract.rightArmSlideMotor());
         linearSlideRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        linearSlideRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        linearSlideRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        linearSlideRight.setDirection(Constants.getLeftArmSlideDirection().inverted());
 
         waitForStart();
         if (isStopRequested()) return;
