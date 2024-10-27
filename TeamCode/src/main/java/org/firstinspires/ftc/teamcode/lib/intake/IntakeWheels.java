@@ -7,8 +7,9 @@ import org.firstinspires.ftc.teamcode.ElectricalContract;
 import org.firstinspires.ftc.teamcode.lib.Constants;
 
 public class IntakeWheels {
-    CRServo leftCRServo;
-    CRServo rightCRServo;
+    private final CRServo leftCRServo;
+    private final CRServo rightCRServo;
+
 
     public IntakeWheels(HardwareMap hardwareMap) {
         leftCRServo = hardwareMap.get(CRServo.class, ElectricalContract.leftIntakeServo());
