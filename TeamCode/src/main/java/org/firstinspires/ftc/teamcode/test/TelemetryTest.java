@@ -82,7 +82,7 @@ public class TelemetryTest extends LinearOpMode {
 //            tester.update(gamepad2.y);
 //            testerTwo.update(gamepad2.b);
 //            testerThree.update(gamepad2.a);
-//            testerFour.update(gamepad2.x);
+            testerFour.update(gamepad2.x);
 //            if (tester.isToggled()) {
 //                armRotation.basketPosition();
 //            }
@@ -101,25 +101,25 @@ public class TelemetryTest extends LinearOpMode {
 //            else {
 //                armClaw.open();
 //            }
-            telemetry.addData("Tester Toggle", tester.isToggled());
+            telemetry.addData("Tester Toggle", testerFour.isToggled());
 //
-////             test continuous servos (intake wheels) by holding a button
-//            if (gamepad2.right_trigger > 0.2) {
-//                intakeWheels.intake();
-//            }
-//            else if (gamepad2.left_trigger > 0.2) {
-//                intakeWheels.eject();
-//            }
-//            else {
-//                intakeWheels.stop();
-//            }
-//
-//            if (testerFour.isToggled()) {
-//                intakePivot.deploy();
-//            }
-//            else {
-//                intakePivot.home();
-//            }
+//             test continuous servos (intake wheels) by holding a button
+            if (gamepad2.right_trigger > 0.2) {
+                intakeWheels.intake();
+            }
+            else if (gamepad2.left_trigger > 0.2) {
+                intakeWheels.eject();
+            }
+            else {
+                intakeWheels.stop();
+            }
+
+            if (testerFour.isToggled()) {
+                intakePivot.deploy();
+            }
+            else {
+                intakePivot.home();
+            }
 
             telemetry.update();
         }

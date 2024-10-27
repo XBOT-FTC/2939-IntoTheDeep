@@ -78,10 +78,10 @@ public class JohnMecanumDrive {
             rightFrontDrive.setPower(rightFrontPower *= precisionModeLimit);
             rightBackDrive.setPower(rightBackPower *= precisionModeLimit);
         } else {
-            leftFrontDrive.setPower(leftFrontPower);
-            leftBackDrive.setPower(leftBackPower);
-            rightFrontDrive.setPower(rightFrontPower);
-            rightBackDrive.setPower(rightBackPower);
+            leftFrontDrive.setPower(leftFrontPower *= 0.7);
+            leftBackDrive.setPower(leftBackPower *= 0.7);
+            rightFrontDrive.setPower(rightFrontPower *= 0.7);
+            rightBackDrive.setPower(rightBackPower *= 0.7);
         }
 
         telemetry.addData("Front Motor Powers:", "Left Front (%.2f), Right Front (%.2f)", leftFrontPower, rightFrontPower);

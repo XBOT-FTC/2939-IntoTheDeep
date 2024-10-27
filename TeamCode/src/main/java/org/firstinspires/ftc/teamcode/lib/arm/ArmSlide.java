@@ -17,7 +17,7 @@ public class ArmSlide {
     public final int MIN_POSITION = 0;
     public final double IN_PER_TICK = 0; // TODO: tune
     public int targetPosition = 0;
-    private final PIDManager armPID = new PIDManager(0.0093,0,0, 0.0001); // TODO: tune
+    private final PIDManager armPID = new PIDManager(0.0035,0,0, 0.0001); // TODO: tune
     public final double positionTolerance = 20; // TODO: tune
     public final double velocityTolerance = 0.09; // TODO: tune
     enum SlidePositions {
@@ -59,7 +59,7 @@ public class ArmSlide {
                 targetPosition = Constants.getSpecimenSlideExtension();
                 break;
             case HANG:
-                targetPosition = Constants.getHangSlideExtension(); // TODO: Remove if we don't have hanging
+                targetPosition = Constants.getHangSlideExtension(); // TODO: We don't have hanging
                 break;
             case HOMED:
                 targetPosition = Constants.getHomedSlideExtension();

@@ -32,7 +32,7 @@ public class Constants {
         return 0; // TODO: Tune
     }
     public static double getTransferArmPosition() {
-        return 0.63; // TODO: Tune
+        return 0.64; // TODO: Tune
     }
 
     // SUBLIST: SLIDES
@@ -44,7 +44,7 @@ public class Constants {
     }
     public static int getHighBasketSlideExtension() {
         // value should be set to ~2700, lower number right now because it's hella loud in my house
-        return 1000; // TODO: Tune
+        return 2900; // TODO: Tune
     }
     public static int getLowBasketSlideExtension() {
         return 650; // TODO: Tune
@@ -59,7 +59,7 @@ public class Constants {
         return 536; // TODO: Tune
     }
     public static int getTransferSlideExtension() {
-        return 536; // TODO: Tune
+        return 160; // TODO: Tune
     }
     public static int getScoringExtensionThreshold() {
         return 40; // TODO: Find extension
@@ -70,7 +70,7 @@ public class Constants {
         return Servo.Direction.REVERSE; // TODO: Test direction
     }
     public static double getWristTransferPosition() {
-        return 0.37; // TODO: Tune
+        return 0.3; // TODO: Tune
     }
     public static double getWristScorePosition() {
         return 0.7; // TODO: Tune
@@ -85,10 +85,10 @@ public class Constants {
         return DcMotorSimple.Direction.FORWARD; // TODO: Test direction
     }
     public static double getIntakePower() {
-        return 0.6; // TODO: Tune
+        return 1; // TODO: Tune
     }
     public static double getEjectPower() {
-        return -0.6; // TODO: Tune
+        return -1; // TODO: Tune
     }
 
     // SUBLIST: PIVOT
@@ -99,33 +99,33 @@ public class Constants {
         return Servo.Direction.REVERSE; // TODO: Test direction
     }
     public static double getHomedPivotPosition() {
-        return 0; // TODO: This should be the homed position if we zero, but double check FIXME: this might be different for left and right servos
+        return 0.25; // TODO: This should be the homed position if we zero, but double check FIXME: this might be different for left and right servos
     }
     public static double getDeployedPivotPosition() {
-        return 0.69; // TODO: Tune FIXME: this might be different for left and right servos
+        return 0.537; // TODO: Tune FIXME: this might be different for left and right servos
     }
 
     // SUBLIST: SLIDES
     public static int getMaxIntakeSlideExtension() {
-        return 0; // TODO: Find extension
+        return 1350; // TODO: Find extension
     }
     public static double getIntakeSlidePower() {
-        return 0; // TODO: Tune
+        return 0.65; // TODO: Tune
     }
     public static DcMotorSimple.Direction getLeftIntakeMotorDirection() {
         return DcMotorSimple.Direction.FORWARD; // TODO: Find direction
     }
     public static int getReadySlideExtension() {
-        return 0; // TODO: Find extension
+        return 860; // TODO: Find extension
     }
     public static int getIntakeSlideExtension() {
-        return 0; // TODO: Find Extension
+        return 1200; // TODO: Find Extension
     }
     public static int getHomedKillPowerThreshold() {
-        return 10; // TODO: Find extension
+        return 30; // TODO: Find extension
     }
     public static int getReadyExtensionThreshold() {
-        return 40; // TODO: Find extension
+        return 300; // TODO: Find extension
     }
 
     // LIST: DRIVE

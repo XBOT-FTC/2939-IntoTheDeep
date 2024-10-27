@@ -21,8 +21,6 @@ public class Intake {
     // method that runs everything
     public void controls(Gamepad gamepad, Telemetry telemetry) {
         if (gamepad.y) { // deploys slide to ready position, then gives option to intake or eject once the slide is in threshold of target extension
-            slide.slide(telemetry, IntakeSlide.SlidePositions.READY);
-            pivot.home();
             if (gamepad.right_trigger > 0.2 && slide.getCurrentPosition() > Constants.getReadySlideExtension() - EXTENSION_THRESHOLD) {
                 slide.slide(telemetry, IntakeSlide.SlidePositions.INTAKE);
                 pivot.deploy();
@@ -31,6 +29,10 @@ public class Intake {
             else if (gamepad.right_bumper && slide.getCurrentPosition() > Constants.getReadySlideExtension() - EXTENSION_THRESHOLD) {
                 pivot.deploy();
                 wheels.eject();
+            }
+            else {
+                slide.slide(telemetry, IntakeSlide.SlidePositions.READY);
+                pivot.home();
             }
         }
         else { // back to home position

@@ -16,6 +16,7 @@ public class Arm {
     ButtonToggle dpadDown = new ButtonToggle();
     ButtonToggle dpadLeft = new ButtonToggle();
     ButtonToggle dpadRight = new ButtonToggle();
+    ButtonToggle dpadB = new ButtonToggle();
     ButtonToggle leftBumper = new ButtonToggle();
     public final int EXTENSION_THRESHOLD = Constants.getScoringExtensionThreshold();
 
