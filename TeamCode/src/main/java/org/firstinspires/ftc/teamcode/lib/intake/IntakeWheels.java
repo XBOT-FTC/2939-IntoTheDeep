@@ -13,7 +13,7 @@ public class IntakeWheels {
 
     public IntakeWheels(HardwareMap hardwareMap) {
         leftCRServo = hardwareMap.get(com.qualcomm.robotcore.hardware.CRServo.class, ElectricalContract.leftIntakeServo());
-        rightCRServo = hardwareMap.get(CRServo.class, ElectricalContract.rightIntakeServo());
+        rightCRServo = hardwareMap.get(com.qualcomm.robotcore.hardware.CRServo.class, ElectricalContract.rightIntakeServo());
         leftCRServo.setDirection(Constants.getLeftWheelDirection());
         rightCRServo.setDirection(Constants.getRightWheelDirection());
     }

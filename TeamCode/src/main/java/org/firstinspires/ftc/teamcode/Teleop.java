@@ -17,7 +17,7 @@ public class Teleop extends LinearOpMode{
 
         IMU imu = hardwareMap.get(IMU.class, ElectricalContract.imu());
         JohnMecanumDrive drive = new JohnMecanumDrive(hardwareMap);
-        Intake intake = new Intake(hardwareMap);
+//        Intake intake = new Intake(hardwareMap);
         Arm arm = new Arm(hardwareMap);
 
         //TODO:
@@ -31,8 +31,8 @@ public class Teleop extends LinearOpMode{
         if (isStopRequested()) return;
 
         while (opModeIsActive()) {
-            drive.drive(gamepad1, imu, telemetry);
-            intake.controls(gamepad2, telemetry);
+//            drive.drive(gamepad1, imu, telemetry);
+//            intake.controls(gamepad2, telemetry);
             arm.controls(gamepad2, telemetry);
 
             telemetry.update();

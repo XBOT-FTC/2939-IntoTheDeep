@@ -32,12 +32,14 @@ public class ArmSlide {
     public ArmSlide(HardwareMap hardwareMap) {
         // motor for left linear slide setup
         linearSlideLeft = hardwareMap.get(DcMotor.class, ElectricalContract.leftArmSlideMotor());
+        linearSlideLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         linearSlideLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // using external pid
         linearSlideLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         linearSlideLeft.setDirection(Constants.getLeftArmSlideDirection());
 
         // motor for right linear slide setup
         linearSlideRight = hardwareMap.get(DcMotor.class, ElectricalContract.rightArmSlideMotor());
+        linearSlideRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         linearSlideRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // using external pid
         linearSlideRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         linearSlideRight.setDirection(Constants.getLeftArmSlideDirection().inverted());

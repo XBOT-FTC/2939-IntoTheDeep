@@ -26,39 +26,40 @@ public class Constants {
         return Servo.Direction.FORWARD;
     }
     public static double getBasketArmPosition() {
-        return 1; // TODO: Tune
+        return 0.06; // TODO: Tune
     }
     public static double getSpecimenArmPosition() {
         return 0; // TODO: Tune
     }
     public static double getTransferArmPosition() {
-        return 0.2; // TODO: Tune
+        return 0.63; // TODO: Tune
     }
 
     // SUBLIST: SLIDES
     public static int getMaxArmSlideExtension() {
-        return 0; // TODO: Find extension
+        return 2800; // TODO: Find extension
     }
     public static DcMotorSimple.Direction getLeftArmSlideDirection() {
         return DcMotorSimple.Direction.REVERSE; // TODO: Find direction
     }
     public static int getHighBasketSlideExtension() {
-        return 0; // TODO: Tune
+        // value should be set to ~2700, lower number right now because it's hella loud in my house
+        return 1000; // TODO: Tune
     }
     public static int getLowBasketSlideExtension() {
-        return 0; // TODO: Tune
+        return 650; // TODO: Tune
     }
     public static int getSpecimenSlideExtension() {
-        return 0; // TODO: Tune
+        return 536; // TODO: Tune
     }
     public static int getHangSlideExtension() {
-        return 0; // TODO: Tune
+        return 536; // TODO: Tune
     }
     public static int getHomedSlideExtension() {
-        return 0; // TODO: Tune
+        return 536; // TODO: Tune
     }
     public static int getTransferSlideExtension() {
-        return 0; // TODO: Tune
+        return 536; // TODO: Tune
     }
     public static int getScoringExtensionThreshold() {
         return 40; // TODO: Find extension
@@ -69,10 +70,10 @@ public class Constants {
         return Servo.Direction.REVERSE; // TODO: Test direction
     }
     public static double getWristTransferPosition() {
-        return 0.4; // TODO: Tune
+        return 0.37; // TODO: Tune
     }
     public static double getWristScorePosition() {
-        return 0.6; // TODO: Tune
+        return 0.7; // TODO: Tune
     }
 
     // LIST: INTAKE
@@ -92,16 +93,16 @@ public class Constants {
 
     // SUBLIST: PIVOT
     public static Servo.Direction getLeftPivotDirection() {
-        return Servo.Direction.REVERSE; // TODO: Test direction
-    }
-    public static Servo.Direction getRightPivotDirection() {
         return Servo.Direction.FORWARD; // TODO: Test direction
     }
+    public static Servo.Direction getRightPivotDirection() {
+        return Servo.Direction.REVERSE; // TODO: Test direction
+    }
     public static double getHomedPivotPosition() {
-        return 0.4; // TODO: This should be the homed position if we zero, but double check FIXME: this might be different for left and right servos
+        return 0; // TODO: This should be the homed position if we zero, but double check FIXME: this might be different for left and right servos
     }
     public static double getDeployedPivotPosition() {
-        return 0.6; // TODO: Tune FIXME: this might be different for left and right servos
+        return 0.69; // TODO: Tune FIXME: this might be different for left and right servos
     }
 
     // SUBLIST: SLIDES

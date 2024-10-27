@@ -41,26 +41,27 @@ public class TelemetryTest extends LinearOpMode {
         armSlideLeft.setDirection(Constants.getLeftArmSlideDirection());
         armSlideRight.setDirection(Constants.getLeftArmSlideDirection().inverted());
 
-//        // LIST: INTAKE SUBCOMPONENTS
-//        // intake pivot
+        // LIST: INTAKE SUBCOMPONENTS
+//         intake pivot
         IntakePivot intakePivot = new IntakePivot(hardwareMap);
-//
-//        // intake wheels
+
+        // intake wheels
         IntakeWheels intakeWheels = new IntakeWheels(hardwareMap);
 //
-//        // LIST: ARM SUBCOMPONENTS
-//        // arm claw
-//        ArmClaw armClaw = new ArmClaw(hardwareMap);
+        // LIST: ARM SUBCOMPONENTS
+        // arm claw
+        ArmClaw armClaw = new ArmClaw(hardwareMap);
 
-//        // arm rotation
-//        ArmRotation armRotation = new ArmRotation(hardwareMap);
-////
-////        // arm wrist
-//        ArmWrist armWrist = new ArmWrist(hardwareMap);
-////
-//        ButtonToggle tester = new ButtonToggle();
-//        ButtonToggle testerTwo = new ButtonToggle();
+        // arm rotation
+        ArmRotation armRotation = new ArmRotation(hardwareMap);
+
+        // arm wrist
+        ArmWrist armWrist = new ArmWrist(hardwareMap);
+//
+        ButtonToggle tester = new ButtonToggle();
+        ButtonToggle testerTwo = new ButtonToggle();
         ButtonToggle testerThree = new ButtonToggle();
+        ButtonToggle testerFour = new ButtonToggle();
 
 
 
@@ -79,8 +80,9 @@ public class TelemetryTest extends LinearOpMode {
             // test non-continuous servos with tester button (put one of the servo objects into the if else statement to test)
             // TODO: To tune, change the servo positions inside Constants class
 //            tester.update(gamepad2.y);
-//            testerTwo.update(gamepad2.a);
-            testerThree.update(gamepad2.b);
+//            testerTwo.update(gamepad2.b);
+//            testerThree.update(gamepad2.a);
+//            testerFour.update(gamepad2.x);
 //            if (tester.isToggled()) {
 //                armRotation.basketPosition();
 //            }
@@ -93,20 +95,26 @@ public class TelemetryTest extends LinearOpMode {
 //            else {
 //                armWrist.transfer();
 //            }
-//            telemetry.addData("Tester Toggle", tester.isToggled());
-//
-            // test continuous servos (intake wheels) by holding a button
-            if (gamepad2.right_trigger > 0.2) {
-                intakeWheels.intake();
-            }
-            else if (gamepad2.left_trigger > 0.2) {
-                intakeWheels.eject();
-            }
-            else {
-                intakeWheels.stop();
-            }
-
 //            if (testerThree.isToggled()) {
+//                armClaw.close();
+//            }
+//            else {
+//                armClaw.open();
+//            }
+            telemetry.addData("Tester Toggle", tester.isToggled());
+//
+////             test continuous servos (intake wheels) by holding a button
+//            if (gamepad2.right_trigger > 0.2) {
+//                intakeWheels.intake();
+//            }
+//            else if (gamepad2.left_trigger > 0.2) {
+//                intakeWheels.eject();
+//            }
+//            else {
+//                intakeWheels.stop();
+//            }
+//
+//            if (testerFour.isToggled()) {
 //                intakePivot.deploy();
 //            }
 //            else {
