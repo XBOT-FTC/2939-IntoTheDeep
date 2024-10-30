@@ -27,20 +27,19 @@ public class PoseSubsystem {
         currentPose = new Pose2d(0,0,0);
     }
 
-    public Pose2d getPose(Telemetry telemetry) {
+    public void update(Telemetry telemetry) {
         Twist2dDual<Time> odometryPose = odometry.update();
         currentPose.plus(new Twist2d(odometryPose.value().line, odometryPose.value().angle));
 
         Pose2d aprilTagPose = aprilTagLocalizer.update(telemetry);
-        // if there isn't a april tag pose use odometry
-        if (aprilTagPose.position.x == 0 && aprilTagPose.position.y == 0 && aprilTagPose.heading.toDouble() == 0) {
-            return currentPose;
-        }
-        // return the available april tag pose
-        else {
+
+        if (aprilTagPose != null) {
             currentPose = aprilTagPose;
-            return aprilTagPose;
         }
+    }
+
+    public Pose2d getCurrentPose() {
+        return currentPose;
     }
 
     public void setPose(Pose2d newPose) {

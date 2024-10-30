@@ -108,13 +108,14 @@ public class AprilTagLocalizer {
 //        visionPortal.setProcessorEnabled(aprilTag, true);
     }
 
+    // should only be called by PoseSubsystem to update pose
     public Pose2d update(Telemetry telemetry) {
         List<AprilTagDetection> currentDetections = aprilTag.getDetections();
-        telemetry.addData("# AprilTags Detected", currentDetections.size());
+//        telemetry.addData("# AprilTags Detected", currentDetections.size());
 
         // if there isn't any detections, return a pose with 0 values
         if (currentDetections.size() == 0) {
-            return new Pose2d(0,0,0);
+            return null;
         }
 
         AprilTagDetection closestTag;
@@ -133,8 +134,6 @@ public class AprilTagLocalizer {
 
         return new Pose2d(x, y, heading);
     }
-
-
 
     /**
      * Add telemetry about AprilTag detections.
@@ -164,10 +163,8 @@ public class AprilTagLocalizer {
         telemetry.addLine("\nkey:\nXYZ = X (Right), Y (Forward), Z (Up) dist.");
         telemetry.addLine("PRY = Pitch, Roll & Yaw (XYZ Rotation)");
     }
-    public VisionPortal getVisionPortal() {
-        return visionPortal;
-    }
 
+    // method to build april tag processor for arducams
     public AprilTagProcessor buildAprilTagProcessor(Position cameraPosition, YawPitchRollAngles cameraOrientation) {
         return new AprilTagProcessor.Builder()
                 .setDrawAxes(true)
@@ -179,5 +176,9 @@ public class AprilTagLocalizer {
                 .setCameraPose(cameraPosition, cameraOrientation)
                 .setLensIntrinsics(918.709, 918.709, 643.226, 395.994)
                 .build();
+    }
+
+    public VisionPortal getVisionPortal() {
+        return visionPortal;
     }
 }

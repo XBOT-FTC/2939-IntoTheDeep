@@ -54,7 +54,7 @@ public class JohnMecanumDrive {
         double quickRotateY = -gamepad.right_stick_y;
         double quickRotateX = gamepad.right_stick_x;
 
-        Pose2d currentPose = pose.getPose(telemetry);
+        Pose2d currentPose = pose.getCurrentPose();
 
         // recalibrate drive
         if (gamepad.options) {
@@ -66,7 +66,7 @@ public class JohnMecanumDrive {
         double botHeading = currentPose.heading.toDouble();
         double botHeadingDegrees = Math.toDegrees(botHeading);
 
-        // use pid to calculate power to drive to the Net Zone
+        // use pid to calculate power to drive to the Net
         double translationXError = driveToPositionPID.pidControl(currentPose.position.x, PoseSubsystem.netZonePose.position.x);
         double translationYError = driveToPositionPID.pidControl(currentPose.position.y, PoseSubsystem.netZonePose.position.y);
         // use pid to calculate power to drive to the Net Zone
