@@ -11,23 +11,23 @@ public class ArmWrist {
 
     public ArmWrist(HardwareMap hardwareMap) {
         servo = hardwareMap.get(Servo.class, ElectricalContract.wrist());
-        servo.setDirection(Constants.getWristDirection());
+        servo.setDirection(Constants.wristDirection);
     }
 
     public void transfer() {
-        servo.setPosition(Constants.getWristTransferPosition());
+        servo.setPosition(Constants.wristTransferPosition);
     }
     public void score() {
-        servo.setPosition(Constants.getWristScorePosition());
+        servo.setPosition(Constants.wristScorePosition);
     }
     public void intakeSpecimen() {
-        servo.setPosition(Constants.getWristIntakeSpecimenPosition());
+        servo.setPosition(Constants.wristIntakeSpecimenPosition);
     }
     public void scoreHighSpecimen() {
-        servo.setPosition(Constants.getWristHighSpecimenPosition());
+        servo.setPosition(Constants.wristHighSpecimenPosition);
     }
     public void scoreLowSpecimen() {
-        servo.setPosition(Constants.getWristLowSpecimenPosition());
+        servo.setPosition(Constants.wristLowSpecimenPosition);
     }
 
 }

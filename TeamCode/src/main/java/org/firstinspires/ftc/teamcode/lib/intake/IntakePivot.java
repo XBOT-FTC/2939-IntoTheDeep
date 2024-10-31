@@ -13,16 +13,16 @@ public class IntakePivot {
     public IntakePivot(HardwareMap hardwareMap) {
         left = hardwareMap.get(Servo.class, ElectricalContract.leftPivotServo());
         right = hardwareMap.get(Servo.class, ElectricalContract.rightPivotServo());
-        left.setDirection(Constants.getLeftPivotDirection());
-        right.setDirection(Constants.getRightPivotDirection());
+        left.setDirection(Constants.leftPivotDirection);
+        right.setDirection(Constants.rightPivotDirection);
     }
 
     public void deploy() {
-        right.setPosition(Constants.getDeployedPivotPosition());
-        left.setPosition(Constants.getDeployedPivotPosition());
+        right.setPosition(Constants.deployedPivotPosition);
+        left.setPosition(Constants.deployedPivotPosition);
     }
     public void home() {
-        right.setPosition(Constants.getHomedPivotPosition());
-        left.setPosition(Constants.getHomedPivotPosition());
+        right.setPosition(Constants.homedPivotPosition);
+        left.setPosition(Constants.homedPivotPosition);
     }
 }

@@ -14,29 +14,29 @@ public class ArmRotation {
     public ArmRotation(HardwareMap hardwareMap) {
         left = hardwareMap.get(Servo.class, ElectricalContract.leftRotationServo());
         right = hardwareMap.get(Servo.class, ElectricalContract.rightRotationServo());
-        left.setDirection(Constants.getLeftArmRotationDirection());
-        right.setDirection(Constants.getRightArmRotationDirection());
+        left.setDirection(Constants.leftArmRotationDirection);
+        right.setDirection(Constants.rightArmRotationDirection);
     }
 
     public void basketPosition() {
-        right.setPosition(Constants.getBasketArmPosition());
-        left.setPosition(Constants.getBasketArmPosition());
+        right.setPosition(Constants.basketArmPosition);
+        left.setPosition(Constants.basketArmPosition);
     }
     public void specimenIntakePosition() {
-        right.setPosition(Constants.getSpecimenIntakeArmPosition());
-        left.setPosition(Constants.getSpecimenIntakeArmPosition());
+        right.setPosition(Constants.specimenIntakeArmPosition);
+        left.setPosition(Constants.specimenIntakeArmPosition);
     }
     public void specimenHighPosition() {
-        right.setPosition(Constants.getSpecimenHighArmPosition());
-        left.setPosition(Constants.getSpecimenHighArmPosition());
+        right.setPosition(Constants.specimenHighArmPosition);
+        left.setPosition(Constants.specimenHighArmPosition);
     }
     public void specimenLowPosition() {
-        right.setPosition(Constants.getSpecimenLowArmPosition());
-        left.setPosition(Constants.getSpecimenLowArmPosition());
+        right.setPosition(Constants.specimenLowArmPosition);
+        left.setPosition(Constants.specimenLowArmPosition);
     }
     public void transferPosition() {
-        right.setPosition(Constants.getTransferArmPosition());
-        left.setPosition(Constants.getTransferArmPosition());
+        right.setPosition(Constants.transferArmPosition);
+        left.setPosition(Constants.transferArmPosition);
     }
 
 }

@@ -19,7 +19,7 @@ public class Arm {
     ButtonToggle x =  new ButtonToggle();
     ButtonToggle b = new ButtonToggle();
     ButtonToggle leftBumper = new ButtonToggle();
-    public final int EXTENSION_THRESHOLD = Constants.getScoringExtensionThreshold();
+    public final int EXTENSION_THRESHOLD = Constants.scoringExtensionThreshold;
 
     public Arm(HardwareMap hardwareMap) {
         rotation = new ArmRotation(hardwareMap);
@@ -170,7 +170,7 @@ public class Arm {
 
     public void rotateToScore(Gamepad gamepad, ArmSlide.SlidePositions position) {
         if (position == ArmSlide.SlidePositions.HIGH_BASKET) {
-            if (gamepad.left_trigger > 0.2 && slide.getCurrentPosition() > Constants.getHighBasketSlideExtension() - EXTENSION_THRESHOLD) {
+            if (gamepad.left_trigger > 0.2 && slide.getCurrentPosition() > Constants.highBasketSlideExtension - EXTENSION_THRESHOLD) {
                 rotation.basketPosition();
                 wrist.score();
             }
@@ -180,7 +180,7 @@ public class Arm {
             }
         }
         else if (position == ArmSlide.SlidePositions.LOW_BASKET) {
-            if (gamepad.left_trigger > 0.2 && slide.getCurrentPosition() > Constants.getLowBasketSlideExtension() - EXTENSION_THRESHOLD) {
+            if (gamepad.left_trigger > 0.2 && slide.getCurrentPosition() > Constants.lowBasketSlideExtension - EXTENSION_THRESHOLD) {
                 rotation.basketPosition();
                 wrist.score();
             }

@@ -13,9 +13,9 @@ public class IntakeSlide {
     private final DcMotor linearSlideLeft;
     private final DcMotor linearSlideRight;
     public int targetPosition = 0;
-    public final int MAX_POSITION = Constants.getMaxIntakeSlideExtension();
-    public final double slidePower = Constants.getIntakeSlidePower();
-    public final double killPowerThreshold = Constants.getHomedKillPowerThreshold();
+    public final int MAX_POSITION = Constants.maxIntakeSlideExtension;
+    public final double slidePower = Constants.intakeSlidePower;
+    public final double killPowerThreshold = Constants.homedKillPowerThreshold;
     enum SlidePositions {
         READY,
         INTAKE,
@@ -29,7 +29,7 @@ public class IntakeSlide {
         linearSlideLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER); // using external pid
         linearSlideLeft.setTargetPosition(0);
         linearSlideLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        linearSlideLeft.setDirection(Constants.getLeftIntakeMotorDirection());
+        linearSlideLeft.setDirection(Constants.leftIntakeMotorDirection);
 
         // motor for right linear slide, sets up encoders
         linearSlideRight = hardwareMap.get(DcMotor.class, ElectricalContract.rightIntakeSlideMotor());
@@ -37,7 +37,7 @@ public class IntakeSlide {
         linearSlideRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER); // using external pid
         linearSlideRight.setTargetPosition(0);
         linearSlideRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        linearSlideRight.setDirection(Constants.getLeftIntakeMotorDirection().inverted());
+        linearSlideRight.setDirection(Constants.leftIntakeMotorDirection.inverted());
     }
 
     public void slide(Telemetry telemetry, SlidePositions position) {
@@ -45,10 +45,10 @@ public class IntakeSlide {
         // retrieve targetPosition based on position parameter
         switch (position) {
             case READY:
-                targetPosition = Constants.getReadySlideExtension();
+                targetPosition = Constants.readySlideExtension;
                 break;
             case INTAKE:
-                targetPosition = Constants.getIntakeSlideExtension();
+                targetPosition = Constants.intakeSlideExtension;
                 break;
             case HOMED:
                 targetPosition = 0;

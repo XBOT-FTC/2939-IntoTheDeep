@@ -10,7 +10,7 @@ public class Intake {
     IntakePivot pivot;
     IntakeSlide slide;
     IntakeWheels wheels;
-    public final int EXTENSION_THRESHOLD = Constants.getReadyExtensionThreshold();
+    public final int EXTENSION_THRESHOLD = Constants.readyExtensionThreshold;
 
     public Intake(HardwareMap hardwareMap) {
         pivot = new IntakePivot(hardwareMap);
@@ -21,12 +21,12 @@ public class Intake {
     // method that runs everything
     public void controls(Gamepad gamepad, Telemetry telemetry) {
         if (gamepad.y) { // deploys slide to ready position, then gives option to intake or eject once the slide is in threshold of target extension
-            if (gamepad.right_trigger > 0.2 && slide.getCurrentPosition() > Constants.getReadySlideExtension() - EXTENSION_THRESHOLD) {
+            if (gamepad.right_trigger > 0.2 && slide.getCurrentPosition() > Constants.readySlideExtension - EXTENSION_THRESHOLD) {
                 slide.slide(telemetry, IntakeSlide.SlidePositions.INTAKE);
                 pivot.deploy();
                 wheels.intake();
             }
-            else if (gamepad.right_bumper && slide.getCurrentPosition() > Constants.getReadySlideExtension() - EXTENSION_THRESHOLD) {
+            else if (gamepad.right_bumper && slide.getCurrentPosition() > Constants.readySlideExtension - EXTENSION_THRESHOLD) {
                 pivot.deploy();
                 wheels.eject();
             }

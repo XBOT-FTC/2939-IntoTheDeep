@@ -17,7 +17,7 @@ public class JohnMecanumDrive {
     private final DcMotorEx leftBackDrive;
     private final DcMotorEx rightFrontDrive;
     private final DcMotorEx rightBackDrive;
-    private final double precisionModeLimit = Constants.getPrecisionModeLimit();
+    private final double precisionModeLimit = Constants.precisionModeLimit;
     ButtonToggle precisionModeToggle =  new ButtonToggle();
     PIDManager quickRotatePID = new PIDManager(0.018,0,0);
 
@@ -27,10 +27,10 @@ public class JohnMecanumDrive {
         rightFrontDrive  = hardwareMap.get(DcMotorEx.class, ElectricalContract.rightFrontDriveMotor());
         rightBackDrive = hardwareMap.get(DcMotorEx.class, ElectricalContract.rightBackDriveMotor());
 
-        leftFrontDrive.setDirection(Constants.getLeftDriveMotorDirection());
-        leftBackDrive.setDirection(Constants.getLeftDriveMotorDirection());
-        rightFrontDrive.setDirection(Constants.getLeftDriveMotorDirection().inverted());
-        rightBackDrive.setDirection(Constants.getLeftDriveMotorDirection().inverted());
+        leftFrontDrive.setDirection(Constants.leftDriveMotorDirection);
+        leftBackDrive.setDirection(Constants.leftDriveMotorDirection);
+        rightFrontDrive.setDirection(Constants.leftDriveMotorDirection.inverted());
+        rightBackDrive.setDirection(Constants.leftDriveMotorDirection.inverted());
     }
 
     public void drive(Gamepad gamepad, IMU imu, Telemetry telemetry) {
