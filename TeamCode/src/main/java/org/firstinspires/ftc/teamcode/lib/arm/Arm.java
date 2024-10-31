@@ -16,7 +16,8 @@ public class Arm {
     ButtonToggle dpadDown = new ButtonToggle();
     ButtonToggle dpadLeft = new ButtonToggle();
     ButtonToggle dpadRight = new ButtonToggle();
-    ButtonToggle dpadB = new ButtonToggle();
+    ButtonToggle x =  new ButtonToggle();
+    ButtonToggle b = new ButtonToggle();
     ButtonToggle leftBumper = new ButtonToggle();
     public final int EXTENSION_THRESHOLD = Constants.getScoringExtensionThreshold();
 
@@ -38,9 +39,35 @@ public class Arm {
             slide.slide(telemetry, ArmSlide.SlidePositions.LOW_BASKET);
             rotateToScore(gamepad, ArmSlide.SlidePositions.LOW_BASKET); // rotation for arm and wrist are the same for both baskets
         }
-        else if (dpadLeft.isToggled()) { // FIXME: Comment out if specimen scoring not being used
-            slide.slide(telemetry, ArmSlide.SlidePositions.SPECIMEN);
-            rotateToScore(gamepad, ArmSlide.SlidePositions.SPECIMEN);
+        else if (dpadLeft.isToggled()) {
+            if (gamepad.left_trigger > 0.2) {
+                slide.slide(telemetry, ArmSlide.SlidePositions.LIFT_INTAKE_SPECIMEN);
+            }
+            else {
+                slide.slide(telemetry, ArmSlide.SlidePositions.INTAKE_SPECIMEN);
+                rotation.specimenIntakePosition();
+                wrist.intakeSpecimen();
+            }
+        }
+        else if (b.isToggled()) {
+            if (gamepad.left_trigger > 0.2) {
+                slide.slide(telemetry, ArmSlide.SlidePositions.LIFT_HIGH_SPECIMEN);
+            }
+            else {
+                slide.slide(telemetry, ArmSlide.SlidePositions.HIGH_SPECIMEN);
+                rotation.specimenHighPosition();
+                wrist.scoreHighSpecimen();
+            }
+        }
+        else if (x.isToggled()) {
+            if (gamepad.left_trigger > 0.2) {
+                slide.slide(telemetry, ArmSlide.SlidePositions.LIFT_LOW_SPECIMEN);
+            }
+            else {
+                slide.slide(telemetry, ArmSlide.SlidePositions.LOW_SPECIMEN);
+                rotation.specimenLowPosition();
+                wrist.scoreLowSpecimen();
+            }
         }
         else if (dpadRight.isToggled()) {
             slide.slide(telemetry, ArmSlide.SlidePositions.TRANSFER);
@@ -54,10 +81,10 @@ public class Arm {
         }
 
         if (leftBumper.isToggled()) { // individually control grabber
-            grabber.close();
+            grabber.open();
         }
         else {
-            grabber.open();
+            grabber.close();
         }
 
         telemetry.addData("Up Toggle", dpadUp.isToggled());
@@ -84,10 +111,24 @@ public class Arm {
         }
         if (gamepad.dpad_left) {
             dpadLeft.press();
-            toggleOthersOff(ArmSlide.SlidePositions.SPECIMEN);
+            toggleOthersOff(ArmSlide.SlidePositions.INTAKE_SPECIMEN);
         }
         else {
             dpadLeft.letGo();
+        }
+        if (gamepad.b) {
+            b.press();
+            toggleOthersOff(ArmSlide.SlidePositions.HIGH_SPECIMEN);
+        }
+        else {
+            b.letGo();
+        }
+        if (gamepad.x) {
+            x.press();
+            toggleOthersOff(ArmSlide.SlidePositions.LOW_SPECIMEN);
+        }
+        else {
+            x.letGo();
         }
         if (gamepad.dpad_right) {
             dpadRight.press();
@@ -113,11 +154,17 @@ public class Arm {
         if (position != ArmSlide.SlidePositions.LOW_BASKET) {
             dpadDown.setFalseToggle();
         }
-        if (position != ArmSlide.SlidePositions.SPECIMEN) {
+        if (position != ArmSlide.SlidePositions.INTAKE_SPECIMEN) {
             dpadLeft.setFalseToggle();
         }
         if (position != ArmSlide.SlidePositions.TRANSFER) {
             dpadRight.setFalseToggle();
+        }
+        if (position != ArmSlide.SlidePositions.HIGH_SPECIMEN) {
+            b.setFalseToggle();
+        }
+        if (position != ArmSlide.SlidePositions.LOW_SPECIMEN) {
+            x.setFalseToggle();
         }
     }
 
@@ -136,16 +183,6 @@ public class Arm {
             if (gamepad.left_trigger > 0.2 && slide.getCurrentPosition() > Constants.getLowBasketSlideExtension() - EXTENSION_THRESHOLD) {
                 rotation.basketPosition();
                 wrist.score();
-            }
-            else {
-                rotation.transferPosition();
-                wrist.transfer();
-            }
-        }
-        else if (position == ArmSlide.SlidePositions.SPECIMEN) {
-            if (gamepad.left_trigger > 0.2 && slide.getCurrentPosition() > Constants.getSpecimenSlideExtension() - EXTENSION_THRESHOLD) {
-                rotation.specimenPosition();
-                wrist.score(); // TODO: Figure out if wrist position for baskets is same as specimen
             }
             else {
                 rotation.transferPosition();

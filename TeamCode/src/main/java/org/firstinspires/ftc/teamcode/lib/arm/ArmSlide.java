@@ -20,10 +20,16 @@ public class ArmSlide {
     private final PIDManager armPID = new PIDManager(0.0035,0,0, 0.0001); // TODO: tune
     public final double positionTolerance = 20; // TODO: tune
     public final double velocityTolerance = 0.09; // TODO: tune
+    public final int liftExtension = Constants.getLiftExtension();
     enum SlidePositions {
         HIGH_BASKET,
         LOW_BASKET,
-        SPECIMEN,
+        LIFT_INTAKE_SPECIMEN,
+        LIFT_HIGH_SPECIMEN,
+        LIFT_LOW_SPECIMEN,
+        INTAKE_SPECIMEN,
+        HIGH_SPECIMEN,
+        LOW_SPECIMEN,
         HANG,
         HOMED,
         TRANSFER
@@ -55,8 +61,23 @@ public class ArmSlide {
             case LOW_BASKET:
                 targetPosition = Constants.getLowBasketSlideExtension();
                 break;
-            case SPECIMEN:
-                targetPosition = Constants.getSpecimenSlideExtension();
+            case LIFT_INTAKE_SPECIMEN:
+                targetPosition =  Constants.getHomedSlideExtension() + liftExtension;
+                break;
+            case LIFT_HIGH_SPECIMEN:
+                targetPosition =  Constants.getHighSpecimenSlideExtension() + liftExtension;
+                break;
+            case LIFT_LOW_SPECIMEN:
+                targetPosition =  Constants.getLowSpecimenSlideExtension() + liftExtension;
+                break;
+            case INTAKE_SPECIMEN:
+                targetPosition = Constants.getIntakeSpecimenSlideExtension();
+                break;
+            case HIGH_SPECIMEN:
+                targetPosition = Constants.getHighSpecimenSlideExtension();
+                break;
+            case LOW_SPECIMEN:
+                targetPosition = Constants.getLowSpecimenSlideExtension();
                 break;
             case HANG:
                 targetPosition = Constants.getHangSlideExtension(); // TODO: We don't have hanging

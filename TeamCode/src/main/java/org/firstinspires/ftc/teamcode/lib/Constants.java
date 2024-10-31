@@ -28,8 +28,14 @@ public class Constants {
     public static double getBasketArmPosition() {
         return 0.06; // TODO: Tune
     }
-    public static double getSpecimenArmPosition() {
-        return 0; // TODO: Tune
+    public static double getSpecimenIntakeArmPosition() {
+        return 0.58; // TODO: Tune
+    }
+    public static double getSpecimenHighArmPosition() {
+        return 0.45;
+    }
+    public static double getSpecimenLowArmPosition() {
+        return 0.64;
     }
     public static double getTransferArmPosition() {
         return 0.64; // TODO: Tune
@@ -37,7 +43,7 @@ public class Constants {
 
     // SUBLIST: SLIDES
     public static int getMaxArmSlideExtension() {
-        return 2800; // TODO: Find extension
+        return 3000; // TODO: Find extension
     }
     public static DcMotorSimple.Direction getLeftArmSlideDirection() {
         return DcMotorSimple.Direction.REVERSE; // TODO: Find direction
@@ -47,10 +53,16 @@ public class Constants {
         return 2900; // TODO: Tune
     }
     public static int getLowBasketSlideExtension() {
-        return 650; // TODO: Tune
+        return 750; // TODO: Tune
     }
-    public static int getSpecimenSlideExtension() {
-        return 536; // TODO: Tune
+    public static int getIntakeSpecimenSlideExtension() {
+        return 500;
+    }
+    public static int getHighSpecimenSlideExtension() {
+        return 1000; // TODO: Tune
+    }
+    public static int getLowSpecimenSlideExtension() {
+        return 230; // TODO: Tune
     }
     public static int getHangSlideExtension() {
         return 536; // TODO: Tune
@@ -59,10 +71,13 @@ public class Constants {
         return 536; // TODO: Tune
     }
     public static int getTransferSlideExtension() {
-        return 160; // TODO: Tune
+        return 200; // TODO: Tune
     }
     public static int getScoringExtensionThreshold() {
         return 40; // TODO: Find extension
+    }
+    public static int getLiftExtension() {
+        return 500;
     }
 
     // SUBLIST: WRIST
@@ -71,6 +86,15 @@ public class Constants {
     }
     public static double getWristTransferPosition() {
         return 0.3; // TODO: Tune
+    }
+    public static double getWristIntakeSpecimenPosition() {
+        return 0.5;
+    }
+    public static double getWristHighSpecimenPosition() {
+        return 0.45;
+    }
+    public static double getWristLowSpecimenPosition() {
+        return 0.63; // TODO: Tune
     }
     public static double getWristScorePosition() {
         return 0.7; // TODO: Tune
@@ -99,10 +123,10 @@ public class Constants {
         return Servo.Direction.REVERSE; // TODO: Test direction
     }
     public static double getHomedPivotPosition() {
-        return 0.25; // TODO: This should be the homed position if we zero, but double check FIXME: this might be different for left and right servos
+        return 0.3; // TODO: This should be the homed position if we zero, but double check FIXME: this might be different for left and right servos
     }
     public static double getDeployedPivotPosition() {
-        return 0.537; // TODO: Tune FIXME: this might be different for left and right servos
+        return 0.57; // TODO: Tune FIXME: this might be different for left and right servos
     }
 
     // SUBLIST: SLIDES
@@ -116,10 +140,10 @@ public class Constants {
         return DcMotorSimple.Direction.FORWARD; // TODO: Find direction
     }
     public static int getReadySlideExtension() {
-        return 860; // TODO: Find extension
+        return 700; // TODO: Find extension
     }
     public static int getIntakeSlideExtension() {
-        return 1200; // TODO: Find Extension
+        return 1000; // TODO: Find Extension
     }
     public static int getHomedKillPowerThreshold() {
         return 30; // TODO: Find extension

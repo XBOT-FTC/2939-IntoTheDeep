@@ -20,5 +20,14 @@ public class ArmWrist {
     public void score() {
         servo.setPosition(Constants.getWristScorePosition());
     }
+    public void intakeSpecimen() {
+        servo.setPosition(Constants.getWristIntakeSpecimenPosition());
+    }
+    public void scoreHighSpecimen() {
+        servo.setPosition(Constants.getWristHighSpecimenPosition());
+    }
+    public void scoreLowSpecimen() {
+        servo.setPosition(Constants.getWristLowSpecimenPosition());
+    }
 
 }

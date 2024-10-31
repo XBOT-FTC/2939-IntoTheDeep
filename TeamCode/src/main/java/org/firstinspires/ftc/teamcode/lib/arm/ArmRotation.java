@@ -22,9 +22,17 @@ public class ArmRotation {
         right.setPosition(Constants.getBasketArmPosition());
         left.setPosition(Constants.getBasketArmPosition());
     }
-    public void specimenPosition() {
-        right.setPosition(Constants.getSpecimenArmPosition());
-        left.setPosition(Constants.getSpecimenArmPosition());
+    public void specimenIntakePosition() {
+        right.setPosition(Constants.getSpecimenIntakeArmPosition());
+        left.setPosition(Constants.getSpecimenIntakeArmPosition());
+    }
+    public void specimenHighPosition() {
+        right.setPosition(Constants.getSpecimenHighArmPosition());
+        left.setPosition(Constants.getSpecimenHighArmPosition());
+    }
+    public void specimenLowPosition() {
+        right.setPosition(Constants.getSpecimenLowArmPosition());
+        left.setPosition(Constants.getSpecimenLowArmPosition());
     }
     public void transferPosition() {
         right.setPosition(Constants.getTransferArmPosition());
