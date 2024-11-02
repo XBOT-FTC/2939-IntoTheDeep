@@ -65,18 +65,18 @@ public class DriveLogic {
             headingPower *= -1;
         }
 
-        telemetry.addData("currentHeading", currentHeading);
-        telemetry.addData("goalHeading", goalHeading);
-        telemetry.addData("state", state);
-        telemetry.addData("target", target);
-        telemetry.addData("error", error);
-        telemetry.addData("absError", absError);
-        telemetry.addData("headingPower", headingPower);
-        if (error > 0 ) {
-            telemetry.addLine("Supposed to be turning LEFT");
-        }else {
-            telemetry.addLine("Supposed to be turning RIGHT");
-        }
+//        telemetry.addData("currentHeading", currentHeading);
+//        telemetry.addData("goalHeading", goalHeading);
+//        telemetry.addData("state", state);
+//        telemetry.addData("target", target);
+//        telemetry.addData("error", error);
+//        telemetry.addData("absError", absError);
+//        telemetry.addData("headingPower", headingPower);
+//        if (error > 0 ) {
+//            telemetry.addLine("Supposed to be turning LEFT");
+//        }else {
+//           telemetry.addLine("Supposed to be turning RIGHT");
+//        }
 
         return headingPower;
     }
@@ -95,7 +95,6 @@ public class DriveLogic {
         double absError = Math.abs(error);
 
         // doing this so the state is always less than the target
-        //TODO: if this doesn't work add a big number (180, 360, 1000) to both variables so the error that the pid calculates is always positive
         double state = Math.abs(goalHeading) - absError;
         double target = Math.abs(goalHeading);
 
@@ -104,19 +103,6 @@ public class DriveLogic {
         // handling which direction to rotate
         if (error > 0) {
             headingPower *= -1;
-        }
-
-        telemetry.addData("currentHeading", currentHeading);
-        telemetry.addData("goalHeading", goalHeading);
-        telemetry.addData("state", state);
-        telemetry.addData("target", target);
-        telemetry.addData("error", error);
-        telemetry.addData("absError", absError);
-        telemetry.addData("headingPower", headingPower);
-        if (error > 0 ) {
-            telemetry.addLine("Supposed to be turning LEFT");
-        }else {
-            telemetry.addLine("Supposed to be turning RIGHT");
         }
 
         return headingPower;

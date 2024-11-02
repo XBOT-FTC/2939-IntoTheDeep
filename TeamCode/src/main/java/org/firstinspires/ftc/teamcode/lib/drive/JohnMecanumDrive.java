@@ -34,13 +34,16 @@ public class JohnMecanumDrive {
     }
 
     public void drive(Gamepad gamepad, IMU imu, Telemetry telemetry) {
-        double y = -gamepad.left_stick_y; // TODO: Reverse y value if needed (change sign)
-        double x = gamepad.left_stick_x;
+
+        // get the translation intent from joystick
+        double y = -(gamepad.left_stick_y * gamepad.left_stick_y);
+        double x = gamepad.left_stick_x * gamepad.left_stick_x;
 
         // get rotation intent from triggers
-        double rotateIntent = -gamepad.left_trigger + gamepad.right_trigger;
+        double rotateIntent = -(gamepad.left_trigger * gamepad.left_trigger) + (gamepad.right_trigger * gamepad.right_trigger);
+
         // rightStick quick rotate
-        double quickRotateY = -gamepad.right_stick_y; // TODO: Reverse y value if needed (change sign)
+        double quickRotateY = -gamepad.right_stick_y;
         double quickRotateX = gamepad.right_stick_x;
 
         // recalibrate drive
@@ -89,6 +92,7 @@ public class JohnMecanumDrive {
         telemetry.addData("current heading:", botHeadingDegrees);
     }
 
+    // auto movement methods
     public void strafe (double speed, String direction) {
         if (direction.equals("left")) {
             drivesSetPowerX(speed);
