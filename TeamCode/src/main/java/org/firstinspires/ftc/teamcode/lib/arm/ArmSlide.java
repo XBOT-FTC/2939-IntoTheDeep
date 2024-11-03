@@ -21,7 +21,7 @@ public class ArmSlide {
     public final double positionTolerance = 20; // TODO: tune
     public final double velocityTolerance = 0.09; // TODO: tune
     public final int liftExtension = Constants.liftExtension;
-    enum SlidePositions {
+    public enum SlidePositions {
         HIGH_BASKET,
         LOW_BASKET,
         LIFT_INTAKE_SPECIMEN,
