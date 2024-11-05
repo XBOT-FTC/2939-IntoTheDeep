@@ -26,19 +26,19 @@ public class Constants {
     public static DcMotorSimple.Direction leftArmSlideDirection = DcMotorSimple.Direction.REVERSE;
     public static int highBasketSlideExtension = 2900;
     public static int lowBasketSlideExtension = 750;
-    public static int intakeSpecimenSlideExtension = 500;
+    public static int intakeSpecimenSlideExtension = 400;
     public static int highSpecimenSlideExtension = 1000;
     public static int lowSpecimenSlideExtension = 230;
     public static int hangSlideExtension = 536; // TODO: No hanging yet
     public static int homedSlideExtension = 536;
-    public static int transferSlideExtension =  200;
+    public static int transferSlideExtension =  210;
     public static int scoringExtensionThreshold = 40;
-    public static int liftExtension = 500;
+    public static int liftExtension = 350;
 
     // SUBLIST: WRIST
     public static Servo.Direction wristDirection = Servo.Direction.REVERSE;
-    public static double wristTransferPosition = 0.3;
-    public static double wristIntakeSpecimenPosition = 0.5;
+    public static double wristTransferPosition = 0.31;
+    public static double wristIntakeSpecimenPosition = 0.54;
     public static double wristHighSpecimenPosition = 0.45;
     public static double wristLowSpecimenPosition =  0.63;
     public static double wristScorePosition = 0.7;
@@ -53,15 +53,15 @@ public class Constants {
     // SUBLIST: PIVOT
     public static Servo.Direction leftPivotDirection = Servo.Direction.FORWARD;
     public static Servo.Direction rightPivotDirection = Servo.Direction.REVERSE;
-    public static double homedPivotPosition = 0.3;
+    public static double homedPivotPosition = 0.36;
     public static double deployedPivotPosition = 0.57;
 
     // SUBLIST: SLIDES
-    public static int maxIntakeSlideExtension = 1350;
+    public static int maxIntakeSlideExtension = 1400;
     public static double intakeSlidePower = 0.65;
     public static DcMotorSimple.Direction leftIntakeMotorDirection = DcMotorSimple.Direction.FORWARD;
-    public static int readySlideExtension = 700;
-    public static int intakeSlideExtension = 1000;
+    public static int readySlideExtension = 400;
+    public static int intakeSlideExtension = 1300;
     public static int homedKillPowerThreshold = 30;
     public static int readyExtensionThreshold = 300;
 

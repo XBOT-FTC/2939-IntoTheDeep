@@ -25,13 +25,13 @@ public class ScoringSlidePIDTuner extends LinearOpMode {
         DcMotor linearSlideLeft = hardwareMap.get(DcMotor.class, ElectricalContract.leftArmSlideMotor());
         linearSlideLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         linearSlideLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        linearSlideLeft.setDirection(Constants.getLeftArmSlideDirection());
+        linearSlideLeft.setDirection(Constants.leftArmSlideDirection);
 
         // motor for right linear slide setup
         DcMotor linearSlideRight = hardwareMap.get(DcMotor.class, ElectricalContract.rightArmSlideMotor());
         linearSlideRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         linearSlideRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        linearSlideRight.setDirection(Constants.getLeftArmSlideDirection().inverted());
+        linearSlideRight.setDirection(Constants.leftArmSlideDirection.inverted());
 
         waitForStart();
         if (isStopRequested()) return;

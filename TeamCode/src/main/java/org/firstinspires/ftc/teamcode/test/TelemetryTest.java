@@ -28,8 +28,8 @@ public class TelemetryTest extends LinearOpMode {
         intakeSlideRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         intakeSlideLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         intakeSlideRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        intakeSlideLeft.setDirection(Constants.getLeftIntakeMotorDirection());
-        intakeSlideRight.setDirection(Constants.getLeftIntakeMotorDirection().inverted());
+        intakeSlideLeft.setDirection(Constants.leftIntakeMotorDirection);
+        intakeSlideRight.setDirection(Constants.leftIntakeMotorDirection.inverted());
 
         // arm slides
         DcMotor armSlideLeft = hardwareMap.get(DcMotor.class, ElectricalContract.leftArmSlideMotor());
@@ -38,8 +38,8 @@ public class TelemetryTest extends LinearOpMode {
         armSlideRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         armSlideLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         armSlideRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        armSlideLeft.setDirection(Constants.getLeftArmSlideDirection());
-        armSlideRight.setDirection(Constants.getLeftArmSlideDirection().inverted());
+        armSlideLeft.setDirection(Constants.leftArmSlideDirection);
+        armSlideRight.setDirection(Constants.leftArmSlideDirection.inverted());
 
         // LIST: INTAKE SUBCOMPONENTS
 //         intake pivot

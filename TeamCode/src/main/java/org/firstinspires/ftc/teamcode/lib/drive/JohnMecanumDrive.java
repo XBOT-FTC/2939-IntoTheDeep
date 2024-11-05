@@ -19,7 +19,7 @@ public class JohnMecanumDrive {
     private final DcMotorEx rightBackDrive;
     private final double precisionModeLimit = Constants.precisionModeLimit;
     ButtonToggle precisionModeToggle =  new ButtonToggle();
-    PIDManager quickRotatePID = new PIDManager(0.018,0,0);
+    PIDManager quickRotatePID = new PIDManager(0.0093,0,0);
 
     public JohnMecanumDrive(HardwareMap hardwareMap) {
         leftFrontDrive  = hardwareMap.get(DcMotorEx.class, ElectricalContract.leftFrontDriveMotor());
@@ -36,11 +36,24 @@ public class JohnMecanumDrive {
     public void drive(Gamepad gamepad, IMU imu, Telemetry telemetry) {
 
         // get the translation intent from joystick
-        double y = -(gamepad.left_stick_y * gamepad.left_stick_y);
-        double x = gamepad.left_stick_x * gamepad.left_stick_x;
+        double y = -gamepad.left_stick_y;
+        if (y < 0) {
+            y = -1 * Math.pow(y, 2);
+        }
+        else {
+            y = Math.pow(y, 2);
+        }
+
+        double x = gamepad.left_stick_x;
+        if (x < 0) {
+            x = -1 * Math.pow(x, 2);
+        }
+        else {
+            x = Math.pow(x, 2);
+        }
 
         // get rotation intent from triggers
-        double rotateIntent = -(gamepad.left_trigger * gamepad.left_trigger) + (gamepad.right_trigger * gamepad.right_trigger);
+        double rotateIntent = -gamepad.left_trigger + gamepad.right_trigger;
 
         // rightStick quick rotate
         double quickRotateY = -gamepad.right_stick_y;
@@ -81,10 +94,10 @@ public class JohnMecanumDrive {
             rightFrontDrive.setPower(rightFrontPower *= precisionModeLimit);
             rightBackDrive.setPower(rightBackPower *= precisionModeLimit);
         } else {
-            leftFrontDrive.setPower(leftFrontPower *= 0.7);
-            leftBackDrive.setPower(leftBackPower *= 0.7);
-            rightFrontDrive.setPower(rightFrontPower *= 0.7);
-            rightBackDrive.setPower(rightBackPower *= 0.7);
+            leftFrontDrive.setPower(leftFrontPower);
+            leftBackDrive.setPower(leftBackPower);
+            rightFrontDrive.setPower(rightFrontPower);
+            rightBackDrive.setPower(rightBackPower);
         }
 
         telemetry.addData("Front Motor Powers:", "Left Front (%.2f), Right Front (%.2f)", leftFrontPower, rightFrontPower);
