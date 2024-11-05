@@ -30,13 +30,13 @@ public class DriveLogic {
         double goalHeading;
 
         //TODO: refine quadrants
-        if (rightJoystickY > 0.7 && Math.abs(rightJoystickX) < 0.2) {
+        if (rightJoystickY > 0.65 && Math.abs(rightJoystickX) < 0.3) {
             goalHeading = 0;
-        } else if (rightJoystickX < -0.7 && Math.abs(rightJoystickY) < 0.2) {
+        } else if (rightJoystickX < -0.65 && Math.abs(rightJoystickY) < 0.3) {
             goalHeading = 90;
-        } else if (rightJoystickY < -0.7 && Math.abs(rightJoystickX) < 0.2) {
+        } else if (rightJoystickY < -0.65 && Math.abs(rightJoystickX) < 0.3) {
             goalHeading = 180;
-        } else if (rightJoystickX > 0.7 && Math.abs(rightJoystickY) < 0.2) {
+        } else if (rightJoystickX > 0.65 && Math.abs(rightJoystickY) < 0.3) {
             goalHeading = -90;
         } else {
             goalHeading = currentHeading;
@@ -106,5 +106,10 @@ public class DriveLogic {
         }
 
         return headingPower;
+    }
+
+    public static double exponentAndRetainSign(double value, int exponent) {
+        double raised = Math.pow(value, exponent);
+        return (value < 0 && raised > 0) ? -raised : raised;
     }
 }

@@ -36,24 +36,12 @@ public class JohnMecanumDrive {
     public void drive(Gamepad gamepad, IMU imu, Telemetry telemetry) {
 
         // get the translation intent from joystick
-        double y = -gamepad.left_stick_y;
-        if (y < 0) {
-            y = -1 * Math.pow(y, 2);
-        }
-        else {
-            y = Math.pow(y, 2);
-        }
-
-        double x = gamepad.left_stick_x;
-        if (x < 0) {
-            x = -1 * Math.pow(x, 2);
-        }
-        else {
-            x = Math.pow(x, 2);
-        }
+        double y = DriveLogic.exponentAndRetainSign(-gamepad.left_stick_y, 2);
+        double x = DriveLogic.exponentAndRetainSign(gamepad.left_stick_x, 2);
 
         // get rotation intent from triggers
-        double rotateIntent = -gamepad.left_trigger + gamepad.right_trigger;
+        double rotateIntent = DriveLogic.exponentAndRetainSign(-gamepad.left_trigger, 2) +
+                DriveLogic.exponentAndRetainSign(gamepad.right_trigger, 2);
 
         // rightStick quick rotate
         double quickRotateY = -gamepad.right_stick_y;
