@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-
 public class ElectricalContract {
     public ElectricalContract() {
 
@@ -13,29 +11,32 @@ public class ElectricalContract {
     public static String rightOdometryWheel() {
         return "rightOdometryWheel"; // Example: Expansion Hub, Port 2
     }
-    public static String middleOdometryWheel() {
-        return "middleOdometryWheel"; // Example: Expansion Hub, Port 2
-    }
     public static String imu() {
         return "imu";
     }
-    public static String FrontLeftDriveMotor() {
+    public static String leftFrontDriveMotor() {
         return "lf_drive";  // Example: Expansion Hub, Port 2
     }
-    public static String BackLeftDriveMotor() {
+    public static String leftBackDriveMotor() {
         return "lb_drive";  // Example: Expansion Hub, Port 2
     }
-    public static String FrontRightDriveMotor() {
+    public static String rightFrontDriveMotor() {
         return "rf_drive";  // Example: Expansion Hub, Port 2
     }
-    public static String BackRightDriveMotor() {
+    public static String rightBackDriveMotor() {
         return "rb_drive";  // Example: Expansion Hub, Port 2
     }
-    public static String leftSlideMotor() {
-        return "l_slide";
+    public static String leftIntakeSlideMotor() {
+        return "li_slide";
     }
-    public static String rightSlideMotor() {
-        return "r_slide";
+    public static String rightIntakeSlideMotor() {
+        return "ri_slide";
+    }
+    public static String leftArmSlideMotor() {
+        return "la_slide";
+    }
+    public static String rightArmSlideMotor() {
+        return "ra_slide";
     }
     public static String leftIntakeServo() {
         return "li_servo";
@@ -57,5 +58,8 @@ public class ElectricalContract {
     }
     public static String rightRotationServo() {
         return "rr_servo";
+    }
+    public static String wrist() {
+        return "wrist";
     }
 }

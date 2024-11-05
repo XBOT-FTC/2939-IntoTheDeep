@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.teamcode.ElectricalContract;
+import org.firstinspires.ftc.teamcode.lib.Constants;
 import org.firstinspires.ftc.teamcode.lib.PIDManager;
 
 @Config
@@ -21,14 +22,16 @@ public class ScoringSlidePIDTuner extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         // motor for left linear slide setup
-        DcMotor linearSlideLeft = hardwareMap.get(DcMotor.class, ElectricalContract.leftSlideMotor());
+        DcMotor linearSlideLeft = hardwareMap.get(DcMotor.class, ElectricalContract.leftArmSlideMotor());
         linearSlideLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        linearSlideLeft.setDirection(DcMotorSimple.Direction.FORWARD);
+        linearSlideLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        linearSlideLeft.setDirection(Constants.leftArmSlideDirection);
 
         // motor for right linear slide setup
-        DcMotor linearSlideRight = hardwareMap.get(DcMotor.class, ElectricalContract.rightSlideMotor());
+        DcMotor linearSlideRight = hardwareMap.get(DcMotor.class, ElectricalContract.rightArmSlideMotor());
         linearSlideRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        linearSlideRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        linearSlideRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        linearSlideRight.setDirection(Constants.leftArmSlideDirection.inverted());
 
         waitForStart();
         if (isStopRequested()) return;
@@ -37,7 +40,7 @@ public class ScoringSlidePIDTuner extends LinearOpMode {
             pidManager = new PIDManager(p, i, d, f);
             int currentPosition = linearSlideLeft.getCurrentPosition();
 
-            double power  = pidManager.pidControl(currentPosition, target);
+            double power  = pidManager.pidfControl(currentPosition, target, 20, 0.01);
 
             linearSlideLeft.setPower(power);
             linearSlideRight.setPower(power);

@@ -3,31 +3,40 @@ package org.firstinspires.ftc.teamcode.lib.arm;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.ElectricalContract;
+import org.firstinspires.ftc.teamcode.lib.Constants;
 
 public class ArmRotation {
-    Servo left = null;
-    Servo right = null;
+    Servo left;
+    Servo right;
 
     public ArmRotation(HardwareMap hardwareMap) {
         left = hardwareMap.get(Servo.class, ElectricalContract.leftRotationServo());
         right = hardwareMap.get(Servo.class, ElectricalContract.rightRotationServo());
-        //TODO: test servo direction
-        left.setDirection(Servo.Direction.REVERSE);
+        left.setDirection(Constants.leftArmRotationDirection);
+        right.setDirection(Constants.rightArmRotationDirection);
     }
 
-    // TODO: Find position values
-    public void bucketPosition() {
-        right.setPosition(1);
-        left.setPosition(1);
+    public void basketPosition() {
+        right.setPosition(Constants.basketArmPosition);
+        left.setPosition(Constants.basketArmPosition);
     }
-    public void specimenPosition() {
-        right.setPosition(0.5);
-        left.setPosition(0.5);
+    public void specimenIntakePosition() {
+        right.setPosition(Constants.specimenIntakeArmPosition);
+        left.setPosition(Constants.specimenIntakeArmPosition);
     }
-    public void grabPosition() {
-        right.setPosition(0);
-        left.setPosition(0);
+    public void specimenHighPosition() {
+        right.setPosition(Constants.specimenHighArmPosition);
+        left.setPosition(Constants.specimenHighArmPosition);
+    }
+    public void specimenLowPosition() {
+        right.setPosition(Constants.specimenLowArmPosition);
+        left.setPosition(Constants.specimenLowArmPosition);
+    }
+    public void transferPosition() {
+        right.setPosition(Constants.transferArmPosition);
+        left.setPosition(Constants.transferArmPosition);
     }
 
 }
