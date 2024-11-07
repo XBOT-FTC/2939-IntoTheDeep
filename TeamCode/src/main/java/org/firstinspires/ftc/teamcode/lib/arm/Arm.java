@@ -52,23 +52,25 @@ public class Arm {
         else if (b.isToggled()) {
             if (gamepad.left_trigger > 0.2) {
                 slide.slide(telemetry, ArmSlide.SlidePositions.LIFT_HIGH_SPECIMEN);
-            }
-            else {
-                slide.slide(telemetry, ArmSlide.SlidePositions.HIGH_SPECIMEN);
                 rotation.specimenHighPosition();
                 wrist.scoreHighSpecimen();
             }
-        }
-        else if (x.isToggled()) {
-            if (gamepad.left_trigger > 0.2) {
-                slide.slide(telemetry, ArmSlide.SlidePositions.LIFT_LOW_SPECIMEN);
-            }
-            else {
-                slide.slide(telemetry, ArmSlide.SlidePositions.LOW_SPECIMEN);
-                rotation.specimenLowPosition();
-                wrist.scoreLowSpecimen();
+            else { // when release trigger, brings everything on the arm down
+                slide.slide(telemetry, ArmSlide.SlidePositions.LOW_BASKET);
+                rotation.transferPosition();
+                wrist.transfer();
             }
         }
+//        else if (x.isToggled()) { *commented out because we aren't doing low specimen at all*
+//            if (gamepad.left_trigger > 0.2) {
+//                slide.slide(telemetry, ArmSlide.SlidePositions.LIFT_LOW_SPECIMEN);
+//            }
+//            else {
+//                slide.slide(telemetry, ArmSlide.SlidePositions.LOW_SPECIMEN);
+//                rotation.specimenLowPosition();
+//                wrist.scoreLowSpecimen();
+//            }
+//        }
         else if (dpadRight.isToggled()) {
             slide.slide(telemetry, ArmSlide.SlidePositions.TRANSFER);
             rotation.transferPosition();
