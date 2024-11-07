@@ -25,8 +25,8 @@ public class Constants {
     public static int maxArmSlideExtension = 3000;
     public static DcMotorSimple.Direction leftArmSlideDirection = DcMotorSimple.Direction.REVERSE;
     public static int highBasketSlideExtension = 2900;
-    public static int lowBasketSlideExtension = 900;
-    public static int intakeSpecimenSlideExtension = 350;
+    public static int lowBasketSlideExtension = 750;
+    public static int intakeSpecimenSlideExtension = 325;
     public static int highSpecimenSlideExtension = 1000;
     public static int lowSpecimenSlideExtension = 230;
     public static int hangSlideExtension = 536; // TODO: No hanging yet
