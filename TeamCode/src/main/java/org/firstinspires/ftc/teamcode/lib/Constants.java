@@ -15,11 +15,11 @@ public class Constants {
     // SUBLIST: ROTATION
     public static Servo.Direction leftArmRotationDirection = Servo.Direction.REVERSE;
     public static Servo.Direction rightArmRotationDirection = Servo.Direction.FORWARD;
-    public static double basketArmPosition = 0.06;
-    public static double specimenIntakeArmPosition = 0.58;
-    public static double specimenHighArmPosition = 0.45;
-    public static double specimenLowArmPosition = 0.64;
-    public static double transferArmPosition = 0.64;
+    public static double basketArmPosition = 0.74;
+    public static double specimenIntakeArmPosition = 0.22;
+    public static double specimenHighArmPosition = 0.35;
+    public static double specimenLowArmPosition = 0.16;
+    public static double transferArmPosition = 0.16;
 
     // SUBLIST: SLIDES
     public static int maxArmSlideExtension = 3000;
@@ -53,8 +53,8 @@ public class Constants {
     // SUBLIST: PIVOT
     public static Servo.Direction leftPivotDirection = Servo.Direction.FORWARD;
     public static Servo.Direction rightPivotDirection = Servo.Direction.REVERSE;
-    public static double homedPivotPosition = 0.36;
-    public static double deployedPivotPosition = 0.57;
+    public static double homedPivotPosition = 0.66;
+    public static double deployedPivotPosition = 0.86;
 
     // SUBLIST: SLIDES
     public static int maxIntakeSlideExtension = 1400;
