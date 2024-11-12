@@ -14,7 +14,7 @@ public class ArmSlide {
     private final DcMotor linearSlideLeft;
     private final DcMotor linearSlideRight;
     public final int MAX_POSITION = Constants.maxArmSlideExtension;
-    public final int MIN_POSITION = 0;
+    public final int MIN_POSITION = -20;
     public final double IN_PER_TICK = 0; // TODO: tune
     public int targetPosition = 0;
     private final PIDManager armPID = new PIDManager(0.0031,0,0, 0.0001); // TODO: tune

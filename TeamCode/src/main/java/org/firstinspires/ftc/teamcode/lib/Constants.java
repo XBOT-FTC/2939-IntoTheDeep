@@ -28,7 +28,7 @@ public class Constants {
     public static int lowBasketSlideExtension = 750;
     public static int intakeSpecimenSlideExtension = 325;
     public static int highSpecimenSlideExtension = 1000;
-    public static int lowSpecimenSlideExtension = 230;
+    public static int lowSpecimenSlideExtension = 90;
     public static int hangSlideExtension = 536; // TODO: No hanging yet
     public static int homedSlideExtension = 536;
     public static int transferSlideExtension =  210;
@@ -37,11 +37,11 @@ public class Constants {
 
     // SUBLIST: WRIST
     public static Servo.Direction wristDirection = Servo.Direction.REVERSE;
-    public static double wristTransferPosition = 0.31;
-    public static double wristIntakeSpecimenPosition = 0.54;
-    public static double wristHighSpecimenPosition = 0.45;
-    public static double wristLowSpecimenPosition =  0.63;
-    public static double wristScorePosition = 0.7;
+    public static double wristTransferPosition = 0.15;
+    public static double wristIntakeSpecimenPosition = 0.417;
+    public static double wristHighSpecimenPosition = 0.3;
+    public static double wristLowSpecimenPosition =  0.4;
+    public static double wristScorePosition = 0.55;
 
     // LIST: INTAKE
     // SUBLIST: WHEELS
