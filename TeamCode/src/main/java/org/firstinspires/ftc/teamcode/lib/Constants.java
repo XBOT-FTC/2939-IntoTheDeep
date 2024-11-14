@@ -15,11 +15,11 @@ public class Constants {
     // SUBLIST: ROTATION
     public static Servo.Direction leftArmRotationDirection = Servo.Direction.REVERSE;
     public static Servo.Direction rightArmRotationDirection = Servo.Direction.FORWARD;
-    public static double basketArmPosition = 0.06;
-    public static double specimenIntakeArmPosition = 0.58;
-    public static double specimenHighArmPosition = 0.45;
-    public static double specimenLowArmPosition = 0.64;
-    public static double transferArmPosition = 0.64;
+    public static double basketArmPosition = 0.67;
+    public static double specimenIntakeArmPosition = 0.15;
+    public static double specimenHighArmPosition = 0.28;
+    public static double specimenLowArmPosition = 0.09;
+    public static double transferArmPosition = 0.09                                                                        ;
 
     // SUBLIST: SLIDES
     public static int maxArmSlideExtension = 3000;
@@ -27,21 +27,21 @@ public class Constants {
     public static int highBasketSlideExtension = 2900;
     public static int lowBasketSlideExtension = 750;
     public static int intakeSpecimenSlideExtension = 400;
-    public static int highSpecimenSlideExtension = 1000;
+    public static int highSpecimenSlideExtension = 800;
     public static int lowSpecimenSlideExtension = 230;
     public static int hangSlideExtension = 536; // TODO: No hanging yet
     public static int homedSlideExtension = 536;
     public static int transferSlideExtension =  210;
-    public static int scoringExtensionThreshold = 40;
-    public static int liftExtension = 350;
+    public static int scoringExtensionThreshold = 150;
+    public static int liftExtension = 550;
 
     // SUBLIST: WRIST
     public static Servo.Direction wristDirection = Servo.Direction.REVERSE;
-    public static double wristTransferPosition = 0.31;
-    public static double wristIntakeSpecimenPosition = 0.54;
-    public static double wristHighSpecimenPosition = 0.45;
-    public static double wristLowSpecimenPosition =  0.63;
-    public static double wristScorePosition = 0.7;
+    public static double wristTransferPosition = 0.26;
+    public static double wristIntakeSpecimenPosition = 0.49;
+    public static double wristHighSpecimenPosition = 0.4;
+    public static double wristLowSpecimenPosition =  0.58;
+    public static double wristScorePosition = 0.65;
 
     // LIST: INTAKE
     // SUBLIST: WHEELS
@@ -53,8 +53,8 @@ public class Constants {
     // SUBLIST: PIVOT
     public static Servo.Direction leftPivotDirection = Servo.Direction.FORWARD;
     public static Servo.Direction rightPivotDirection = Servo.Direction.REVERSE;
-    public static double homedPivotPosition = 0.36;
-    public static double deployedPivotPosition = 0.57;
+    public static double homedPivotPosition = 0.66;
+    public static double deployedPivotPosition = 0.86;
 
     // SUBLIST: SLIDES
     public static int maxIntakeSlideExtension = 1400;
