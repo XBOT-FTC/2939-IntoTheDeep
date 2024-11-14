@@ -33,11 +33,25 @@ public class Arm {
         chooseToggle(gamepad); // choose which dpad is toggled, only one can be toggled at a time
         if (dpadUp.isToggled()) {
             slide.slide(telemetry, ArmSlide.SlidePositions.HIGH_BASKET);
-            rotateToScore(gamepad, ArmSlide.SlidePositions.HIGH_BASKET);
+            if (gamepad.left_trigger > 0.2) {
+                rotation.basketPosition();
+                wrist.score();
+            }
+            else {
+                rotation.transferPosition();
+                wrist.transfer();
+            }
         }
         else if (dpadDown.isToggled()) {
             slide.slide(telemetry, ArmSlide.SlidePositions.LOW_BASKET);
-            rotateToScore(gamepad, ArmSlide.SlidePositions.LOW_BASKET); // rotation for arm and wrist are the same for both baskets
+            if (gamepad.left_trigger > 0.2) {
+                rotation.basketPosition();
+                wrist.score();
+            }
+            else {
+                rotation.transferPosition();
+                wrist.transfer();
+            }
         }
         else if (dpadLeft.isToggled()) {
             if (gamepad.left_trigger > 0.2) {
@@ -57,8 +71,8 @@ public class Arm {
             }
             else { // when release trigger, brings everything on the arm down
                 slide.slide(telemetry, ArmSlide.SlidePositions.LOW_BASKET);
-                rotation.transferPosition();
-                wrist.transfer();
+                rotation.specimenIntakePosition();
+                wrist.intakeSpecimen();
             }
         }
         else if (x.isToggled()) {

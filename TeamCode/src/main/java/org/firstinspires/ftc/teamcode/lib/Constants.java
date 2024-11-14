@@ -16,10 +16,10 @@ public class Constants {
     public static Servo.Direction leftArmRotationDirection = Servo.Direction.REVERSE;
     public static Servo.Direction rightArmRotationDirection = Servo.Direction.FORWARD;
     public static double basketArmPosition = 0.67;
-    public static double specimenIntakeArmPosition = 0.15;
+    public static double specimenIntakeArmPosition = 0.14;
     public static double specimenHighArmPosition = 0.28;
     public static double specimenLowArmPosition = 0.09;
-    public static double transferArmPosition = 0.09;
+    public static double transferArmPosition = 0.1;
 
     // SUBLIST: SLIDES
     public static int maxArmSlideExtension = 3000;
@@ -30,18 +30,18 @@ public class Constants {
     public static int highSpecimenSlideExtension = 800;
     public static int lowSpecimenSlideExtension = 230;
     public static int hangSlideExtension = 536; // TODO: No hanging yet
-    public static int homedSlideExtension = 536;
+    public static int homedSlideExtension = 690;
     public static int transferSlideExtension =  210;
     public static int scoringExtensionThreshold = 150;
     public static int liftExtension = 550;
 
     // SUBLIST: WRIST
     public static Servo.Direction wristDirection = Servo.Direction.REVERSE;
-    public static double wristTransferPosition = 0.26;
-    public static double wristIntakeSpecimenPosition = 0.49;
-    public static double wristHighSpecimenPosition = 0.4;
-    public static double wristLowSpecimenPosition =  0.58;
-    public static double wristScorePosition = 0.65;
+    public static double wristTransferPosition = 0.21;
+    public static double wristIntakeSpecimenPosition = 0.46;
+    public static double wristHighSpecimenPosition = 0.36;
+    public static double wristLowSpecimenPosition =  0.54;
+    public static double wristScorePosition = 0.61;
 
     // LIST: INTAKE
     // SUBLIST: WHEELS
@@ -53,7 +53,7 @@ public class Constants {
     // SUBLIST: PIVOT
     public static Servo.Direction leftPivotDirection = Servo.Direction.FORWARD;
     public static Servo.Direction rightPivotDirection = Servo.Direction.REVERSE;
-    public static double homedPivotPosition = 0.66;
+    public static double homedPivotPosition = 0.65;
     public static double deployedPivotPosition = 0.86;
 
     // SUBLIST: SLIDES
