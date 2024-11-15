@@ -1,30 +1,21 @@
 package org.firstinspires.ftc.teamcode;
 
 public class ElectricalContract {
-    public ElectricalContract() {
 
-    }
-
-    public static String leftOdometryWheel() {
-        return "leftOdometryWheel"; // Example: Expansion Hub, Port 2
-    }
-    public static String rightOdometryWheel() {
-        return "rightOdometryWheel"; // Example: Expansion Hub, Port 2
-    }
     public static String imu() {
         return "imu";
     }
     public static String leftFrontDriveMotor() {
-        return "lf_drive";  // Example: Expansion Hub, Port 2
+        return "lf_drive";  // Control Hub, Port 1
     }
     public static String leftBackDriveMotor() {
-        return "lb_drive";  // Example: Expansion Hub, Port 2
+        return "lb_drive";  // Control Hub, Port 2
     }
     public static String rightFrontDriveMotor() {
-        return "rf_drive";  // Example: Expansion Hub, Port 2
+        return "rf_drive";  // Control Hub, Port 0
     }
     public static String rightBackDriveMotor() {
-        return "rb_drive";  // Example: Expansion Hub, Port 2
+        return "rb_drive";  // Control Hub, Port 3
     }
     public static String leftIntakeSlideMotor() {
         return "li_slide";
