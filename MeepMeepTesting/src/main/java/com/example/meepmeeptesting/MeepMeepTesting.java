@@ -20,53 +20,84 @@ public class MeepMeepTesting {
                 .build();
 
         //starting pose 6, -62 for specimen
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-37, -62, Math.toRadians(90)))
+        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(6, -62, Math.toRadians(90)))
+
+
+                .waitSeconds(2)
+                // drive to chamber
+                .lineToY(-33)
+                .waitSeconds(2)
+
+                // drive to sample push position
                 .setReversed(true)
-                .lineToY(-56)
-                .splineToLinearHeading(new Pose2d(-50, -52, Math.toRadians(45)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(35, -35, Math.toRadians(270)), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(46, -10), Math.toRadians(0))
+
+                // push sample
+                .setReversed(false)
+                .lineToY(-48)
+                .waitSeconds(3)
+
+                // drive to intake specimen
+                .lineToY(-62)
+
+                // drive to chamber
+                .setTangent(Math.toRadians(90))
+                .splineToSplineHeading(new Pose2d(6, -33, Math.toRadians(90)), Math.toRadians(90))
+
+                // drive to sample push position
+                .setReversed(true)
+                .splineToLinearHeading(new Pose2d(35, -35, Math.toRadians(270)), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(56, -10), Math.toRadians(0))
+
+                // push sample
+                .setReversed(false)
+                .lineToY(-48)
+                .waitSeconds(3)
+
+                // drive to intake specimen
+                .lineToY(-62)
+
+                // drive to chamber
+                .setTangent(Math.toRadians(90))
+                .splineToSplineHeading(new Pose2d(6, -33, Math.toRadians(90)), Math.toRadians(90))
                 .waitSeconds(1)
-                .turnTo(Math.toRadians(90))
-                .strafeTo(new Vector2d(-46, -52))
-                .waitSeconds(1)
-                .lineToY(-41)
-//                .lineToY(-43)
-//                .waitSeconds(2)
-//                .splineToLinearHeading(new Pose2d(-48, -50, Math.toRadians(-135)), Math.toRadians(270))
+
+                // drive to park
+                .setTangent(Math.toRadians(270))
+                .splineToConstantHeading(new Vector2d(38, -60), Math.toRadians(0))
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//                .setReversed(true)
+//                // drive to observation zone
 //                .waitSeconds(1)
-//                .lineToY(-56)
-//                .splineToLinearHeading(new Pose2d(-51, -53, Math.toRadians(45)), Math.toRadians(90))
+//                .setTangent(Math.toRadians(90))
+//                .splineToLinearHeading(new Pose2d(-52, -52, Math.toRadians(45)), Math.toRadians(180))
+//
 //                .waitSeconds(1)
-//                .turnTo(Math.toRadians(270))
-//                .lineToY(-43)
+//                // align robot to sample
+//                .splineToLinearHeading(new Pose2d(-48, -52, Math.toRadians(90)), Math.toRadians(0))
 //                .waitSeconds(1)
-//                .splineToLinearHeading(new Pose2d(-48, -50, Math.toRadians(-135)), Math.toRadians(270))
+//
+//                // drive to intake the sample
+//                .lineToY(-41)
+//
 //                .waitSeconds(1)
-//                .splineToLinearHeading(new Pose2d(-58, -50, Math.toRadians(270)), Math.toRadians(-135))
+//                // drive to observation zone
+//                .splineToLinearHeading(new Pose2d(-52, -52, Math.toRadians(45)), Math.toRadians(180))
+//
+//
+//                // align robot to sample
+//                .splineToLinearHeading(new Pose2d(-58, -52, Math.toRadians(90)), Math.toRadians(0))
 //                .waitSeconds(1)
-//                .lineToY(-43)
+//
+//                // drive to intake the sample
+//                .lineToY(-41)
 //                .waitSeconds(1)
-//                .setReversed(false)
-//                .splineToLinearHeading(new Pose2d(-48, -50, Math.toRadians(-135)), Math.toRadians(270))
+//                .setTangent(Math.toRadians(270))
+//                .splineToLinearHeading(new Pose2d(-52, -52, Math.toRadians(45)), Math.toRadians(270))
+
 
                 .build());
 

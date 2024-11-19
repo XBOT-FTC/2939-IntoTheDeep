@@ -60,11 +60,11 @@ public class RoadRunnerTest extends LinearOpMode {
                 .setReversed(true)
                 .lineToY(-56)
                 .splineToLinearHeading(new Pose2d(-50, -52, Math.toRadians(45)), Math.toRadians(90))
-                .afterTime(1,
+                .afterTime(0,
                         new InstantAction(() -> {
                             slidePosition = ArmSlide.SlidePositions.HIGH_BASKET;
                         }))
-                .afterTime(2, new SequentialAction(
+                .afterTime(1, new SequentialAction(
                         new InstantAction(() -> {
                             rotation.basketPosition();
                         }),
@@ -72,22 +72,22 @@ public class RoadRunnerTest extends LinearOpMode {
                             wrist.score();
                         }))
                 )
-                .afterTime(4, new SequentialAction(
+                .afterTime(2.5, new SequentialAction(
                         new InstantAction(() -> {
                             grabber.open();
                         })))
-                .afterTime(5.5, new SequentialAction(
+                .afterTime(3.5, new SequentialAction(
                         new InstantAction(() -> {
                             rotation.transferPosition();
                         }),
                         new InstantAction(() -> {
                             slidePosition = ArmSlide.SlidePositions.TRANSFER;
                         })))
-                .waitSeconds(8)
-                .turnTo(Math.toRadians(90))
-                .strafeTo(new Vector2d(-46, -52))
                 .waitSeconds(1)
-                .afterTime(2, new SequentialAction(
+                .turnTo(Math.toRadians(90))
+                .strafeTo(new Vector2d(-47, -52))
+                .waitSeconds(1)
+                .afterTime(1, new SequentialAction(
                         new InstantAction(() -> {
                             intakeSlidePosition = IntakeSlide.SlidePositions.INTAKE;
                         }),
@@ -97,21 +97,15 @@ public class RoadRunnerTest extends LinearOpMode {
                         new InstantAction(() -> {
                             intakeWheels.intake();
                         })))
-                .waitSeconds(2)
+                .waitSeconds(1)
                 .lineToY(-41)
-                .afterTime(4, new SequentialAction(
+                .afterTime(2, new SequentialAction(
                         new InstantAction(() -> {
                             intakeSlidePosition = IntakeSlide.SlidePositions.HOMED;
                         }),
                         new InstantAction(() -> {
                             intakeWheels.stop();
                         })))
-
-
-//                .waitSeconds(1)
-//                .lineToY(-43)
-//                .waitSeconds(2)
-//                .splineToLinearHeading(new Pose2d(-48, -50, Math.toRadians(-135)), Math.toRadians(270))
                 .build();
 
 
@@ -164,7 +158,6 @@ public class RoadRunnerTest extends LinearOpMode {
             }
         };
     }
-
 
     public Action initSystems() {
         return new SequentialAction(

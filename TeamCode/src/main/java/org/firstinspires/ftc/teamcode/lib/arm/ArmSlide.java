@@ -32,7 +32,8 @@ public class ArmSlide {
         LOW_SPECIMEN,
         HANG,
         HOMED,
-        TRANSFER
+        TRANSFER,
+        ZERO
     }
 
     public ArmSlide(HardwareMap hardwareMap) {
@@ -87,6 +88,9 @@ public class ArmSlide {
                 break;
             case TRANSFER:
                 targetPosition = Constants.transferSlideExtension;
+                break;
+            case ZERO:
+                targetPosition = 0;
                 break;
         }
 
