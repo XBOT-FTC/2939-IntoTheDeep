@@ -10,16 +10,19 @@ import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
+import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.lib.Constants;
 import org.firstinspires.ftc.teamcode.lib.arm.ArmClaw;
 import org.firstinspires.ftc.teamcode.lib.arm.ArmRotation;
 import org.firstinspires.ftc.teamcode.lib.arm.ArmSlide;
 import org.firstinspires.ftc.teamcode.lib.arm.ArmWrist;
 import org.firstinspires.ftc.teamcode.lib.intake.IntakePivot;
+import org.firstinspires.ftc.teamcode.lib.intake.IntakeSlide;
 import org.firstinspires.ftc.teamcode.lib.intake.IntakeWheels;
 import org.firstinspires.ftc.teamcode.rr.MecanumDrive;
 
@@ -32,8 +35,10 @@ public class RoadRunnerTest extends LinearOpMode {
     ArmClaw grabber;
     ArmWrist wrist;
     IntakePivot pivot;
-    IntakeWheels intake;
+    IntakeWheels intakeWheels;
     ArmSlide.SlidePositions slidePosition;
+    IntakeSlide intakeSlide;
+    IntakeSlide.SlidePositions intakeSlidePosition;
 
     @Override
     public void runOpMode() {
@@ -43,27 +48,66 @@ public class RoadRunnerTest extends LinearOpMode {
         wrist = new ArmWrist(hardwareMap);
         pivot = new IntakePivot(hardwareMap);
         slidePosition = ArmSlide.SlidePositions.HOMED;
+        intakeWheels = new IntakeWheels(hardwareMap);
+        intakeSlide = new IntakeSlide(hardwareMap);
+        intakeSlidePosition = IntakeSlide.SlidePositions.HOMED;
 
-        Pose2d startingPose = new Pose2d(-37, -62, Math.toRadians(270));
+        Pose2d startingPose = new Pose2d(-37, -62, Math.toRadians(90));
 
         MecanumDrive drive = new MecanumDrive(hardwareMap, startingPose);
 
         Action trajectoryAction = drive.actionBuilder(drive.pose)
                 .setReversed(true)
-                .splineToLinearHeading(new Pose2d(-48, -50, Math.toRadians(-135)), Math.toRadians(270))
-                .waitSeconds(2)
-                .afterTime(2, new SequentialAction(
+                .lineToY(-56)
+                .splineToLinearHeading(new Pose2d(-50, -52, Math.toRadians(45)), Math.toRadians(90))
+                .afterTime(1,
                         new InstantAction(() -> {
                             slidePosition = ArmSlide.SlidePositions.HIGH_BASKET;
-                        }),
+                        }))
+                .afterTime(2, new SequentialAction(
                         new InstantAction(() -> {
                             rotation.basketPosition();
-                        })))
-                .afterTime(3, new SequentialAction(
+                        }),
+                        new InstantAction(() -> {
+                            wrist.score();
+                        }))
+                )
+                .afterTime(4, new SequentialAction(
                         new InstantAction(() -> {
                             grabber.open();
                         })))
-//                .turnTo(Math.toRadians(270))
+                .afterTime(5.5, new SequentialAction(
+                        new InstantAction(() -> {
+                            rotation.transferPosition();
+                        }),
+                        new InstantAction(() -> {
+                            slidePosition = ArmSlide.SlidePositions.TRANSFER;
+                        })))
+                .waitSeconds(8)
+                .turnTo(Math.toRadians(90))
+                .strafeTo(new Vector2d(-46, -52))
+                .waitSeconds(1)
+                .afterTime(2, new SequentialAction(
+                        new InstantAction(() -> {
+                            intakeSlidePosition = IntakeSlide.SlidePositions.INTAKE;
+                        }),
+                        new InstantAction(() -> {
+                            pivot.deploy();
+                        }),
+                        new InstantAction(() -> {
+                            intakeWheels.intake();
+                        })))
+                .waitSeconds(2)
+                .lineToY(-41)
+                .afterTime(4, new SequentialAction(
+                        new InstantAction(() -> {
+                            intakeSlidePosition = IntakeSlide.SlidePositions.HOMED;
+                        }),
+                        new InstantAction(() -> {
+                            intakeWheels.stop();
+                        })))
+
+
 //                .waitSeconds(1)
 //                .lineToY(-43)
 //                .waitSeconds(2)
@@ -81,7 +125,8 @@ public class RoadRunnerTest extends LinearOpMode {
                         initSystems(),
                         new ParallelAction(
                                 trajectoryAction,
-                                armSlideUpdate(slidePosition, telemetry)
+                                armSlideUpdate(telemetry),
+                                intakeSlideUpdate(telemetry)
                         )
                 )
 
@@ -89,33 +134,51 @@ public class RoadRunnerTest extends LinearOpMode {
 
     }
 
-    public Action armSlideUpdate(ArmSlide.SlidePositions slidePositions, Telemetry telemetry) {
+    public Action armSlideUpdate(Telemetry telemetry) {
         return new Action() {
             private boolean initialized = false;
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
                 if (!initialized) {
-                    slide.slide(telemetry, slidePositions);
                     initialized = true;
                 }
+                slide.slide(telemetry, slidePosition);
 
                 double pos = slide.getCurrentPosition();
                 packet.put("slidePosition", pos);
-                return false;
+                return true;
             }
         };
     }
 
+    public Action intakeSlideUpdate(Telemetry telemetry) {
+        return new Action() {
+            private boolean initialized = false;
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                if (!initialized) {
+                    initialized = true;
+                }
+                intakeSlide.slide(telemetry, intakeSlidePosition);
+                return true;
+            }
+        };
+    }
+
+
     public Action initSystems() {
         return new SequentialAction(
-                new InstantAction(() -> {
-                    slidePosition = ArmSlide.SlidePositions.TRANSFER;
-                }),
                 new InstantAction(() -> {
                     grabber.close();
                 }),
                 new InstantAction(() -> {
-                    wrist.score();
+                    slidePosition = ArmSlide.SlidePositions.TRANSFER;
+                }),
+                new InstantAction(() -> {
+                    rotation.transferPosition();
+                }),
+                new InstantAction(() -> {
+                    wrist.transfer();
                 }),
                 new InstantAction(() -> {
                     pivot.home();

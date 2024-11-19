@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.ElectricalContract;
 import org.firstinspires.ftc.teamcode.lib.Constants;
+import org.firstinspires.ftc.teamcode.lib.PIDManager;
 
 @Config
 public class IntakeSlide {
@@ -16,27 +17,28 @@ public class IntakeSlide {
     public final int MAX_POSITION = Constants.maxIntakeSlideExtension;
     public final double slidePower = Constants.intakeSlidePower;
     public final double killPowerThreshold = Constants.homedKillPowerThreshold;
-    enum SlidePositions {
+    public enum SlidePositions {
         READY,
         INTAKE,
         HOMED
     }
+    PIDManager slidePID = new PIDManager(0.0021,0,0,0); // TODO: tune
 
     public IntakeSlide(HardwareMap hardwareMap) {
         // motor for left linear slide, sets up encoders
         linearSlideLeft = hardwareMap.get(DcMotor.class, ElectricalContract.leftIntakeSlideMotor());
         linearSlideLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); // Reset the motor encoder
-        linearSlideLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER); // using external pid
-        linearSlideLeft.setTargetPosition(0);
-        linearSlideLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        linearSlideLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // using external pid
+//        linearSlideLeft.setTargetPosition(0);
+        linearSlideLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         linearSlideLeft.setDirection(Constants.leftIntakeMotorDirection);
 
         // motor for right linear slide, sets up encoders
         linearSlideRight = hardwareMap.get(DcMotor.class, ElectricalContract.rightIntakeSlideMotor());
         linearSlideRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); // Reset the motor encoder
-        linearSlideRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER); // using external pid
-        linearSlideRight.setTargetPosition(0);
-        linearSlideRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        linearSlideRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // using external pid
+//        linearSlideRight.setTargetPosition(0);
+        linearSlideRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         linearSlideRight.setDirection(Constants.leftIntakeMotorDirection.inverted());
     }
 
@@ -55,10 +57,10 @@ public class IntakeSlide {
         }
 
         // set target positions to targetPosition
-        linearSlideLeft.setTargetPosition(targetPosition);
-        linearSlideRight.setTargetPosition(targetPosition);
-        linearSlideLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        linearSlideRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        linearSlideLeft.setTargetPosition(targetPosition);
+//        linearSlideRight.setTargetPosition(targetPosition);
+//        linearSlideLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        linearSlideRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         double power;
         int currentPosition = getCurrentPosition();
@@ -71,7 +73,7 @@ public class IntakeSlide {
             power = 0; // if slides are in threshold for homed position, then kill power
         }
         else {
-            power = slidePower;
+            power = slidePID.pidfControl(linearSlideLeft.getCurrentPosition(), targetPosition, 40, 0.09);
         }
 
         // finally set power

@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.lib.drive;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -31,6 +32,11 @@ public class JohnMecanumDrive {
         leftBackDrive.setDirection(Constants.leftDriveMotorDirection);
         rightFrontDrive.setDirection(Constants.leftDriveMotorDirection.inverted());
         rightBackDrive.setDirection(Constants.leftDriveMotorDirection.inverted());
+
+        leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
     public void drive(Gamepad gamepad, IMU imu, Telemetry telemetry) {
