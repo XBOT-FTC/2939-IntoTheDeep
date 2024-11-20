@@ -9,7 +9,6 @@ import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
-import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -27,7 +26,7 @@ import org.firstinspires.ftc.teamcode.rr.MecanumDrive;
 
 @Autonomous(name= "BasketAuto", group="Autonomous")
 public class BasketAuto extends LinearOpMode {
-    ArmSlide slide;
+    ArmSlide armSlide;
     ArmRotation rotation;
     ArmClaw grabber;
     ArmWrist wrist;
@@ -39,7 +38,7 @@ public class BasketAuto extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        slide = new ArmSlide(hardwareMap);
+        armSlide = new ArmSlide(hardwareMap);
         rotation = new ArmRotation(hardwareMap);
         grabber =  new ArmClaw(hardwareMap);
         wrist = new ArmWrist(hardwareMap);
@@ -49,7 +48,7 @@ public class BasketAuto extends LinearOpMode {
         intakeSlide = new IntakeSlide(hardwareMap);
         intakeSlidePosition = IntakeSlide.SlidePositions.HOMED;
 
-        Pose2d startingPose = new Pose2d(-37, -62, Math.toRadians(90));
+        Pose2d startingPose = new Pose2d(-38, -62, Math.toRadians(0));
 
         MecanumDrive drive = new MecanumDrive(hardwareMap, startingPose);
 
@@ -267,9 +266,9 @@ public class BasketAuto extends LinearOpMode {
                 if (!initialized) {
                     initialized = true;
                 }
-                slide.slide(telemetry, armSlidePosition);
+                armSlide.slide(telemetry, armSlidePosition);
 
-                double pos = slide.getCurrentPosition();
+                double pos = armSlide.getCurrentPosition();
                 packet.put("slidePosition", pos);
                 return true;
             }

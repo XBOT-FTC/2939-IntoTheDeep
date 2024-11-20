@@ -27,7 +27,7 @@ import org.firstinspires.ftc.teamcode.rr.MecanumDrive;
 
 @Autonomous(name= "SpecimenAuto", group="Autonomous")
 public class SpecimenAuto extends LinearOpMode {
-    ArmSlide slide;
+    ArmSlide armSlide;
     ArmRotation rotation;
     ArmClaw grabber;
     ArmWrist wrist;
@@ -39,7 +39,7 @@ public class SpecimenAuto extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        slide = new ArmSlide(hardwareMap);
+        armSlide = new ArmSlide(hardwareMap);
         rotation = new ArmRotation(hardwareMap);
         grabber =  new ArmClaw(hardwareMap);
         wrist = new ArmWrist(hardwareMap);
@@ -49,7 +49,7 @@ public class SpecimenAuto extends LinearOpMode {
         intakeSlide = new IntakeSlide(hardwareMap);
         intakeSlidePosition = IntakeSlide.SlidePositions.HOMED;
 
-        Pose2d startingPose = new Pose2d(6, -62, Math.toRadians(90));
+        Pose2d startingPose = new Pose2d(9, -62, Math.toRadians(0));
 
         MecanumDrive drive = new MecanumDrive(hardwareMap, startingPose);
 
@@ -57,7 +57,9 @@ public class SpecimenAuto extends LinearOpMode {
 
                 .waitSeconds(1)
                 // drive to chamber
-                .lineToY(-33)
+                .setTangent(90)
+                .splineToSplineHeading(new Pose2d(6, -33, Math.toRadians(90)), Math.toRadians(90))
+                .waitSeconds(1)
 
                 // lower arm to score preloaded specimen
                 .afterTime(1, new SequentialAction(
@@ -80,8 +82,19 @@ public class SpecimenAuto extends LinearOpMode {
 
                 // push sample
                 .setReversed(false)
-                .lineToY(-48)
-                .waitSeconds(2)
+                .lineToY(-57)
+
+                // drive to sample push position
+                .setReversed(true)
+                .splineToConstantHeading(new Vector2d(56, -10), Math.toRadians(0))
+
+                // push sample
+                .setReversed(false)
+                .lineToY(-57)
+
+                // drive to intake specimen #1
+                .setTangent(Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(44, -56), Math.toRadians(270))
 
                 //open grabber
                 .afterTime(0, new InstantAction(() -> {
@@ -89,60 +102,6 @@ public class SpecimenAuto extends LinearOpMode {
                         })
                 )
 
-                // drive to intake specimen
-                .lineToY(-62)
-
-                // intake specimen
-                .afterTime(0, new InstantAction(() -> {
-                            grabber.close();
-                        })
-                )
-
-                // raise arm for high specimen
-                .afterTime(1, new SequentialAction(
-                        new InstantAction(() -> {
-                            armSlidePosition = ArmSlide.SlidePositions.LIFT_HIGH_SPECIMEN;
-                        }),
-                        new InstantAction(() -> {
-                            rotation.specimenHighPosition();
-                        }),
-                        new InstantAction(() -> {
-                            wrist.scoreHighSpecimen();
-                        }))
-                )
-                // drive to chamber
-                .setTangent(Math.toRadians(90))
-                .splineToSplineHeading(new Pose2d(6, -33, Math.toRadians(90)), Math.toRadians(90))
-
-                // lower arm to score preloaded specimen
-                .afterTime(1, new SequentialAction(
-                        new InstantAction(() -> {
-                            armSlidePosition = ArmSlide.SlidePositions.INTAKE_SPECIMEN;
-                        }),
-                        new InstantAction(() -> {
-                            rotation.specimenIntakePosition();
-                        }),
-                        new InstantAction(() -> {
-                            wrist.intakeSpecimen();
-                        }))
-                )
-
-                // drive to sample push position
-                .setReversed(true)
-                .splineToLinearHeading(new Pose2d(35, -35, Math.toRadians(270)), Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(56, -10), Math.toRadians(0))
-
-                // push sample
-                .setReversed(false)
-                .lineToY(-48)
-                .waitSeconds(2)
-
-                .afterTime(0, new InstantAction(() -> {
-                            grabber.open();
-                        })
-                )
-
-                // drive to intake specimen
                 .lineToY(-62)
 
                 // intake specimen
@@ -169,7 +128,7 @@ public class SpecimenAuto extends LinearOpMode {
                 .splineToSplineHeading(new Pose2d(6, -33, Math.toRadians(90)), Math.toRadians(90))
                 .waitSeconds(1)
 
-                // lower arm to score preloaded specimen
+                // lower arm to score specimen
                 .afterTime(1, new SequentialAction(
                         new InstantAction(() -> {
                             armSlidePosition = ArmSlide.SlidePositions.INTAKE_SPECIMEN;
@@ -181,6 +140,18 @@ public class SpecimenAuto extends LinearOpMode {
                             wrist.intakeSpecimen();
                         }))
                 )
+
+                // drive to intake specimen #2
+                .setTangent(Math.toRadians(270))
+                .splineToLinearHeading(new Pose2d(44, -56, Math.toRadians(270)), Math.toRadians(0))
+                .waitSeconds(0.5)
+                .lineToY(-62)
+                .waitSeconds(0.5)
+
+                // drive to chamber
+                .setTangent(Math.toRadians(90))
+                .splineToSplineHeading(new Pose2d(6, -33, Math.toRadians(90)), Math.toRadians(90))
+                .waitSeconds(1)
 
                 // drive to park
                 .setTangent(Math.toRadians(270))
@@ -223,9 +194,9 @@ public class SpecimenAuto extends LinearOpMode {
                 if (!initialized) {
                     initialized = true;
                 }
-                slide.slide(telemetry, armSlidePosition);
+                armSlide.slide(telemetry, armSlidePosition);
 
-                double pos = slide.getCurrentPosition();
+                double pos = armSlide.getCurrentPosition();
                 packet.put("slidePosition", pos);
                 return true;
             }
