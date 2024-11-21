@@ -20,9 +20,10 @@ public class IntakeSlide {
     public enum SlidePositions {
         READY,
         INTAKE,
-        HOMED
+        HOMED,
+        AUTO_INTAKE
     }
-    PIDManager slidePID = new PIDManager(0.0021,0,0,0); // TODO: tune
+    PIDManager slidePID = new PIDManager(0.0035,0,0,0); // TODO: tune
 
     public IntakeSlide(HardwareMap hardwareMap) {
         // motor for left linear slide, sets up encoders
@@ -52,8 +53,12 @@ public class IntakeSlide {
             case INTAKE:
                 targetPosition = Constants.intakeSlideExtension;
                 break;
+            case AUTO_INTAKE:
+                targetPosition = Constants.autoIntakeSlideExtension;
+                break;
             case HOMED:
                 targetPosition = 0;
+                break;
         }
 
         // set target positions to targetPosition

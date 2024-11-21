@@ -90,7 +90,7 @@ public class ArmSlide {
                 targetPosition = Constants.transferSlideExtension;
                 break;
             case ZERO:
-                targetPosition = 0;
+                targetPosition = -50;
                 break;
         }
 

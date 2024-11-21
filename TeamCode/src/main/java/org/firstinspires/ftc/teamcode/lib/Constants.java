@@ -19,7 +19,7 @@ public class Constants {
     public static double specimenIntakeArmPosition = 0.14;
     public static double specimenHighArmPosition = 0.28;
     public static double specimenLowArmPosition = 0.09;
-    public static double transferArmPosition = 0.1;
+    public static double transferArmPosition = 0.11;
 
     // SUBLIST: SLIDES
     public static int maxArmSlideExtension = 3000;
@@ -31,13 +31,13 @@ public class Constants {
     public static int lowSpecimenSlideExtension = 230;
     public static int hangSlideExtension = 536; // TODO: No hanging yet
     public static int homedSlideExtension = 690;
-    public static int transferSlideExtension =  210;
+    public static int transferSlideExtension =  220;
     public static int scoringExtensionThreshold = 150;
     public static int liftExtension = 550;
 
     // SUBLIST: WRIST
     public static Servo.Direction wristDirection = Servo.Direction.REVERSE;
-    public static double wristTransferPosition = 0.21;
+    public static double wristTransferPosition = 0.19;
     public static double wristIntakeSpecimenPosition = 0.46;
     public static double wristHighSpecimenPosition = 0.36;
     public static double wristLowSpecimenPosition =  0.54;
@@ -62,6 +62,7 @@ public class Constants {
     public static DcMotorSimple.Direction leftIntakeMotorDirection = DcMotorSimple.Direction.FORWARD;
     public static int readySlideExtension = 400;
     public static int intakeSlideExtension = 1300;
+    public static int autoIntakeSlideExtension = 900;
     public static int homedKillPowerThreshold = 30;
     public static int readyExtensionThreshold = 300;
 
