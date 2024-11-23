@@ -300,6 +300,7 @@ public class BasketAuto extends LinearOpMode {
                 .waitSeconds(0.35)
 
                 // drive to observation zone
+                .setTangent(Math.toRadians(0))
                 .splineToLinearHeading(new Pose2d(-51, -51, Math.toRadians(45)), Math.toRadians(270))
 
                 // scoring basket sequence
