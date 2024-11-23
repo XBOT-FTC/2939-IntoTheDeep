@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.lib.drive;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -13,6 +14,7 @@ import org.firstinspires.ftc.teamcode.lib.ButtonToggle;
 import org.firstinspires.ftc.teamcode.lib.Constants;
 import org.firstinspires.ftc.teamcode.lib.PIDManager;
 
+@Config
 public class JohnMecanumDrive {
     private final DcMotorEx leftFrontDrive;
     private final DcMotorEx leftBackDrive;
@@ -20,7 +22,8 @@ public class JohnMecanumDrive {
     private final DcMotorEx rightBackDrive;
     private final double precisionModeLimit = Constants.precisionModeLimit;
     ButtonToggle precisionModeToggle =  new ButtonToggle();
-    PIDManager quickRotatePID = new PIDManager(0.0093,0,0);
+
+    public static double p = 0.008, i = 0, d = 0;
 
     public JohnMecanumDrive(HardwareMap hardwareMap) {
         leftFrontDrive  = hardwareMap.get(DcMotorEx.class, ElectricalContract.leftFrontDriveMotor());
@@ -40,6 +43,8 @@ public class JohnMecanumDrive {
     }
 
     public void drive(Gamepad gamepad, IMU imu, Telemetry telemetry) {
+        PIDManager quickRotatePID = new PIDManager(p,i,d);
+
 
         // get the translation intent from joystick
         double y = DriveLogic.exponentAndRetainSign(-gamepad.left_stick_y, 2);

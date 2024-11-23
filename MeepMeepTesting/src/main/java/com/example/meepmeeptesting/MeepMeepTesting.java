@@ -130,13 +130,16 @@ public class MeepMeepTesting {
                 // scoring basket sequence
 
                 .waitSeconds(3.5)
-                .turnTo(Math.toRadians(125))
-                .lineToX(-55)
+                .splineToSplineHeading(new Pose2d(-40, -26, Math.toRadians(180)), Math.toRadians(90))
+                .waitSeconds(0.01)
+                .lineToX(-50)
 
                 // drive to observation zone
                 .splineToLinearHeading(new Pose2d(-51, -51, Math.toRadians(45)), Math.toRadians(270))
 
                 .waitSeconds(2)
+
+
 
                 .build());
 

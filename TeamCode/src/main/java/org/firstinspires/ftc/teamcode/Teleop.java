@@ -30,6 +30,9 @@ public class Teleop extends LinearOpMode{
         waitForStart();
         if (isStopRequested()) return;
 
+        // reset yaw before tele-op
+        imu.resetYaw();
+
         while (opModeIsActive()) {
             drive.drive(gamepad1, imu, telemetry);
             intake.controls(gamepad2, telemetry);

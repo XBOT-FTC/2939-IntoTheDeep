@@ -27,8 +27,9 @@ public class Intake {
                 wheels.intake();
             }
             else if (gamepad.right_bumper && slide.getCurrentPosition() > Constants.readySlideExtension - EXTENSION_THRESHOLD) {
+                slide.slide(telemetry, IntakeSlide.SlidePositions.AUTO_INTAKE);
                 pivot.deploy();
-                wheels.eject();
+                wheels.intake();
             }
             else {
                 slide.slide(telemetry, IntakeSlide.SlidePositions.READY);

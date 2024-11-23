@@ -18,29 +18,29 @@ public class Constants {
     public static double basketArmPosition = 0.67;
     public static double specimenIntakeArmPosition = 0.14;
     public static double specimenHighArmPosition = 0.28;
-    public static double specimenLowArmPosition = 0.09;
+    public static double specimenLowArmPosition = 0.45;
     public static double transferArmPosition = 0.11;
 
     // SUBLIST: SLIDES
     public static int maxArmSlideExtension = 3000;
     public static DcMotorSimple.Direction leftArmSlideDirection = DcMotorSimple.Direction.REVERSE;
     public static int highBasketSlideExtension = 2900;
-    public static int lowBasketSlideExtension = 750;
-    public static int intakeSpecimenSlideExtension = 400;
-    public static int highSpecimenSlideExtension = 800;
-    public static int lowSpecimenSlideExtension = 230;
+    public static int lowBasketSlideExtension = 650;
+    public static int intakeSpecimenSlideExtension = 340;
+    public static int highSpecimenSlideExtension = 700;
+    public static int lowSpecimenSlideExtension = 400;
     public static int hangSlideExtension = 536; // TODO: No hanging yet
     public static int homedSlideExtension = 690;
     public static int transferSlideExtension =  220;
     public static int scoringExtensionThreshold = 150;
-    public static int liftExtension = 550;
+    public static int liftExtension = 200;
 
     // SUBLIST: WRIST
     public static Servo.Direction wristDirection = Servo.Direction.REVERSE;
     public static double wristTransferPosition = 0.19;
     public static double wristIntakeSpecimenPosition = 0.46;
     public static double wristHighSpecimenPosition = 0.36;
-    public static double wristLowSpecimenPosition =  0.54;
+    public static double wristLowSpecimenPosition =  0.40;
     public static double wristScorePosition = 0.61;
 
     // LIST: INTAKE
@@ -54,14 +54,14 @@ public class Constants {
     public static Servo.Direction leftPivotDirection = Servo.Direction.FORWARD;
     public static Servo.Direction rightPivotDirection = Servo.Direction.REVERSE;
     public static double homedPivotPosition = 0.65;
-    public static double deployedPivotPosition = 0.86;
+    public static double deployedPivotPosition = 0.9;
 
     // SUBLIST: SLIDES
     public static int maxIntakeSlideExtension = 1400;
     public static double intakeSlidePower = 0.65;
     public static DcMotorSimple.Direction leftIntakeMotorDirection = DcMotorSimple.Direction.FORWARD;
     public static int readySlideExtension = 400;
-    public static int intakeSlideExtension = 1300;
+    public static int intakeSlideExtension = 1450; //was 1300
     public static int autoIntakeSlideExtension = 900;
     public static int homedKillPowerThreshold = 30;
     public static int readyExtensionThreshold = 300;

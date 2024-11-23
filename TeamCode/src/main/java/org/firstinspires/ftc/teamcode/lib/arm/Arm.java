@@ -70,21 +70,20 @@ public class Arm {
                 wrist.scoreHighSpecimen();
             }
             else { // when release trigger, brings everything on the arm down
-                slide.slide(telemetry, ArmSlide.SlidePositions.LOW_BASKET);
+                slide.slide(telemetry, ArmSlide.SlidePositions.HIGH_SPECIMEN);
                 rotation.specimenIntakePosition();
                 wrist.intakeSpecimen();
             }
         }
         else if (x.isToggled()) {
+            slide.slide(telemetry, ArmSlide.SlidePositions.LOW_SPECIMEN);
             if (gamepad.left_trigger > 0.2) {
-                slide.slide(telemetry, ArmSlide.SlidePositions.LOW_SPECIMEN);
-                rotation.specimenLowPosition();
-                wrist.scoreLowSpecimen();
+                rotation.basketPosition();
+                wrist.score();
             }
             else {
-                slide.slide(telemetry, ArmSlide.SlidePositions.LIFT_LOW_SPECIMEN);
-                rotation.specimenHighPosition();
-                wrist.intakeSpecimen();
+                rotation.specimenLowPosition();
+                wrist.scoreLowSpecimen();
             }
         }
         else if (dpadRight.isToggled()) {
