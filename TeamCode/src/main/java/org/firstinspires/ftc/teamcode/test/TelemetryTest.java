@@ -121,6 +121,14 @@ public class TelemetryTest extends LinearOpMode {
                 intakePivot.home();
             }
 
+            if (gamepad1.x) {
+                armClaw.close();
+            }
+            else if (gamepad1.y) {
+                armClaw.open();
+            }
+
+
             telemetry.update();
         }
     }

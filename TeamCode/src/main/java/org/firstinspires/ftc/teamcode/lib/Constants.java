@@ -9,8 +9,8 @@ public class Constants {
     // LIST: ARM
     // SUBLIST: GRABBER
     public static Servo.Direction grabberDirection = Servo.Direction.REVERSE;
-    public static double openPosition = 0.25;
-    public static double closedPosition = 0.5;
+    public static double openPosition = 0.43;
+    public static double closedPosition = 0.84;
 
     // SUBLIST: ROTATION
     public static Servo.Direction leftArmRotationDirection = Servo.Direction.REVERSE;
@@ -37,7 +37,7 @@ public class Constants {
 
     // SUBLIST: WRIST
     public static Servo.Direction wristDirection = Servo.Direction.REVERSE;
-    public static double wristTransferPosition = 0.19;
+    public static double wristTransferPosition = 0.18;
     public static double wristIntakeSpecimenPosition = 0.46;
     public static double wristHighSpecimenPosition = 0.36;
     public static double wristLowSpecimenPosition =  0.40;

@@ -23,7 +23,7 @@ public class IntakeSlide {
         HOMED,
         AUTO_INTAKE
     }
-    PIDManager slidePID = new PIDManager(0.003,0,0,0); // TODO: tune
+    PIDManager slidePID = new PIDManager(0.00375,0,0,0); // TODO: tune
 
     public IntakeSlide(HardwareMap hardwareMap) {
         // motor for left linear slide, sets up encoders

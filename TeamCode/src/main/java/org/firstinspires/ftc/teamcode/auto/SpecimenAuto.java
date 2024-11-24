@@ -60,31 +60,26 @@ public class SpecimenAuto extends LinearOpMode {
                 .setTangent(90)
                 .splineToSplineHeading(new Pose2d(6, -37, Math.toRadians(270)), Math.toRadians(90))
                 .waitSeconds(0.5)
-//                .afterTime(0, new SequentialAction(
-//                        new InstantAction(() -> {
-//                            armSlidePosition = ArmSlide.SlidePositions.LIFT_HIGH_SPECIMEN;
-//                        }),
-//                        new InstantAction(() -> {
-//                            rotation.specimenHighPosition();
-//                        }),
-//                        new InstantAction(() -> {
-//                            wrist.scoreHighSpecimen();
-//                        }))
-//                )
 
+                //raise arm
                 .afterTime(0, new InstantAction(() -> {
-                    armSlidePosition = ArmSlide.SlidePositions.LIFT_HIGH_SPECIMEN;
+                    armSlidePosition = ArmSlide.SlidePositions.LOW_SPECIMEN;
                 }))
                 .waitSeconds(0.5)
 
                 // drive all the way up to the chamber
-                .lineToY(-34, new TranslationalVelConstraint(5))
+                .lineToY(-32, new TranslationalVelConstraint(5))
 
-                // lower arm to score specimen
-                .afterTime(1, new SequentialAction(
+                // scoring sequence
+                .afterTime(0, new SequentialAction(
                         new InstantAction(() -> {
-                            armSlidePosition = ArmSlide.SlidePositions.LOW_BASKET;
+                            rotation.specimenLowPosition();
                         }),
+                        new InstantAction(() -> {
+                            wrist.scoreLowSpecimen();
+                        }))
+                )
+                .afterTime(1, new SequentialAction(
                         new InstantAction(() -> {
                             rotation.specimenIntakePosition();
                         }),
@@ -92,135 +87,100 @@ public class SpecimenAuto extends LinearOpMode {
                             wrist.intakeSpecimen();
                         }))
                 )
-                .afterTime(1.25, new InstantAction(() -> {
-                            grabber.open();
-                        })
-                )
-                .waitSeconds(2)
+                .afterTime(1.1, new InstantAction(() -> {
+                    grabber.open();
+                }))
+                .waitSeconds(1.2)
 
                 // drive to sample push position
-                .setReversed(true)
-                .splineToLinearHeading(new Pose2d(37, -35, Math.toRadians(270)), Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(50, -10), Math.toRadians(0))
-
-                // lower pivot to push sample
-                .afterTime(0, new InstantAction(() -> {
-                    pivot.deploy();
-                }))
+                .splineToLinearHeading(new Pose2d(36, -35, Math.toRadians(180)), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(47, -10), Math.toRadians(0))
 
                 // push sample
-                .setReversed(false)
-                .lineToY(-57)
+                .strafeTo(new Vector2d(47, -57))
 
                 // drive to sample push position
-                .setReversed(true)
-                .splineToConstantHeading(new Vector2d(61, -10), Math.toRadians(0))
+                .setTangent(Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(58, -10), Math.toRadians(0))
 
                 // push sample
-                .setReversed(false)
-                .lineToY(-57)
+                .strafeTo(new Vector2d(58, -57))
 
-                // raise pivot to start scoring specimens
-                .afterTime(0, new InstantAction(() -> {
-                    pivot.home();
-                }))
+
+
+
 
                 // drive to intake specimen #1
                 .setTangent(Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(44, -56), Math.toRadians(270))
-
-                //open grabber
-//                .afterTime(0, new SequentialAction(
-//                        new InstantAction(() -> {
-//                            grabber.open();
-//                        }),
-//                        new InstantAction(() -> {
-//                            armSlidePosition = ArmSlide.SlidePositions.INTAKE_SPECIMEN;
-//                        })
-//                        )
-//
-//                )
-                .afterTime(1.25, new InstantAction(() -> {
-                    armSlidePosition = ArmSlide.SlidePositions.INTAKE_SPECIMEN;
+                .splineToLinearHeading(new Pose2d(44, -52, Math.toRadians(270)), Math.toRadians(180))
+                .afterTime(0, new InstantAction(() -> {
+                            grabber.open();
                         })
                 )
                 .waitSeconds(0.5)
+                .lineToY(-62)
+                .waitSeconds(0.01)
 
-                .lineToY(-62, new TranslationalVelConstraint(5))
-                .waitSeconds(1)
 
-                // intake specimen
                 .afterTime(0, new InstantAction(() -> {
                             grabber.close();
                         })
                 )
-
-                // raise specimen off field wall
-                .afterTime(1, new InstantAction(() -> {
+                .afterTime(0.5, new InstantAction(() -> {
                             armSlidePosition = ArmSlide.SlidePositions.LIFT_INTAKE_SPECIMEN;
                         })
                 )
-
-                // lower arm back down
-                .afterTime(2, new InstantAction(() -> {
-                            armSlidePosition = ArmSlide.SlidePositions.INTAKE_SPECIMEN;
-                        })
+                // prepare to score specimen
+                .afterTime(1, new SequentialAction(
+                        new InstantAction(() -> {
+                            armSlidePosition = ArmSlide.SlidePositions.LOW_SPECIMEN;
+                        }),
+                        new InstantAction(() -> {
+                            rotation.basketPosition();
+                        }),
+                        new InstantAction(() -> {
+                            wrist.score();
+                        }))
                 )
+                .waitSeconds(1)
 
                 // drive and align to  chamber
                 .setTangent(Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(2, -37), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(4, -37), Math.toRadians(180))
+
                 .waitSeconds(0.5)
 
-                // raise arm to score specimen
-
                 // drive all the way up to the chamber
-                .lineToY(-34, new TranslationalVelConstraint(5))
+                .lineToY(-32, new TranslationalVelConstraint(5))
 
-                // lower arm to score specimen
-
-
-
-
-//                // drive to human player
-//                .setTangent(Math.toRadians(270))
-//                .splineToConstantHeading(new Vector2d(44, -56), Math.toRadians(0))
-//
-//                .waitSeconds(0.5)
-//
-//                .lineToY(-62)
-//
-//                // drive and align to chamber
-//                .setTangent(90)
-//                .splineToConstantHeading(new Vector2d(-2, -37), Math.toRadians(180))
-//                .waitSeconds(0.5)
-//
-//                .lineToY(-34)
-//
-//                // drive to human player
-//                .setTangent(Math.toRadians(270))
-//                .splineToConstantHeading(new Vector2d(44, -56), Math.toRadians(0))
-//
-//                .waitSeconds(0.5)
-//
-//                .lineToY(-62)
-//
-//                // drive and align to chamber
-//                .setTangent(90)
-//                .splineToConstantHeading(new Vector2d(-6, -37), Math.toRadians(180))
-//                .waitSeconds(0.5)
-//
-//                .lineToY(-34)
-
-
-
-
-
-                // zero mechanisms to end auto
-                .afterTime(0, new InstantAction(() -> {
-                    armSlidePosition = ArmSlide.SlidePositions.ZERO;
+                // scoring sequence
+                .afterTime(0, new SequentialAction(
+                        new InstantAction(() -> {
+                            rotation.specimenLowPosition();
+                        }),
+                        new InstantAction(() -> {
+                            wrist.scoreLowSpecimen();
+                        }))
+                )
+                .afterTime(1, new SequentialAction(
+                        new InstantAction(() -> {
+                            rotation.specimenIntakePosition();
+                        }),
+                        new InstantAction(() -> {
+                            wrist.intakeSpecimen();
+                        }))
+                )
+                .afterTime(1.1, new InstantAction(() -> {
+                    grabber.open();
                 }))
                 .waitSeconds(2)
+
+
+//                // zero mechanisms to end auto
+//                .afterTime(0, new InstantAction(() -> {
+//                    armSlidePosition = ArmSlide.SlidePositions.ZERO;
+//                }))
+//                .waitSeconds(2)
 
                 .build();
 
@@ -286,10 +246,10 @@ public class SpecimenAuto extends LinearOpMode {
                     armSlidePosition = ArmSlide.SlidePositions.INTAKE_SPECIMEN;
                 }),
                 new InstantAction(() -> {
-                    rotation.specimenHighPosition();
+                    rotation.basketPosition();
                 }),
                 new InstantAction(() -> {
-                    wrist.scoreHighSpecimen();
+                    wrist.score();
                 }),
                 new InstantAction(() -> {
                     pivot.home();

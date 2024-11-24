@@ -20,5 +20,11 @@ public class ArmClaw {
     public void close() {
         servo.setPosition(Constants.closedPosition);
     }
+    public void zero() {
+        servo.setPosition(0);
+    }
+    public void one() {
+        servo.setPosition(1);
+    }
 
 }

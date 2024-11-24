@@ -110,7 +110,7 @@ public class BasketAuto extends LinearOpMode {
                 .waitSeconds(0.01)
 
                 // drive to intake the sample
-                .lineToY(-41)
+                .lineToY(-41, new TranslationalVelConstraint(25))
 
                 // stop intake sequence
                 .afterTime(0.25, new SequentialAction(
@@ -129,7 +129,7 @@ public class BasketAuto extends LinearOpMode {
                 .afterTime(0.5, new InstantAction(() -> {
                     armSlidePosition = ArmSlide.SlidePositions.TRANSFER;
                 }))
-                .afterTime(0.95, new InstantAction(() -> {
+                .afterTime(1.1, new InstantAction(() -> {
                     grabber.close();
                 }))
                 .afterTime(1.35, new InstantAction(() -> {
@@ -189,7 +189,7 @@ public class BasketAuto extends LinearOpMode {
                 .waitSeconds(0.2)
 
                 // drive to intake the sample
-                .lineToY(-41)
+                .lineToY(-41, new TranslationalVelConstraint(25))
 
                 // stop intake sequence
                 .afterTime(0.25, new SequentialAction(
@@ -208,7 +208,7 @@ public class BasketAuto extends LinearOpMode {
                 .afterTime(0.5, new InstantAction(() -> {
                     armSlidePosition = ArmSlide.SlidePositions.TRANSFER;
                 }))
-                .afterTime(0.95, new InstantAction(() -> {
+                .afterTime(1.1, new InstantAction(() -> {
                     grabber.close();
                 }))
                 .afterTime(1.35, new InstantAction(() -> {
@@ -291,7 +291,7 @@ public class BasketAuto extends LinearOpMode {
                 .afterTime(0.5, new InstantAction(() -> {
                     armSlidePosition = ArmSlide.SlidePositions.TRANSFER;
                 }))
-                .afterTime(0.95, new InstantAction(() -> {
+                .afterTime(1.1, new InstantAction(() -> {
                     grabber.close();
                 }))
                 .afterTime(1.35, new InstantAction(() -> {
@@ -301,7 +301,7 @@ public class BasketAuto extends LinearOpMode {
 
                 // drive to observation zone
                 .setTangent(Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(-51, -51, Math.toRadians(45)), Math.toRadians(270))
+                .splineToLinearHeading(new Pose2d(-52, -52, Math.toRadians(45)), Math.toRadians(270))
 
                 // scoring basket sequence
                 .afterTime(0,
