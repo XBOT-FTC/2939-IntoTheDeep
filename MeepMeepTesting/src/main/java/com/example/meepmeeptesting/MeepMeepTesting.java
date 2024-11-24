@@ -25,16 +25,17 @@ public class MeepMeepTesting {
 
 
                 // drive to chamber
-                .setTangent(90)
+                .setTangent(Math.toRadians(90))
                 .splineToSplineHeading(new Pose2d(6, -37, Math.toRadians(270)), Math.toRadians(90))
                 .waitSeconds(0.5)
 
                 .lineToY(-34)
                 .waitSeconds(1)
 
+
                 // drive to sample push position
                 .splineToLinearHeading(new Pose2d(36, -35, Math.toRadians(180)), Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(47, -10), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(44, -10), Math.toRadians(0))
 
                 .waitSeconds(1)
                 // push sample
@@ -42,7 +43,7 @@ public class MeepMeepTesting {
 
                 // drive to sample push position
                 .setTangent(Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(58, -10), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(55, -10), Math.toRadians(0))
 
                 .waitSeconds(1)
                 // push sample
@@ -61,60 +62,78 @@ public class MeepMeepTesting {
                 .setTangent(Math.toRadians(90))
                 .splineToConstantHeading(new Vector2d(2, -37), Math.toRadians(180))
                 .waitSeconds(0.5)
+
+                .lineToY(-34)
+
+                .waitSeconds(1)
+
+                // drive to human player
+                .setTangent(Math.toRadians(270))
+                .splineToConstantHeading(new Vector2d(44, -56), Math.toRadians(0))
+
+                .waitSeconds(0.5)
+
+                .lineToY(-62)
+
+                // drive and align to chamber
+                .setTangent(90)
+                .splineToConstantHeading(new Vector2d(-2, -37), Math.toRadians(180))
+                .waitSeconds(0.5)
+
+                .lineToY(-34)
+
+                // drive to human player
+                .setTangent(Math.toRadians(270))
+                .splineToConstantHeading(new Vector2d(44, -56), Math.toRadians(0))
+
+                .waitSeconds(0.5)
+
+                .lineToY(-62)
+
+                // drive and align to chamber
+                .setTangent(90)
+                .splineToConstantHeading(new Vector2d(-6, -37), Math.toRadians(180))
+                .waitSeconds(0.5)
+
+                .lineToY(-34)
+
+                .waitSeconds(0.5)
+                .lineToY(-40)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//                // SpecimenToBasketAuto
 //
-//                .lineToY(-34)
+//                .setTangent(Math.toRadians(90))
+//                .splineToSplineHeading(new Pose2d(-9, -37, Math.toRadians(270)), Math.toRadians(90))
+//                .waitSeconds(0.5)
 //
-//                .waitSeconds(1)
-//
-//                // drive to human player
-//                .setTangent(Math.toRadians(270))
-//                .splineToConstantHeading(new Vector2d(44, -56), Math.toRadians(0))
+//                //raise arm
 //
 //                .waitSeconds(0.5)
 //
-//                .lineToY(-62)
-//
-//                // drive and align to chamber
-//                .setTangent(90)
-//                .splineToConstantHeading(new Vector2d(-2, -37), Math.toRadians(180))
 //                .waitSeconds(0.5)
 //
-//                .lineToY(-34)
 //
-//                // drive to human player
-//                .setTangent(Math.toRadians(270))
-//                .splineToConstantHeading(new Vector2d(44, -56), Math.toRadians(0))
+//                // drive all the way up to the chamber
+//                .lineToY(-32, new TranslationalVelConstraint(5))
 //
-//                .waitSeconds(0.5)
+//                .waitSeconds(1.2)
+
+
+                // BasketAuto
 //
-//                .lineToY(-62)
-//
-//                // drive and align to chamber
-//                .setTangent(90)
-//                .splineToConstantHeading(new Vector2d(-6, -37), Math.toRadians(180))
-//                .waitSeconds(0.5)
-//
-//                .lineToY(-34)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //                // drive to observation zone
 //                .setTangent(Math.toRadians(90))
 //                .splineToLinearHeading(new Pose2d(-52, -52, Math.toRadians(45)), Math.toRadians(180))
@@ -122,7 +141,8 @@ public class MeepMeepTesting {
 //                .waitSeconds(2.25)
 //
 //                // align robot to 1st sample
-//                .splineToLinearHeading(new Pose2d(-48, -52, Math.toRadians(90)), Math.toRadians(0))
+//                .setTangent(Math.toRadians(270))
+//                .splineToConstantHeading(new Vector2d(-48, -52), Math.toRadians(180))
 //
 //                .waitSeconds(0.01)
 //

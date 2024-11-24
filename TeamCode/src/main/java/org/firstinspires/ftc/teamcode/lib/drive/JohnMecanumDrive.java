@@ -35,11 +35,6 @@ public class JohnMecanumDrive {
         leftBackDrive.setDirection(Constants.leftDriveMotorDirection);
         rightFrontDrive.setDirection(Constants.leftDriveMotorDirection.inverted());
         rightBackDrive.setDirection(Constants.leftDriveMotorDirection.inverted());
-
-        leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
     public void drive(Gamepad gamepad, IMU imu, Telemetry telemetry) {
