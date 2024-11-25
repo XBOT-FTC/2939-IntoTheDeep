@@ -189,7 +189,7 @@ public class BasketAuto extends LinearOpMode {
                 .waitSeconds(0.2)
 
                 // drive to intake the sample
-                .lineToY(-41, new TranslationalVelConstraint(25))
+                .lineToY(-39, new TranslationalVelConstraint(18))
 
                 // stop intake sequence
                 .afterTime(0.25, new SequentialAction(
@@ -202,7 +202,7 @@ public class BasketAuto extends LinearOpMode {
                         new InstantAction(() -> {
                             intakeWheels.stop();
                         })))
-                .waitSeconds(0.25)
+                .waitSeconds(0.35)
 
                 // transfer sequence
                 .afterTime(0.5, new InstantAction(() -> {
@@ -281,10 +281,11 @@ public class BasketAuto extends LinearOpMode {
                         }),
                         new InstantAction(() -> {
                             intakeSlidePosition = IntakeSlide.SlidePositions.HOMED;
-                        }),
-                        new InstantAction(() -> {
-                            intakeWheels.stop();
                         })))
+//                .afterTime(1.5, new InstantAction(() -> {
+//                    intakeWheels.stop();
+//                }))
+
                 .waitSeconds(1.5)
 
                 // transfer sequence
