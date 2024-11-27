@@ -7,10 +7,18 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class Constants {
 
     // LIST: ARM
-    // SUBLIST: GRABBER
-    public static Servo.Direction grabberDirection = Servo.Direction.REVERSE;
-    public static double openPosition = 0.5;
-    public static double closedPosition = 0.84;
+    // SUBLIST: CLAW
+    public static Servo.Direction armClawDirection = Servo.Direction.REVERSE;
+    public static double armClawOpenPosition = 0.5;
+    public static double armClawClosedPosition = 0.84;
+
+    // SUBLIST: WRIST
+    public static Servo.Direction wristDirection = Servo.Direction.REVERSE;
+    public static double wristTransferPosition = 0.18;
+    public static double wristIntakeSpecimenPosition = 0.46;
+    public static double wristHighSpecimenPosition = 0.36;
+    public static double wristLowSpecimenPosition =  0.40;
+    public static double wristScorePosition = 0.61;
 
     // SUBLIST: ROTATION
     public static Servo.Direction leftArmRotationDirection = Servo.Direction.REVERSE;
@@ -35,20 +43,18 @@ public class Constants {
     public static int scoringExtensionThreshold = 150;
     public static int liftExtension = 200;
 
-    // SUBLIST: WRIST
-    public static Servo.Direction wristDirection = Servo.Direction.REVERSE;
-    public static double wristTransferPosition = 0.18;
-    public static double wristIntakeSpecimenPosition = 0.46;
-    public static double wristHighSpecimenPosition = 0.36;
-    public static double wristLowSpecimenPosition =  0.40;
-    public static double wristScorePosition = 0.61;
 
     // LIST: INTAKE
-    // SUBLIST: WHEELS
-    public static DcMotorSimple.Direction leftWheelDirection = DcMotorSimple.Direction.REVERSE;
-    public static DcMotorSimple.Direction rightWheelDirection = DcMotorSimple.Direction.FORWARD;
-    public static double intakePower = 1;
-    public static double ejectPower = -1;
+    // SUBLIST: CLAW
+    public static Servo.Direction intakeClawDirection = Servo.Direction.FORWARD; // TODO: Find
+    public static double intakeClawOpenPosition = 1; // TODO: Find
+    public static double intakeClawClosedPosition = 0; // TODO: Find
+
+    // SUBLIST: CLAW SWIVEL
+    public static Servo.Direction intakeClawSwivelDirection = Servo.Direction.FORWARD; // TODO: Find
+    public static double ICSTransferPosition = 1; // TODO: Find
+    public static double ICSChangePosition = 0.5; // TODO: Find
+
 
     // SUBLIST: PIVOT
     public static Servo.Direction leftPivotDirection = Servo.Direction.FORWARD;
@@ -61,10 +67,10 @@ public class Constants {
     public static double intakeSlidePower = 0.65;
     public static DcMotorSimple.Direction leftIntakeMotorDirection = DcMotorSimple.Direction.FORWARD;
     public static int readySlideExtension = 400;
-    public static int intakeSlideExtension = 1370; //was 1300
+    public static int intakeSlideExtension = 1000;
     public static int autoIntakeSlideExtension = 900;
     public static int homedKillPowerThreshold = 30;
-    public static int readyExtensionThreshold = 300;
+    public static int readyExtensionThreshold = 140;
 
     // LIST: DRIVE
     public static double precisionModeLimit = 0.5;

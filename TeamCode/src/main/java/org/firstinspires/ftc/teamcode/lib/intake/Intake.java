@@ -4,42 +4,60 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.lib.ButtonToggle;
 import org.firstinspires.ftc.teamcode.lib.Constants;
+import org.firstinspires.ftc.teamcode.lib.arm.ArmSlide;
 
 public class Intake {
     IntakePivot pivot;
     IntakeSlide slide;
-    IntakeWheels wheels;
+    IntakeClaw claw;
+    IntakeClawSwivel swivel;
+    ButtonToggle leftBumper = new ButtonToggle();
     public final int EXTENSION_THRESHOLD = Constants.readyExtensionThreshold;
 
     public Intake(HardwareMap hardwareMap) {
         pivot = new IntakePivot(hardwareMap);
         slide = new IntakeSlide(hardwareMap);
-        wheels = new IntakeWheels(hardwareMap);
+        claw = new IntakeClaw(hardwareMap);
+        swivel = new IntakeClawSwivel(hardwareMap);
     }
 
     // method that runs everything
     public void controls(Gamepad gamepad, Telemetry telemetry) {
+        chooseToggle(gamepad);
         if (gamepad.y) { // deploys slide to ready position, then gives option to intake or eject once the slide is in threshold of target extension
-            if (gamepad.right_trigger > 0.2 && slide.getCurrentPosition() > Constants.readySlideExtension - EXTENSION_THRESHOLD) {
-                slide.slide(telemetry, IntakeSlide.SlidePositions.INTAKE);
+            slide.slide(telemetry, IntakeSlide.SlidePositions.INTAKE);
+            if (slide.getCurrentPosition() > Constants.intakeSlideExtension - EXTENSION_THRESHOLD) {
                 pivot.deploy();
-                wheels.intake();
-            }
-            else if (gamepad.right_bumper && slide.getCurrentPosition() > Constants.readySlideExtension - EXTENSION_THRESHOLD) {
-                slide.slide(telemetry, IntakeSlide.SlidePositions.AUTO_INTAKE);
-                pivot.deploy();
-                wheels.intake();
-            }
-            else {
-                slide.slide(telemetry, IntakeSlide.SlidePositions.READY);
-                pivot.home();
+                if (gamepad.right_bumper) {
+                    swivel.changePos();
+                }
+                else {
+                    swivel.transfer();
+                }
             }
         }
         else { // back to home position
             slide.slide(telemetry, IntakeSlide.SlidePositions.HOMED);
             pivot.home();
-            wheels.stop();
+            swivel.transfer();
+        }
+
+        if (leftBumper.isToggled()) { // individually control grabber
+            claw.close();
+        }
+        else {
+            claw.open();
+        }
+    }
+
+    public void chooseToggle(Gamepad gamepad) {
+        if (gamepad.left_bumper) {
+            leftBumper.press();
+        }
+        else {
+            leftBumper.letGo();
         }
     }
 }

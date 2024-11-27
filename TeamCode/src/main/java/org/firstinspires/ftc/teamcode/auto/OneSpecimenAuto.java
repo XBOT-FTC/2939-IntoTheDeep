@@ -10,7 +10,6 @@ import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.TranslationalVelConstraint;
-import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -22,7 +21,6 @@ import org.firstinspires.ftc.teamcode.lib.arm.ArmSlide;
 import org.firstinspires.ftc.teamcode.lib.arm.ArmWrist;
 import org.firstinspires.ftc.teamcode.lib.intake.IntakePivot;
 import org.firstinspires.ftc.teamcode.lib.intake.IntakeSlide;
-import org.firstinspires.ftc.teamcode.lib.intake.IntakeWheels;
 import org.firstinspires.ftc.teamcode.rr.MecanumDrive;
 
 

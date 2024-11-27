@@ -16,14 +16,12 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.lib.Constants;
 import org.firstinspires.ftc.teamcode.lib.arm.ArmClaw;
 import org.firstinspires.ftc.teamcode.lib.arm.ArmRotation;
 import org.firstinspires.ftc.teamcode.lib.arm.ArmSlide;
 import org.firstinspires.ftc.teamcode.lib.arm.ArmWrist;
 import org.firstinspires.ftc.teamcode.lib.intake.IntakePivot;
 import org.firstinspires.ftc.teamcode.lib.intake.IntakeSlide;
-import org.firstinspires.ftc.teamcode.lib.intake.IntakeWheels;
 import org.firstinspires.ftc.teamcode.rr.MecanumDrive;
 
 

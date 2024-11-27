@@ -21,7 +21,6 @@ import org.firstinspires.ftc.teamcode.lib.arm.ArmSlide;
 import org.firstinspires.ftc.teamcode.lib.arm.ArmWrist;
 import org.firstinspires.ftc.teamcode.lib.intake.IntakePivot;
 import org.firstinspires.ftc.teamcode.lib.intake.IntakeSlide;
-import org.firstinspires.ftc.teamcode.lib.intake.IntakeWheels;
 import org.firstinspires.ftc.teamcode.rr.MecanumDrive;
 
 
