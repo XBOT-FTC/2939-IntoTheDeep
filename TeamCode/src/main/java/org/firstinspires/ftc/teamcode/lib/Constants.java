@@ -14,7 +14,7 @@ public class Constants {
 
     // SUBLIST: WRIST
     public static Servo.Direction wristDirection = Servo.Direction.REVERSE;
-    public static double wristTransferPosition = 0.18;
+    public static double wristTransferPosition = 0.05;
     public static double wristIntakeSpecimenPosition = 0.46;
     public static double wristHighSpecimenPosition = 0.36;
     public static double wristLowSpecimenPosition =  0.40;
@@ -27,7 +27,7 @@ public class Constants {
     public static double specimenIntakeArmPosition = 0.14;
     public static double specimenHighArmPosition = 0.28;
     public static double specimenLowArmPosition = 0.45;
-    public static double transferArmPosition = 0.11;
+    public static double transferArmPosition = 0.25;
 
     // SUBLIST: SLIDES
     public static int maxArmSlideExtension = 3000;
@@ -38,8 +38,8 @@ public class Constants {
     public static int highSpecimenSlideExtension = 700;
     public static int lowSpecimenSlideExtension = 400;
     public static int hangSlideExtension = 536; // TODO: No hanging yet
-    public static int homedSlideExtension = 690;
-    public static int transferSlideExtension =  220;
+    public static int homedSlideExtension = 400;
+    public static int transferSlideExtension =  400;
     public static int scoringExtensionThreshold = 150;
     public static int liftExtension = 200;
 
@@ -48,19 +48,19 @@ public class Constants {
     // SUBLIST: CLAW
     public static Servo.Direction intakeClawDirection = Servo.Direction.FORWARD; // TODO: Find
     public static double intakeClawOpenPosition = 0.5; // TODO: Find
-    public static double intakeClawClosedPosition = 0.1; // TODO: Find
+    public static double intakeClawClosedPosition = 0.0; // TODO: Find
 
     // SUBLIST: CLAW SWIVEL
     public static Servo.Direction intakeClawSwivelDirection = Servo.Direction.FORWARD; // TODO: Find
-    public static double ICSTransferPosition = 0; // TODO: Find
-    public static double ICSChangePosition = 0.5; // TODO: Find
+    public static double ICSTransferPosition = 0.5; // TODO: Find
+    public static double ICSChangePosition = 0; // TODO: Find
 
 
     // SUBLIST: PIVOT
     public static Servo.Direction leftPivotDirection = Servo.Direction.FORWARD;
     public static Servo.Direction rightPivotDirection = Servo.Direction.REVERSE;
-    public static double homedPivotPosition = 0.8;
-    public static double deployedPivotPosition = 0.2;
+    public static double homedPivotPosition = 0.15;
+    public static double deployedPivotPosition = 0.85;
 
     // SUBLIST: SLIDES
     public static int maxIntakeSlideExtension = 1450;
@@ -70,7 +70,7 @@ public class Constants {
     public static int intakeSlideExtension = 1000;
     public static int autoIntakeSlideExtension = 900;
     public static int homedKillPowerThreshold = 30;
-    public static int readyExtensionThreshold = 140;
+    public static int readyExtensionThreshold = 400;
 
     // LIST: DRIVE
     public static double precisionModeLimit = 0.5;
