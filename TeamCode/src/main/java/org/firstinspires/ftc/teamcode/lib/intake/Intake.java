@@ -39,8 +39,8 @@ public class Intake {
                     swivel.transfer();
                 }
 
-                double magnitude = Math.sqrt(Math.pow(gamepad.right_stick_x, 2) + Math.pow(gamepad.right_stick_y, 2));
-                double joystickRadians = Math.atan(gamepad.right_stick_y/gamepad.right_stick_x);
+                double magnitude = Math.sqrt(Math.pow(gamepad.left_stick_x, 2) + Math.pow(gamepad.left_stick_y, 2));
+                double joystickRadians = Math.atan(gamepad.left_stick_y/gamepad.left_stick_x);
                 double joystickDegrees = Math.toDegrees(joystickRadians);
                 double targetJoystickPos = (joystickDegrees + imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES)) / 180;
                 if (magnitude > 0.2) {
