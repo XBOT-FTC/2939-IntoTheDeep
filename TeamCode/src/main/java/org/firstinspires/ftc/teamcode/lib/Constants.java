@@ -47,20 +47,20 @@ public class Constants {
     // LIST: INTAKE
     // SUBLIST: CLAW
     public static Servo.Direction intakeClawDirection = Servo.Direction.FORWARD; // TODO: Find
-    public static double intakeClawOpenPosition = 1; // TODO: Find
-    public static double intakeClawClosedPosition = 0; // TODO: Find
+    public static double intakeClawOpenPosition = 0.5; // TODO: Find
+    public static double intakeClawClosedPosition = 0.1; // TODO: Find
 
     // SUBLIST: CLAW SWIVEL
     public static Servo.Direction intakeClawSwivelDirection = Servo.Direction.FORWARD; // TODO: Find
-    public static double ICSTransferPosition = 1; // TODO: Find
+    public static double ICSTransferPosition = 0; // TODO: Find
     public static double ICSChangePosition = 0.5; // TODO: Find
 
 
     // SUBLIST: PIVOT
     public static Servo.Direction leftPivotDirection = Servo.Direction.FORWARD;
     public static Servo.Direction rightPivotDirection = Servo.Direction.REVERSE;
-    public static double homedPivotPosition = 0.63;
-    public static double deployedPivotPosition = 0.9;
+    public static double homedPivotPosition = 0.8;
+    public static double deployedPivotPosition = 0.2;
 
     // SUBLIST: SLIDES
     public static int maxIntakeSlideExtension = 1450;

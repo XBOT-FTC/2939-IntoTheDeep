@@ -17,8 +17,11 @@ public class IntakeClawSwivel {
     public void transfer() {
         servo.setPosition(Constants.ICSTransferPosition);
     }
-    public void changePos() {
+    public void change() {
         servo.setPosition(Constants.ICSChangePosition);
+    }
+    public void setPos(double position) {
+        servo.setPosition(position);
     }
     public void zero() {
         servo.setPosition(0);
