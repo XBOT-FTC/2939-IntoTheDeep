@@ -29,4 +29,7 @@ public class IntakeClawSwivel {
     public void one() {
         servo.setPosition(1);
     }
+    public double getPosition() {
+        return servo.getPosition();
+    }
 }

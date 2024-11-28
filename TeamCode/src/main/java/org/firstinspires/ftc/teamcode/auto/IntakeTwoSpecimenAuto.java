@@ -9,6 +9,8 @@ import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
+import com.acmerobotics.roadrunner.TranslationalVelConstraint;
+import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -25,8 +27,8 @@ import org.firstinspires.ftc.teamcode.lib.intake.IntakeSlide;
 import org.firstinspires.ftc.teamcode.rr.MecanumDrive;
 
 
-@Autonomous(name= "BasketAuto", group="Autonomous")
-public class BasketAuto extends LinearOpMode {
+@Autonomous(name= "IntakeTwoSpecimenAuto", group="Autonomous")
+public class IntakeTwoSpecimenAuto extends LinearOpMode {
     ArmSlide armSlide;
     ArmRotation rotation;
     ArmClaw armClaw;
@@ -37,7 +39,6 @@ public class BasketAuto extends LinearOpMode {
     IntakeClawSwivel intakeClawSwivel;
     IntakeSlide intakeSlide;
     IntakeSlide.SlidePositions intakeSlidePosition;
-
     @Override
     public void runOpMode() {
         armSlide = new ArmSlide(hardwareMap);
@@ -45,186 +46,182 @@ public class BasketAuto extends LinearOpMode {
         armClaw =  new ArmClaw(hardwareMap);
         wrist = new ArmWrist(hardwareMap);
         pivot = new IntakePivot(hardwareMap);
-        armSlidePosition = ArmSlide.SlidePositions.HOMED;
         intakeClaw = new IntakeClaw(hardwareMap);
         intakeClawSwivel = new IntakeClawSwivel(hardwareMap);
+        armSlidePosition = ArmSlide.SlidePositions.HOMED;
         intakeSlide = new IntakeSlide(hardwareMap);
         intakeSlidePosition = IntakeSlide.SlidePositions.HOMED;
 
-        Pose2d startingPose = new Pose2d(-38, -62, Math.toRadians(0));
+        Pose2d startingPose = new Pose2d(9, -62, Math.toRadians(0));
 
         MecanumDrive drive = new MecanumDrive(hardwareMap, startingPose);
 
         Action trajectoryAction = drive.actionBuilder(drive.pose)
 
-                // drive to observation zone
+                // drive to chamber
                 .setTangent(Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(-52, -52, Math.toRadians(45)), Math.toRadians(180))
+                .splineToSplineHeading(new Pose2d(6, -37, Math.toRadians(270)), Math.toRadians(90))
+                .waitSeconds(0.5)
 
-                // scoring basket sequence
-                .afterTime(0,
+                // raise arm
+                .afterTime(0, new InstantAction(() -> {
+                    armSlidePosition = ArmSlide.SlidePositions.LOW_SPECIMEN;
+                }))
+                .waitSeconds(0.5)
+
+                // drive all the way up to the chamber
+                .lineToY(-32, new TranslationalVelConstraint(5))
+
+                // scoring sequence
+                .afterTime(0, new SequentialAction(
                         new InstantAction(() -> {
-                            armSlidePosition = ArmSlide.SlidePositions.HIGH_BASKET;
+                            rotation.specimenLowPosition();
+                        }),
+                        new InstantAction(() -> {
+                            wrist.scoreLowSpecimen();
                         }))
-                .afterTime(0.75, new SequentialAction(
+                )
+                .afterTime(1, new SequentialAction(
                         new InstantAction(() -> {
-                            wrist.score();
+                            rotation.specimenIntakePosition();
                         }),
                         new InstantAction(() -> {
-                            rotation.basketPosition();
-                        })))
+                            wrist.intakeSpecimen();
+                        }))
+                )
+                .afterTime(1.1, new InstantAction(() -> {
+                    armClaw.open();
+                }))
+                .waitSeconds(1.2)
 
-                .afterTime(1.75, new SequentialAction(
-                        new InstantAction(() -> {
-                            armClaw.open();
-                        })))
-                .afterTime(2.25, new SequentialAction(
-                        new InstantAction(() -> {
-                            rotation.transferPosition();
-                        }),
+                // TODO: tune, prepare arm to transfer specimen from intake
+                .afterTime(0, new SequentialAction(
                         new InstantAction(() -> {
                             armSlidePosition = ArmSlide.SlidePositions.TRANSFER;
                         }),
                         new InstantAction(() -> {
+                            rotation.transferPosition();
+                        }),
+                        new InstantAction(() -> {
                             wrist.transfer();
-                        })))
-                .waitSeconds(2.25)
+                        }))
+                )
 
-                // align robot to 1st sample
-                .splineToLinearHeading(new Pose2d(-48, -46, Math.toRadians(90)), Math.toRadians(90))
+                // drive to sample push position
+                .splineToLinearHeading(new Pose2d(36, -35, Math.toRadians(180)), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(47, -10), Math.toRadians(0))
 
-                // TODO: tune intake sequence, then copy paste, for grabbing the 3rd sample the wrist should be at 0/1
-                .afterTime(0, new SequentialAction(
+                // push sample
+                .strafeTo(new Vector2d(47, -54))
+
+                // drive to sample push position
+                .setTangent(Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(58, -10), Math.toRadians(0))
+
+                // push sample
+                .strafeTo(new Vector2d(58, -54))
+
+
+                // TODO: intake sequence, stagger the actions
+                .afterTime(1, new SequentialAction(
                         new InstantAction(() -> {
                             intakeSlidePosition = IntakeSlide.SlidePositions.INTAKE;
                         }),
                         new InstantAction(() -> {
                             pivot.deploy();
-                        })))
-                .afterTime(1, new SequentialAction(
-                        new InstantAction(() -> {
-                            intakeClaw.close();
-                        })))
+                        }))
+                )
 
-                // transfer sequence
-                .afterTime(1.3, new SequentialAction(
+
+                // drive to intake specimen #1
+                .setTangent(Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(27, -52, Math.toRadians(-45)), Math.toRadians(180))
+
+                // transfer specimen sequence
+                .afterTime(0.3, new InstantAction(() -> {
+                    intakeClaw.close();
+                }))
+                .afterTime(0.5, new SequentialAction(
                         new InstantAction(() -> {
                             intakeSlidePosition = IntakeSlide.SlidePositions.HOMED;
                         }),
                         new InstantAction(() -> {
                             pivot.home();
-                        })))
-                .afterTime(1.75, new SequentialAction(
+                        }))
+                )
+                .afterTime(1, new SequentialAction(
                         new InstantAction(() -> {
                             intakeClaw.open();
                         }),
                         new InstantAction(() -> {
                             armClaw.close();
-                        })))
-                .waitSeconds(1.75)
-
-                // drive to observation zone
-                .splineToLinearHeading(new Pose2d(-52, -52, Math.toRadians(45)), Math.toRadians(180))
-
-                // scoring basket sequence
-                .afterTime(0,
-                        new InstantAction(() -> {
-                            armSlidePosition = ArmSlide.SlidePositions.HIGH_BASKET;
                         }))
-                .afterTime(0.75, new SequentialAction(
+                )
+                .waitSeconds(1)
+
+
+
+                // drive and align to  chamber
+                .setTangent(Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(4, -37, Math.toRadians(270)), Math.toRadians(180))
+                .waitSeconds(0.5)
+
+                // drive all the way up to the chamber
+                .lineToY(-32, new TranslationalVelConstraint(5))
+
+                // scoring sequence
+                .afterTime(0, new SequentialAction(
                         new InstantAction(() -> {
-                            wrist.score();
+                            rotation.specimenLowPosition();
                         }),
                         new InstantAction(() -> {
-                            rotation.basketPosition();
-                        })))
-                .afterTime(1.75, new SequentialAction(
+                            wrist.scoreLowSpecimen();
+                        }))
+                )
+                .afterTime(1, new SequentialAction(
                         new InstantAction(() -> {
-                            armClaw.open();
-                        })))
-                .afterTime(2.25, new SequentialAction(
-                        new InstantAction(() -> {
-                            rotation.transferPosition();
+                            rotation.specimenIntakePosition();
                         }),
                         new InstantAction(() -> {
-                            armSlidePosition = ArmSlide.SlidePositions.TRANSFER;
-                        }),
-                        new InstantAction(() -> {
-                            wrist.transfer();
-                        })))
-                .waitSeconds(2.25)
+                            wrist.intakeSpecimen();
+                        }))
+                )
 
 
-
-
-                // align robot to 2nd sample
-                .splineToLinearHeading(new Pose2d(-58, -46, Math.toRadians(90)), Math.toRadians(90))
-
-
-
-                // drive to observation zone
+                // drive to intake specimen #2
                 .setTangent(Math.toRadians(270))
-                .splineToLinearHeading(new Pose2d(-52, -52, Math.toRadians(45)), Math.toRadians(270))
+                .splineToLinearHeading(new Pose2d(27, -52, Math.toRadians(-45)), Math.toRadians(0))
 
-                // scoring basket sequence
-                .afterTime(0,
+
+
+                // drive and align to  chamber
+                .setTangent(Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(4, -37, Math.toRadians(270)), Math.toRadians(180))
+
+                // transfer specimen sequence
+                .afterTime(0.3, new InstantAction(() -> {
+                    intakeClaw.close();
+                }))
+                .afterTime(0.5, new SequentialAction(
                         new InstantAction(() -> {
-                            armSlidePosition = ArmSlide.SlidePositions.HIGH_BASKET;
+                            intakeSlidePosition = IntakeSlide.SlidePositions.HOMED;
+                        }),
+                        new InstantAction(() -> {
+                            pivot.home();
                         }))
-                .afterTime(0.75, new SequentialAction(
+                )
+                .afterTime(1, new SequentialAction(
                         new InstantAction(() -> {
-                            wrist.score();
+                            intakeClaw.open();
                         }),
                         new InstantAction(() -> {
-                            rotation.basketPosition();
-                        })))
-                .afterTime(1.75, new SequentialAction(
-                        new InstantAction(() -> {
-                            armClaw.open();
-                        })))
-                .afterTime(2.25, new SequentialAction(
-                        new InstantAction(() -> {
-                            rotation.transferPosition();
-                        }),
-                        new InstantAction(() -> {
-                            armSlidePosition = ArmSlide.SlidePositions.TRANSFER;
-                        }),
-                        new InstantAction(() -> {
-                            wrist.transfer();
-                        })))
-                .waitSeconds(2.25)
-
-
-
-
-
-
-
-                // align to 3rd sample
-                .splineToSplineHeading(new Pose2d(-49, -26, Math.toRadians(180)), Math.toRadians(90))
-
-
-
-                // drive to observation zone
-                .setTangent(Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(-52, -52, Math.toRadians(45)), Math.toRadians(270))
-
-                // scoring basket sequence
-                .afterTime(0,
-                        new InstantAction(() -> {
-                            armSlidePosition = ArmSlide.SlidePositions.HIGH_BASKET;
+                            armClaw.close();
                         }))
-                .afterTime(0.75, new SequentialAction(
-                        new InstantAction(() -> {
-                            wrist.score();
-                        }),
-                        new InstantAction(() -> {
-                            rotation.basketPosition();
-                        })))
-                .afterTime(1.75, new SequentialAction(
-                        new InstantAction(() -> {
-                            armClaw.open();
-                        })))
+                )
+                .waitSeconds(1)
+
+
+
                 // zero mechanisms to end auto
                 .afterTime(2.25, new SequentialAction(
                         new InstantAction(() -> {
@@ -238,9 +235,6 @@ public class BasketAuto extends LinearOpMode {
                         })
 
                 ))
-                .waitSeconds(2.25)
-
-                .turnTo(Math.toRadians(90))
                 .waitSeconds(2)
 
                 .build();
@@ -304,10 +298,10 @@ public class BasketAuto extends LinearOpMode {
                     armClaw.close();
                 }),
                 new InstantAction(() -> {
-                    armSlidePosition = ArmSlide.SlidePositions.TRANSFER;
+                    armSlidePosition = ArmSlide.SlidePositions.INTAKE_SPECIMEN;
                 }),
                 new InstantAction(() -> {
-                    rotation.transferPosition();
+                    rotation.basketPosition();
                 }),
                 new InstantAction(() -> {
                     intakeClawSwivel.transfer();
@@ -316,7 +310,7 @@ public class BasketAuto extends LinearOpMode {
                     armClaw.open();
                 }),
                 new InstantAction(() -> {
-                    wrist.transfer();
+                    wrist.score();
                 }),
                 new InstantAction(() -> {
                     pivot.home();

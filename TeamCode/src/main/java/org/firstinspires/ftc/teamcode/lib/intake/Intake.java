@@ -39,12 +39,25 @@ public class Intake {
 //                    swivel.transfer();
 //                }
 
-                double magnitude = Math.sqrt((Math.pow(gamepad.left_stick_x, 2) + Math.pow(gamepad.left_stick_y, 2)));
-                double joystickRadians = Math.atan(gamepad.left_stick_y/gamepad.left_stick_x);
-                double joystickDegrees = Math.toDegrees(joystickRadians);
-                double targetJoystickPos = (joystickDegrees + imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES)) / 180;
+                double magnitude = Math.sqrt((Math.pow(gamepad.left_stick_x, 2) + Math.pow(-gamepad.left_stick_y, 2)));
+                double currentSwivelPos = swivel.getPosition();
+                double currentSwivelAngle = currentSwivelPos * 180;
+                double robotHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
+
+                double targetJoystickAngle = -Math.toDegrees(Math.atan2(-gamepad.left_stick_y, gamepad.left_stick_x)) + robotHeading;
+                targetJoystickAngle = (targetJoystickAngle % 360 + 360) % 360;
+
+                if (Math.abs(currentSwivelAngle - targetJoystickAngle) > 90) {
+                    targetJoystickAngle = (targetJoystickAngle + 180) % 360; // Add 180 and normalize
+                }
+
+                double adjustedSwivelPos = targetJoystickAngle / 180;
+                if (adjustedSwivelPos < 0) {
+                    adjustedSwivelPos += 1;
+                }
+
                 if (magnitude > 0.3) {
-                    swivel.setPos(targetJoystickPos);
+                    swivel.setPos(adjustedSwivelPos);
                 }
                 else if (gamepad.right_bumper) {
                     swivel.change();
