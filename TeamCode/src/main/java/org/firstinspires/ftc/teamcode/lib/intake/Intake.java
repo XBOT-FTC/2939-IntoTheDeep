@@ -40,21 +40,11 @@ public class Intake {
 //                }
 
                 double magnitude = Math.sqrt((Math.pow(gamepad.left_stick_x, 2) + Math.pow(-gamepad.left_stick_y, 2)));
-                double currentSwivelPos = swivel.getPosition();
-                double currentSwivelAngle = currentSwivelPos * 180;
                 double robotHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
+                double targetJoystickAngle = -Math.toDegrees(Math.atan2(gamepad.left_stick_x, -gamepad.left_stick_y)) + robotHeading;
 
-                double targetJoystickAngle = -Math.toDegrees(Math.atan2(-gamepad.left_stick_y, gamepad.left_stick_x)) + robotHeading;
-                targetJoystickAngle = (targetJoystickAngle % 360 + 360) % 360;
-
-                if (Math.abs(currentSwivelAngle - targetJoystickAngle) > 90) {
-                    targetJoystickAngle = (targetJoystickAngle + 180) % 360; // Add 180 and normalize
-                }
-
+                targetJoystickAngle = (360 - targetJoystickAngle) % 180;
                 double adjustedSwivelPos = targetJoystickAngle / 180;
-                if (adjustedSwivelPos < 0) {
-                    adjustedSwivelPos += 1;
-                }
 
                 if (magnitude > 0.3) {
                     swivel.setPos(adjustedSwivelPos);
