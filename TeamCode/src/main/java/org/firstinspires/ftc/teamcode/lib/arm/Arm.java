@@ -60,9 +60,9 @@ public class Arm {
                 wrist.score();
             }
             else {
-                slide.slide(telemetry, ArmSlide.SlidePositions.INTAKE_SPECIMEN);
-                rotation.specimenIntakePosition();
-                wrist.intakeSpecimen();
+                slide.slide(telemetry, ArmSlide.SlidePositions.TRANSFER);
+                rotation.transferPosition();
+                wrist.transfer();
             }
         }
         else if (dpadRight.isToggled()) {
