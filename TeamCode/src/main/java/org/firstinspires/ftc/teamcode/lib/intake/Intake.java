@@ -32,12 +32,6 @@ public class Intake {
             slide.slide(telemetry, IntakeSlide.SlidePositions.INTAKE);
             if (slide.getCurrentPosition() > Constants.intakeSlideExtension - EXTENSION_THRESHOLD) {
                 pivot.deploy();
-//                if (gamepad.right_bumper) {
-//                    swivel.change();
-//                }
-//                else {
-//                    swivel.transfer();
-//                }
 
                 double magnitude = Math.sqrt((Math.pow(gamepad.left_stick_x, 2) + Math.pow(-gamepad.left_stick_y, 2)));
                 double robotHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
