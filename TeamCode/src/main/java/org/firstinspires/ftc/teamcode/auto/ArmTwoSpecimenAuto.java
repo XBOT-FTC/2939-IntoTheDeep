@@ -20,33 +20,35 @@ import org.firstinspires.ftc.teamcode.lib.arm.ArmClaw;
 import org.firstinspires.ftc.teamcode.lib.arm.ArmRotation;
 import org.firstinspires.ftc.teamcode.lib.arm.ArmSlide;
 import org.firstinspires.ftc.teamcode.lib.arm.ArmWrist;
+import org.firstinspires.ftc.teamcode.lib.intake.IntakeClaw;
+import org.firstinspires.ftc.teamcode.lib.intake.IntakeClawSwivel;
 import org.firstinspires.ftc.teamcode.lib.intake.IntakePivot;
 import org.firstinspires.ftc.teamcode.lib.intake.IntakeSlide;
-import org.firstinspires.ftc.teamcode.lib.intake.IntakeWheels;
 import org.firstinspires.ftc.teamcode.rr.MecanumDrive;
 
 
-@Autonomous(name= "SpecimenAuto", group="Autonomous")
-public class SpecimenAuto extends LinearOpMode {
+@Autonomous(name= "ArmTwoSpecimenAuto", group="Autonomous")
+public class ArmTwoSpecimenAuto extends LinearOpMode {
     ArmSlide armSlide;
     ArmRotation rotation;
-    ArmClaw grabber;
+    ArmClaw armClaw;
     ArmWrist wrist;
     IntakePivot pivot;
-    IntakeWheels intakeWheels;
     ArmSlide.SlidePositions armSlidePosition;
+    IntakeClaw intakeClaw;
+    IntakeClawSwivel intakeClawSwivel;
     IntakeSlide intakeSlide;
     IntakeSlide.SlidePositions intakeSlidePosition;
-
     @Override
     public void runOpMode() {
         armSlide = new ArmSlide(hardwareMap);
         rotation = new ArmRotation(hardwareMap);
-        grabber =  new ArmClaw(hardwareMap);
+        armClaw =  new ArmClaw(hardwareMap);
         wrist = new ArmWrist(hardwareMap);
         pivot = new IntakePivot(hardwareMap);
+        intakeClaw = new IntakeClaw(hardwareMap);
+        intakeClawSwivel = new IntakeClawSwivel(hardwareMap);
         armSlidePosition = ArmSlide.SlidePositions.HOMED;
-        intakeWheels = new IntakeWheels(hardwareMap);
         intakeSlide = new IntakeSlide(hardwareMap);
         intakeSlidePosition = IntakeSlide.SlidePositions.HOMED;
 
@@ -88,7 +90,7 @@ public class SpecimenAuto extends LinearOpMode {
                         }))
                 )
                 .afterTime(1.1, new InstantAction(() -> {
-                    grabber.open();
+                    armClaw.open();
                 }))
                 .waitSeconds(1.2)
 
@@ -114,7 +116,7 @@ public class SpecimenAuto extends LinearOpMode {
                 .setTangent(Math.toRadians(90))
                 .splineToLinearHeading(new Pose2d(44, -52, Math.toRadians(270)), Math.toRadians(180))
                 .afterTime(0, new InstantAction(() -> {
-                            grabber.open();
+                            armClaw.open();
                         })
                 )
                 .waitSeconds(0.5)
@@ -123,7 +125,7 @@ public class SpecimenAuto extends LinearOpMode {
 
 
                 .afterTime(0, new InstantAction(() -> {
-                            grabber.close();
+                            armClaw.close();
                         })
                 )
                 .afterTime(0.5, new InstantAction(() -> {
@@ -171,7 +173,7 @@ public class SpecimenAuto extends LinearOpMode {
                         }))
                 )
                 .afterTime(1.1, new InstantAction(() -> {
-                    grabber.open();
+                    armClaw.open();
                 }))
                 .waitSeconds(2)
 
@@ -241,13 +243,19 @@ public class SpecimenAuto extends LinearOpMode {
     public Action initSystems() {
         return new SequentialAction(
                 new InstantAction(() -> {
-                    grabber.close();
+                    armClaw.close();
                 }),
                 new InstantAction(() -> {
                     armSlidePosition = ArmSlide.SlidePositions.INTAKE_SPECIMEN;
                 }),
                 new InstantAction(() -> {
                     rotation.basketPosition();
+                }),
+                new InstantAction(() -> {
+                    intakeClawSwivel.transfer();
+                }),
+                new InstantAction(() -> {
+                    armClaw.open();
                 }),
                 new InstantAction(() -> {
                     wrist.score();
