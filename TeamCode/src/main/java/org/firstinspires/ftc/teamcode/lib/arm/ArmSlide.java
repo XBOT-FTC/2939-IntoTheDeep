@@ -33,7 +33,9 @@ public class ArmSlide {
         HANG,
         HOMED,
         TRANSFER,
-        ZERO
+        AUTO_TRANSFER,
+        ZERO,
+        NEGATIVE,
     }
 
     public ArmSlide(HardwareMap hardwareMap) {
@@ -89,7 +91,13 @@ public class ArmSlide {
             case TRANSFER:
                 targetPosition = Constants.transferSlideExtension;
                 break;
+            case AUTO_TRANSFER:
+                targetPosition = Constants.autoTransferSlideExtension;
+                break;
             case ZERO:
+                targetPosition = 0;
+                break;
+            case NEGATIVE:
                 targetPosition = -50;
                 break;
         }

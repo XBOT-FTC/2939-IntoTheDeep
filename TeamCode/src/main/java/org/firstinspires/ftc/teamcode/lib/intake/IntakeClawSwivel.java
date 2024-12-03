@@ -26,10 +26,14 @@ public class IntakeClawSwivel {
     public void zero() {
         servo.setPosition(0);
     }
+    public void half() {
+        servo.setPosition(0.5);
+    }
     public void one() {
         servo.setPosition(1);
     }
     public double getPosition() {
         return servo.getPosition();
     }
+
 }

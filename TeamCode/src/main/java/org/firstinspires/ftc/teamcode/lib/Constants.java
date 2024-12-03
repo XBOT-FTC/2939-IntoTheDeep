@@ -16,7 +16,7 @@ public class Constants {
     public static Servo.Direction wristDirection = Servo.Direction.REVERSE;
     public static double wristTransferPosition = 0.05;
     public static double wristIntakeSpecimenPosition = 0.46;
-    public static double wristHighSpecimenPosition = 0.36;
+    public static double wristHighSpecimenPosition = 0.23;
     public static double wristLowSpecimenPosition =  0.40;
     public static double wristScorePosition = 0.61;
 
@@ -25,7 +25,7 @@ public class Constants {
     public static Servo.Direction rightArmRotationDirection = Servo.Direction.FORWARD;
     public static double basketArmPosition = 0.67;
     public static double specimenIntakeArmPosition = 0.14;
-    public static double specimenHighArmPosition = 0.28;
+    public static double specimenHighArmPosition = 0.8;
     public static double specimenLowArmPosition = 0.45;
     public static double transferArmPosition = 0.25;
 
@@ -35,11 +35,12 @@ public class Constants {
     public static int highBasketSlideExtension = 2900;
     public static int lowBasketSlideExtension = 650;
     public static int intakeSpecimenSlideExtension = 340;
-    public static int highSpecimenSlideExtension = 700;
+    public static int highSpecimenSlideExtension = 0;
     public static int lowSpecimenSlideExtension = 400;
     public static int hangSlideExtension = 536; // TODO: No hanging yet
     public static int homedSlideExtension = 400;
     public static int transferSlideExtension =  400;
+    public static int autoTransferSlideExtension = 350;
     public static int scoringExtensionThreshold = 150;
     public static int liftExtension = 200;
 
@@ -59,7 +60,7 @@ public class Constants {
     // SUBLIST: PIVOT
     public static Servo.Direction leftPivotDirection = Servo.Direction.FORWARD;
     public static Servo.Direction rightPivotDirection = Servo.Direction.REVERSE;
-    public static double homedPivotPosition = 0.15;
+    public static double homedPivotPosition = 0.19;
     public static double deployedPivotPosition = 0.85;
 
     // SUBLIST: SLIDES

@@ -181,7 +181,7 @@ public class ArmTwoSpecimenAuto extends LinearOpMode {
 
                 // zero mechanisms to end auto
                 .afterTime(0, new InstantAction(() -> {
-                    armSlidePosition = ArmSlide.SlidePositions.ZERO;
+                    armSlidePosition = ArmSlide.SlidePositions.NEGATIVE;
                 }))
                 .waitSeconds(2)
 

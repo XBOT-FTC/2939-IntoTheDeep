@@ -58,6 +58,7 @@ public class IntakeTwoSpecimenAuto extends LinearOpMode {
 
         Action trajectoryAction = drive.actionBuilder(drive.pose)
 
+
                 // drive to chamber
                 .setTangent(Math.toRadians(90))
                 .splineToSplineHeading(new Pose2d(6, -37, Math.toRadians(270)), Math.toRadians(90))
@@ -135,7 +136,9 @@ public class IntakeTwoSpecimenAuto extends LinearOpMode {
 
                 // drive to intake specimen #1
                 .setTangent(Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(27, -52, Math.toRadians(-45)), Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(47, -48, Math.toRadians(270)), Math.toRadians(180))
+                .waitSeconds(0.01)
+                .lineToY(-51)
 
                 // transfer specimen sequence
                 .afterTime(0.3, new InstantAction(() -> {
@@ -162,8 +165,8 @@ public class IntakeTwoSpecimenAuto extends LinearOpMode {
 
 
                 // drive and align to  chamber
-                .setTangent(Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(4, -37, Math.toRadians(270)), Math.toRadians(180))
+                .setTangent(Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(4, -37), Math.toRadians(90))
                 .waitSeconds(0.5)
 
                 // drive all the way up to the chamber
@@ -190,42 +193,25 @@ public class IntakeTwoSpecimenAuto extends LinearOpMode {
 
                 // drive to intake specimen #2
                 .setTangent(Math.toRadians(270))
-                .splineToLinearHeading(new Pose2d(27, -52, Math.toRadians(-45)), Math.toRadians(0))
-
-
+                .splineToConstantHeading(new Vector2d(47, -48), Math.toRadians(0))
+                .waitSeconds(0.01)
+                .lineToY(-51)
+                .waitSeconds(0.5)
 
                 // drive and align to  chamber
-                .setTangent(Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(4, -37, Math.toRadians(270)), Math.toRadians(180))
+                .setTangent(Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(4, -37, Math.toRadians(270)), Math.toRadians(90))
+                .waitSeconds(0.5)
+                .lineToY(-51)
+                .waitSeconds(0.5)
 
-                // transfer specimen sequence
-                .afterTime(0.3, new InstantAction(() -> {
-                    intakeClaw.close();
-                }))
-                .afterTime(0.5, new SequentialAction(
-                        new InstantAction(() -> {
-                            intakeSlidePosition = IntakeSlide.SlidePositions.HOMED;
-                        }),
-                        new InstantAction(() -> {
-                            pivot.home();
-                        }))
-                )
-                .afterTime(1, new SequentialAction(
-                        new InstantAction(() -> {
-                            intakeClaw.open();
-                        }),
-                        new InstantAction(() -> {
-                            armClaw.close();
-                        }))
-                )
-                .waitSeconds(1)
 
 
 
                 // zero mechanisms to end auto
                 .afterTime(2.25, new SequentialAction(
                         new InstantAction(() -> {
-                            armSlidePosition = ArmSlide.SlidePositions.ZERO;
+                            armSlidePosition = ArmSlide.SlidePositions.NEGATIVE;
                         }),
                         new InstantAction(() -> {
                             rotation.specimenIntakePosition();
