@@ -54,16 +54,9 @@ public class Arm {
             }
         }
         else if (dpadLeft.isToggled()) {
-            if (gamepad.left_trigger > 0.2) {
-                slide.slide(telemetry, ArmSlide.SlidePositions.LOW_SPECIMEN);
-                rotation.basketPosition();
-                wrist.score();
-            }
-            else {
-                slide.slide(telemetry, ArmSlide.SlidePositions.TRANSFER);
-                rotation.transferPosition();
-                wrist.transfer();
-            }
+            slide.slide(telemetry, ArmSlide.SlidePositions.HIGH_SPECIMEN);
+            rotation.specimenHighPosition();
+            wrist.scoreHighSpecimen();
         }
         else if (dpadRight.isToggled()) {
             slide.slide(telemetry, ArmSlide.SlidePositions.TRANSFER);
