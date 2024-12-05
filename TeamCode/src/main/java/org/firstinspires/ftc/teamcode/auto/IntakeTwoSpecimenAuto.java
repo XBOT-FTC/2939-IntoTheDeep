@@ -202,8 +202,9 @@ public class IntakeTwoSpecimenAuto extends LinearOpMode {
                 .setTangent(Math.toRadians(180))
                 .splineToLinearHeading(new Pose2d(4, -37, Math.toRadians(270)), Math.toRadians(90))
                 .waitSeconds(0.5)
-                .lineToY(-51)
-                .waitSeconds(0.5)
+
+                // drive all the way up to the chamber
+                .lineToY(-32, new TranslationalVelConstraint(5))
 
 
 

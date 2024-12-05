@@ -189,7 +189,7 @@ public class BasketAuto extends LinearOpMode {
                 .waitSeconds(2)
 
                 // drive to observation zone
-                .splineToLinearHeading(new Pose2d(-52, -52, Math.toRadians(45)), Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(-52, -52, Math.toRadians(45)), Math.toRadians(270))
 
                 // scoring basket sequence
                 .afterTime(0,
@@ -221,7 +221,7 @@ public class BasketAuto extends LinearOpMode {
 
                 .afterTime(0, new SequentialAction(
                         new InstantAction(() -> {
-                            intakeClawSwivel.half();
+                            intakeClawSwivel.zero();
                         })))
 
 
@@ -247,7 +247,7 @@ public class BasketAuto extends LinearOpMode {
                 // transfer sequence
                 .afterTime(1.3, new SequentialAction(
                         new InstantAction(() -> {
-                            intakeClawSwivel.zero();
+                            intakeClawSwivel.transfer();
                         }),
                         new InstantAction(() -> {
                             intakeSlidePosition = IntakeSlide.SlidePositions.HOMED;
@@ -266,7 +266,9 @@ public class BasketAuto extends LinearOpMode {
                 .waitSeconds(2)
 
                 // drive to observation zone
-                .splineToLinearHeading(new Pose2d(-52, -52, Math.toRadians(45)), Math.toRadians(180))
+                .setReversed(true)
+                .setTangent(Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(-52, -52, Math.toRadians(45)), Math.toRadians(270))
 
 
                 // scoring basket sequence

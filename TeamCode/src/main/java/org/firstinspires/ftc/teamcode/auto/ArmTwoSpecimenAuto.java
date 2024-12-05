@@ -114,7 +114,7 @@ public class ArmTwoSpecimenAuto extends LinearOpMode {
 
                 // drive to intake specimen #1
                 .setTangent(Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(44, -52, Math.toRadians(270)), Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(47, -52, Math.toRadians(270)), Math.toRadians(180))
                 .afterTime(0, new InstantAction(() -> {
                             armClaw.open();
                         })
