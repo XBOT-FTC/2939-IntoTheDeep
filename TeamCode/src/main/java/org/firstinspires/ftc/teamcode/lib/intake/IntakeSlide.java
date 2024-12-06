@@ -23,7 +23,7 @@ public class IntakeSlide {
         HOMED,
         AUTO_INTAKE
     }
-    PIDManager slidePID = new PIDManager(0.0039,0,0,0); // TODO: tune
+    PIDManager slidePID = new PIDManager(0.004,0,0.35,0); // TODO: tune
 
     public IntakeSlide(HardwareMap hardwareMap) {
         // motor for left linear slide, sets up encoders
@@ -78,7 +78,7 @@ public class IntakeSlide {
             power = 0; // if slides are in threshold for homed position, then kill power
         }
         else {
-            power = slidePID.pidfControl(linearSlideLeft.getCurrentPosition(), targetPosition, 40, 0.09);
+            power = slidePID.pidfControl(getCurrentPosition(), targetPosition, 50, 0.09);
         }
 
         // finally set power

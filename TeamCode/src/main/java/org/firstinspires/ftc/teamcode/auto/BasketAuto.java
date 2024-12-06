@@ -300,6 +300,10 @@ public class BasketAuto extends LinearOpMode {
                 .waitSeconds(2.25)
 
                 // zero mechanisms to end auto
+                .afterTime(2,
+                        new InstantAction(() -> {
+                            pivot.deploy();
+                        }))
                 .afterTime(2.25, new SequentialAction(
                         new InstantAction(() -> {
                             armSlidePosition = ArmSlide.SlidePositions.NEGATIVE;
