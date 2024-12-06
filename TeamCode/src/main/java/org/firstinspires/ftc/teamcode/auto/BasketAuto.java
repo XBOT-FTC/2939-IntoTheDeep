@@ -59,7 +59,7 @@ public class BasketAuto extends LinearOpMode {
 
                 // drive to observation zone
                 .setTangent(Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(-52, -52, Math.toRadians(45)), Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(-53, -53, Math.toRadians(45)), Math.toRadians(180))
 
                 // scoring basket sequence
                 .afterTime(0,
@@ -73,10 +73,10 @@ public class BasketAuto extends LinearOpMode {
                         new InstantAction(() -> {
                             rotation.basketPosition();
                         })))
-                .afterTime(1.75, new SequentialAction(
-                        new InstantAction(() -> {
-                            armClaw.open();
-                        })))
+//                .afterTime(1.75, new SequentialAction(
+//                        new InstantAction(() -> {
+//                            armClaw.open();
+//                        })))
                 .afterTime(2.25, new SequentialAction(
                         new InstantAction(() -> {
                             rotation.transferPosition();
@@ -90,7 +90,7 @@ public class BasketAuto extends LinearOpMode {
                 .waitSeconds(2.25)
 
                 // align robot to 1st sample
-                .splineToLinearHeading(new Pose2d(-48, -46, Math.toRadians(90)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(-49, -46, Math.toRadians(90)), Math.toRadians(90))
 
                 .afterTime(0, new SequentialAction(
                         new InstantAction(() -> {
@@ -112,10 +112,10 @@ public class BasketAuto extends LinearOpMode {
                         new InstantAction(() -> {
                             pivot.home();
                         })))
-                .afterTime(2,
-                        new InstantAction(() -> {
-                            armClaw.close();
-                        }))
+//                .afterTime(2,
+//                        new InstantAction(() -> {
+//                            armClaw.close();
+//                        }))
                 .afterTime(2.5,
                         new InstantAction(() -> {
                             intakeClaw.open();
@@ -123,7 +123,7 @@ public class BasketAuto extends LinearOpMode {
                 .waitSeconds(2)
 
                 // drive to observation zone
-                .splineToLinearHeading(new Pose2d(-52, -52, Math.toRadians(45)), Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(-53, -53, Math.toRadians(45)), Math.toRadians(180))
 
                 // scoring basket sequence
                 .afterTime(0,
@@ -137,10 +137,10 @@ public class BasketAuto extends LinearOpMode {
                         new InstantAction(() -> {
                             rotation.basketPosition();
                         })))
-                .afterTime(1.75, new SequentialAction(
-                        new InstantAction(() -> {
-                            armClaw.open();
-                        })))
+//                .afterTime(1.75, new SequentialAction(
+//                        new InstantAction(() -> {
+//                            armClaw.open();
+//                        })))
                 .afterTime(2.25, new SequentialAction(
                         new InstantAction(() -> {
                             rotation.transferPosition();
@@ -156,7 +156,7 @@ public class BasketAuto extends LinearOpMode {
 
 
                 // align robot to 2nd sample
-                .splineToLinearHeading(new Pose2d(-58, -46, Math.toRadians(90)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(-59, -46, Math.toRadians(90)), Math.toRadians(90))
 
                 .afterTime(0, new SequentialAction(
                         new InstantAction(() -> {
@@ -178,10 +178,10 @@ public class BasketAuto extends LinearOpMode {
                         new InstantAction(() -> {
                             pivot.home();
                         })))
-                .afterTime(2,
-                        new InstantAction(() -> {
-                            armClaw.close();
-                        }))
+//                .afterTime(2,
+//                        new InstantAction(() -> {
+//                            armClaw.close();
+//                        }))
                 .afterTime(2.5,
                         new InstantAction(() -> {
                             intakeClaw.open();
@@ -189,7 +189,7 @@ public class BasketAuto extends LinearOpMode {
                 .waitSeconds(2)
 
                 // drive to observation zone
-                .splineToLinearHeading(new Pose2d(-52, -52, Math.toRadians(45)), Math.toRadians(270))
+                .splineToLinearHeading(new Pose2d(-53, -53, Math.toRadians(45)), Math.toRadians(270))
 
                 // scoring basket sequence
                 .afterTime(0,
@@ -203,10 +203,10 @@ public class BasketAuto extends LinearOpMode {
                         new InstantAction(() -> {
                             rotation.basketPosition();
                         })))
-                .afterTime(1.75, new SequentialAction(
-                        new InstantAction(() -> {
-                            armClaw.open();
-                        })))
+//                .afterTime(1.75, new SequentialAction(
+//                        new InstantAction(() -> {
+//                            armClaw.open();
+//                        })))
                 .afterTime(2.25, new SequentialAction(
                         new InstantAction(() -> {
                             rotation.transferPosition();
@@ -229,7 +229,7 @@ public class BasketAuto extends LinearOpMode {
 
 
                 // align to 3rd sample
-                .splineToSplineHeading(new Pose2d(-49, -26, Math.toRadians(180)), Math.toRadians(90))
+                .splineToSplineHeading(new Pose2d(-49, -27, Math.toRadians(180)), Math.toRadians(90))
 
 
                 .afterTime(0, new SequentialAction(
@@ -255,10 +255,10 @@ public class BasketAuto extends LinearOpMode {
                         new InstantAction(() -> {
                             pivot.home();
                         })))
-                .afterTime(2,
-                        new InstantAction(() -> {
-                            armClaw.close();
-                        }))
+//                .afterTime(2,
+//                        new InstantAction(() -> {
+//                            armClaw.close();
+//                        }))
                 .afterTime(2.5,
                         new InstantAction(() -> {
                             intakeClaw.open();
@@ -268,7 +268,7 @@ public class BasketAuto extends LinearOpMode {
                 // drive to observation zone
                 .setReversed(true)
                 .setTangent(Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(-52, -52, Math.toRadians(45)), Math.toRadians(270))
+                .splineToLinearHeading(new Pose2d(-53, -53, Math.toRadians(45)), Math.toRadians(270))
 
 
                 // scoring basket sequence
@@ -283,10 +283,10 @@ public class BasketAuto extends LinearOpMode {
                         new InstantAction(() -> {
                             rotation.basketPosition();
                         })))
-                .afterTime(1.75, new SequentialAction(
-                        new InstantAction(() -> {
-                            armClaw.open();
-                        })))
+//                .afterTime(1.75, new SequentialAction(
+//                        new InstantAction(() -> {
+//                            armClaw.open();
+//                        })))
                 .afterTime(2.25, new SequentialAction(
                         new InstantAction(() -> {
                             rotation.transferPosition();
@@ -374,9 +374,9 @@ public class BasketAuto extends LinearOpMode {
 
     public Action initSystems() {
         return new SequentialAction(
-                new InstantAction(() -> {
-                    armClaw.close();
-                }),
+//                new InstantAction(() -> {
+//                    armClaw.close();
+//                }),
                 new InstantAction(() -> {
                     intakeClaw.open();
                 }),

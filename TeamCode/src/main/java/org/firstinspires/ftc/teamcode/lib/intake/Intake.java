@@ -16,6 +16,7 @@ public class Intake {
     IntakeClaw claw;
     IntakeClawSwivel swivel;
     ButtonToggle leftBumper = new ButtonToggle();
+    ButtonToggle dpadLeft = new ButtonToggle();
     public final int EXTENSION_THRESHOLD = Constants.readyExtensionThreshold;
 
     public Intake(HardwareMap hardwareMap) {
@@ -28,6 +29,8 @@ public class Intake {
     // method that runs everything
     public void controls(Gamepad gamepad, Telemetry telemetry, IMU imu) {
         chooseToggle(gamepad);
+
+        dpadLeft.update(gamepad.dpad_left);
         if (gamepad.y) { // deploys slide to ready position, then gives option to intake or eject once the slide is in threshold of target extension
             slide.slide(telemetry, IntakeSlide.SlidePositions.INTAKE);
             if (slide.getCurrentPosition() > Constants.intakeSlideExtension - EXTENSION_THRESHOLD) {
@@ -49,7 +52,14 @@ public class Intake {
                 else {
                     swivel.transfer();
                 }
+
+                telemetry.addData("x value: ", gamepad.left_stick_x);
+                telemetry.addData("y value: ", -gamepad.left_stick_y);
+                telemetry.addData("swivel pos: ", swivel.getPosition());
             }
+        }
+        else if (dpadLeft.isToggled()) {
+           pivot.deploy();
         }
         else { // back to home position
             slide.slide(telemetry, IntakeSlide.SlidePositions.HOMED);
