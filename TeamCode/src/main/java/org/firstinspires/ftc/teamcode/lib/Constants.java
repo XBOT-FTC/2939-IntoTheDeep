@@ -56,7 +56,6 @@ public class Constants {
     public static double ICSTransferPosition = 0.5; // TODO: Find
     public static double ICSChangePosition = 0; // TODO: Find
 
-
     // SUBLIST: PIVOT
     public static Servo.Direction leftPivotDirection = Servo.Direction.FORWARD;
     public static Servo.Direction rightPivotDirection = Servo.Direction.REVERSE;
@@ -69,6 +68,7 @@ public class Constants {
     public static DcMotorSimple.Direction leftIntakeMotorDirection = DcMotorSimple.Direction.FORWARD;
     public static int readySlideExtension = 400;
     public static int intakeSlideExtension = 1000;
+    public static int specimenIntakeSlideExtension = 550;
     public static int autoIntakeSlideExtension = 900;
     public static int homedKillPowerThreshold = 30;
     public static int readyExtensionThreshold = 400;

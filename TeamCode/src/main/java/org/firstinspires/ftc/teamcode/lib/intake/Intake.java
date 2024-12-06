@@ -38,7 +38,34 @@ public class Intake {
 
                 double magnitude = Math.sqrt((Math.pow(gamepad.left_stick_x, 2) + Math.pow(-gamepad.left_stick_y, 2)));
                 double robotHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-                double targetJoystickAngle = -Math.toDegrees(Math.atan2(gamepad.left_stick_x, -gamepad.left_stick_y)) + robotHeading;
+                double targetJoystickAngle = -Math.toDegrees(Math.atan2(-gamepad.left_stick_y, gamepad.left_stick_x)) + robotHeading;
+
+                targetJoystickAngle = (360 - targetJoystickAngle) % 180;
+                double adjustedSwivelPos = targetJoystickAngle / 180;
+
+                if (magnitude > 0.3) {
+                    swivel.setPos(adjustedSwivelPos);
+                }
+                else if (gamepad.right_bumper) {
+                    swivel.change();
+                }
+                else {
+                    swivel.transfer();
+                }
+
+                telemetry.addData("x value: ", gamepad.left_stick_x);
+                telemetry.addData("y value: ", -gamepad.left_stick_y);
+                telemetry.addData("swivel pos: ", swivel.getPosition());
+            }
+        }
+        if (gamepad.a) { // deploys slide to ready position, then gives option to intake or eject once the slide is in threshold of target extension
+            slide.slide(telemetry, IntakeSlide.SlidePositions.SPECIMEN_INTAKE);
+            if (slide.getCurrentPosition() > Constants.specimenIntakeArmPosition - EXTENSION_THRESHOLD) {
+                pivot.deploy();
+
+                double magnitude = Math.sqrt((Math.pow(gamepad.left_stick_x, 2) + Math.pow(-gamepad.left_stick_y, 2)));
+                double robotHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
+                double targetJoystickAngle = -Math.toDegrees(Math.atan2(-gamepad.left_stick_y, gamepad.left_stick_x)) + robotHeading;
 
                 targetJoystickAngle = (360 - targetJoystickAngle) % 180;
                 double adjustedSwivelPos = targetJoystickAngle / 180;

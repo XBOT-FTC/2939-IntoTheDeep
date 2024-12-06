@@ -21,6 +21,7 @@ public class IntakeSlide {
         READY,
         INTAKE,
         HOMED,
+        SPECIMEN_INTAKE,
         AUTO_INTAKE
     }
     PIDManager slidePID = new PIDManager(0.0039,0,0,0); // TODO: tune
@@ -52,6 +53,9 @@ public class IntakeSlide {
                 break;
             case INTAKE:
                 targetPosition = Constants.intakeSlideExtension;
+                break;
+            case SPECIMEN_INTAKE:
+                targetPosition = Constants.specimenIntakeSlideExtension;
                 break;
             case AUTO_INTAKE:
                 targetPosition = Constants.autoIntakeSlideExtension;
