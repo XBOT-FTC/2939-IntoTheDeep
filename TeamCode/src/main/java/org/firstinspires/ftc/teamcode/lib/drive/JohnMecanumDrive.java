@@ -73,7 +73,7 @@ public class JohnMecanumDrive {
             headingPower += DriveLogic.getQuickRotateToHeadingPower(botHeadingDegrees, -45, quickRotatePID, telemetry);
         }
 
-        precisionModeToggle.update(gamepad.a);
+//        precisionModeToggle.update(gamepad.a);
 
         // Normalize wheel powers to be less than 1.0
         double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rotateIntent), 1);
@@ -82,7 +82,7 @@ public class JohnMecanumDrive {
         double rightFrontPower = ((rotY - rotX - rotateIntent - headingPower) / denominator);
         double rightBackPower = ((rotY + rotX - rotateIntent - headingPower) / denominator);
 
-        if (precisionModeToggle.isToggled()) {
+        if (gamepad.a) {
             leftFrontDrive.setPower(leftFrontPower *= precisionModeLimit);
             leftBackDrive.setPower(leftBackPower *= precisionModeLimit);
             rightFrontDrive.setPower(rightFrontPower *= precisionModeLimit);
