@@ -65,9 +65,9 @@ public class IntakeTwoSpecimenAuto extends LinearOpMode {
                 .waitSeconds(0.5)
 
                 // raise arm
-                .afterTime(0, new InstantAction(() -> {
-                    armSlidePosition = ArmSlide.SlidePositions.LOW_SPECIMEN;
-                }))
+//                .afterTime(0, new InstantAction(() -> {
+//                    armSlidePosition = ArmSlide.SlidePositions.LOW_SPECIMEN;
+//                }))
                 .waitSeconds(0.5)
 
                 // drive all the way up to the chamber
@@ -285,10 +285,10 @@ public class IntakeTwoSpecimenAuto extends LinearOpMode {
                     armClaw.close();
                 }),
                 new InstantAction(() -> {
-                    armSlidePosition = ArmSlide.SlidePositions.INTAKE_SPECIMEN;
+                    armSlidePosition = ArmSlide.SlidePositions.HIGH_SPECIMEN;
                 }),
                 new InstantAction(() -> {
-                    rotation.basketPosition();
+                    rotation.specimenHighPosition();
                 }),
                 new InstantAction(() -> {
                     intakeClawSwivel.transfer();
@@ -297,10 +297,10 @@ public class IntakeTwoSpecimenAuto extends LinearOpMode {
                     armClaw.open();
                 }),
                 new InstantAction(() -> {
-                    wrist.score();
+                    wrist.scoreHighSpecimen();
                 }),
                 new InstantAction(() -> {
-                    pivot.home();
+                    pivot.deploy();
                 })
         );
     }

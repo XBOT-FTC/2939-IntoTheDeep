@@ -20,6 +20,8 @@ public class Arm {
     ButtonToggle b = new ButtonToggle();
     ButtonToggle leftBumper = new ButtonToggle();
     public final int EXTENSION_THRESHOLD = Constants.scoringExtensionThreshold;
+    boolean specimenFinished = false;
+    boolean transferFinished = false;
 
     public Arm(HardwareMap hardwareMap) {
         rotation = new ArmRotation(hardwareMap);
@@ -54,19 +56,27 @@ public class Arm {
             }
         }
         else if (dpadLeft.isToggled()) {
-            slide.slide(telemetry, ArmSlide.SlidePositions.HIGH_SPECIMEN);
-            rotation.specimenHighPosition();
-            wrist.scoreHighSpecimen();
+            if (!specimenFinished) {
+                slide.slide(telemetry, ArmSlide.SlidePositions.LOW_SPECIMEN);
+                rotation.specimenHighPosition();
+                wrist.scoreHighSpecimen();
+                if (slide.getCurrentPosition() > Constants.lowSpecimenSlideExtension - 30) {
+                    slide.slide(telemetry, ArmSlide.SlidePositions.HIGH_SPECIMEN);
+                    specimenFinished = true;
+                }
+            }
         }
-        else if (dpadRight.isToggled()) {
-            slide.slide(telemetry, ArmSlide.SlidePositions.TRANSFER);
-            rotation.transferPosition();
-            wrist.transfer();
-        }
+//        else if (dpadRight.isToggled()) {
+//            slide.slide(telemetry, ArmSlide.SlidePositions.TRANSFER);
+//            rotation.transferPosition();
+//            wrist.transfer();
+//        }
         else { // if nothing is toggled, bring everything to default position
             slide.slide(telemetry, ArmSlide.SlidePositions.HOMED);
             rotation.transferPosition();
             wrist.transfer();
+
+            specimenFinished = false;
         }
 
         if (leftBumper.isToggled()) { // individually control grabber

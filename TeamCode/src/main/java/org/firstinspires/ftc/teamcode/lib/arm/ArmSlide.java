@@ -116,6 +116,7 @@ public class ArmSlide {
             // PID for adjusting motor power
             power = armPID.pidfControl(linearSlideLeft.getCurrentPosition(), targetPosition, positionTolerance, velocityTolerance);
         }
+        power = armPID.pidfControl(linearSlideLeft.getCurrentPosition(), targetPosition, positionTolerance, velocityTolerance);
 
         // finally set power
         linearSlideLeft.setPower(power);

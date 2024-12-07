@@ -25,4 +25,7 @@ public class IntakePivot {
         right.setPosition(Constants.homedPivotPosition);
         left.setPosition(Constants.homedPivotPosition);
     }
+    public double getPosition() {
+        return left.getPosition();
+    }
 }

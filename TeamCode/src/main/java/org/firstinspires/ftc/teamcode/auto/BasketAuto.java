@@ -73,10 +73,10 @@ public class BasketAuto extends LinearOpMode {
                         new InstantAction(() -> {
                             rotation.basketPosition();
                         })))
-//                .afterTime(1.75, new SequentialAction(
-//                        new InstantAction(() -> {
-//                            armClaw.open();
-//                        })))
+                .afterTime(1.75, new SequentialAction(
+                        new InstantAction(() -> {
+                            armClaw.open();
+                        })))
                 .afterTime(2.25, new SequentialAction(
                         new InstantAction(() -> {
                             rotation.transferPosition();
@@ -112,10 +112,10 @@ public class BasketAuto extends LinearOpMode {
                         new InstantAction(() -> {
                             pivot.home();
                         })))
-//                .afterTime(2,
-//                        new InstantAction(() -> {
-//                            armClaw.close();
-//                        }))
+                .afterTime(2,
+                        new InstantAction(() -> {
+                            armClaw.close();
+                        }))
                 .afterTime(2.5,
                         new InstantAction(() -> {
                             intakeClaw.open();
@@ -137,10 +137,10 @@ public class BasketAuto extends LinearOpMode {
                         new InstantAction(() -> {
                             rotation.basketPosition();
                         })))
-//                .afterTime(1.75, new SequentialAction(
-//                        new InstantAction(() -> {
-//                            armClaw.open();
-//                        })))
+                .afterTime(1.75, new SequentialAction(
+                        new InstantAction(() -> {
+                            armClaw.open();
+                        })))
                 .afterTime(2.25, new SequentialAction(
                         new InstantAction(() -> {
                             rotation.transferPosition();
@@ -178,10 +178,10 @@ public class BasketAuto extends LinearOpMode {
                         new InstantAction(() -> {
                             pivot.home();
                         })))
-//                .afterTime(2,
-//                        new InstantAction(() -> {
-//                            armClaw.close();
-//                        }))
+                .afterTime(2,
+                        new InstantAction(() -> {
+                            armClaw.close();
+                        }))
                 .afterTime(2.5,
                         new InstantAction(() -> {
                             intakeClaw.open();
@@ -203,10 +203,10 @@ public class BasketAuto extends LinearOpMode {
                         new InstantAction(() -> {
                             rotation.basketPosition();
                         })))
-//                .afterTime(1.75, new SequentialAction(
-//                        new InstantAction(() -> {
-//                            armClaw.open();
-//                        })))
+                .afterTime(1.75, new SequentialAction(
+                        new InstantAction(() -> {
+                            armClaw.open();
+                        })))
                 .afterTime(2.25, new SequentialAction(
                         new InstantAction(() -> {
                             rotation.transferPosition();
@@ -255,10 +255,10 @@ public class BasketAuto extends LinearOpMode {
                         new InstantAction(() -> {
                             pivot.home();
                         })))
-//                .afterTime(2,
-//                        new InstantAction(() -> {
-//                            armClaw.close();
-//                        }))
+                .afterTime(2,
+                        new InstantAction(() -> {
+                            armClaw.close();
+                        }))
                 .afterTime(2.5,
                         new InstantAction(() -> {
                             intakeClaw.open();
@@ -283,10 +283,10 @@ public class BasketAuto extends LinearOpMode {
                         new InstantAction(() -> {
                             rotation.basketPosition();
                         })))
-//                .afterTime(1.75, new SequentialAction(
-//                        new InstantAction(() -> {
-//                            armClaw.open();
-//                        })))
+                .afterTime(1.75, new SequentialAction(
+                        new InstantAction(() -> {
+                            armClaw.open();
+                        })))
                 .afterTime(2.25, new SequentialAction(
                         new InstantAction(() -> {
                             rotation.transferPosition();
@@ -378,9 +378,9 @@ public class BasketAuto extends LinearOpMode {
 
     public Action initSystems() {
         return new SequentialAction(
-//                new InstantAction(() -> {
-//                    armClaw.close();
-//                }),
+                new InstantAction(() -> {
+                    armClaw.close();
+                }),
                 new InstantAction(() -> {
                     intakeClaw.open();
                 }),

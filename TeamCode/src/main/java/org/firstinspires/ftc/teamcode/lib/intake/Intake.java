@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.lib.intake;
 
+import com.arcrobotics.ftclib.util.Timing;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
@@ -15,15 +16,16 @@ public class Intake {
     IntakeSlide slide;
     IntakeClaw claw;
     IntakeClawSwivel swivel;
+    ArmSlide armSlide;
     ButtonToggle leftBumper = new ButtonToggle();
     ButtonToggle dpadLeft = new ButtonToggle();
     public final int EXTENSION_THRESHOLD = Constants.readyExtensionThreshold;
-
     public Intake(HardwareMap hardwareMap) {
         pivot = new IntakePivot(hardwareMap);
         slide = new IntakeSlide(hardwareMap);
         claw = new IntakeClaw(hardwareMap);
         swivel = new IntakeClawSwivel(hardwareMap);
+        armSlide = new ArmSlide(hardwareMap);
     }
 
     // method that runs everything
@@ -58,7 +60,7 @@ public class Intake {
                 telemetry.addData("swivel pos: ", swivel.getPosition());
             }
         }
-        if (gamepad.a) { // deploys slide to ready position, then gives option to intake or eject once the slide is in threshold of target extension
+        else if (gamepad.a) { // deploys slide to ready position, then gives option to intake or eject once the slide is in threshold of target extension
             slide.slide(telemetry, IntakeSlide.SlidePositions.SPECIMEN_INTAKE);
             if (slide.getCurrentPosition() > Constants.specimenIntakeArmPosition - EXTENSION_THRESHOLD) {
                 pivot.deploy();
@@ -85,13 +87,22 @@ public class Intake {
                 telemetry.addData("swivel pos: ", swivel.getPosition());
             }
         }
-        else if (dpadLeft.isToggled()) {
-           pivot.deploy();
-        }
         else { // back to home position
-            slide.slide(telemetry, IntakeSlide.SlidePositions.HOMED);
-            pivot.home();
-            swivel.transfer();
+            if (armSlide.getCurrentPosition() > Constants.homedSlideExtension - 30
+            && armSlide.getCurrentPosition() < Constants.homedSlideExtension + 30) {
+                slide.slide(telemetry, IntakeSlide.SlidePositions.HOMED);
+                pivot.home();
+                if (gamepad.right_bumper) {
+                    swivel.change();
+                }
+                else {
+                    swivel.transfer();
+                }
+            }
+            else {
+                slide.slide(telemetry, IntakeSlide.SlidePositions.READY);
+                pivot.deploy();
+            }
         }
 
         if (leftBumper.isToggled()) { // individually control grabber
