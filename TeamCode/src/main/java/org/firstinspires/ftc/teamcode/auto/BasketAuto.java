@@ -90,15 +90,16 @@ public class BasketAuto extends LinearOpMode {
                 .waitSeconds(2.25)
 
                 // align robot to 1st sample
-                .splineToLinearHeading(new Pose2d(-49, -46, Math.toRadians(90)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(-48, -46, Math.toRadians(90)), Math.toRadians(90))
 
                 .afterTime(0, new SequentialAction(
                         new InstantAction(() -> {
                             intakeSlidePosition = IntakeSlide.SlidePositions.INTAKE;
-                        }),
-                        new InstantAction(() -> {
-                            pivot.deploy();
-                        })))
+                        })
+//                        ,new InstantAction(() -> {
+//                            pivot.deploy();
+//                        })))
+                ))
                 .afterTime(1, new SequentialAction(
                         new InstantAction(() -> {
                             intakeClaw.close();
@@ -107,10 +108,10 @@ public class BasketAuto extends LinearOpMode {
                 // transfer sequence
                 .afterTime(1.3, new SequentialAction(
                         new InstantAction(() -> {
-                            intakeSlidePosition = IntakeSlide.SlidePositions.HOMED;
+                            pivot.home();
                         }),
                         new InstantAction(() -> {
-                            pivot.home();
+                            intakeSlidePosition = IntakeSlide.SlidePositions.HOMED;
                         })))
                 .afterTime(2,
                         new InstantAction(() -> {
@@ -119,6 +120,10 @@ public class BasketAuto extends LinearOpMode {
                 .afterTime(2.5,
                         new InstantAction(() -> {
                             intakeClaw.open();
+                        }))
+                .afterTime(3,
+                        new InstantAction(() -> {
+                            pivot.deploy();
                         }))
                 .waitSeconds(2)
 
@@ -156,15 +161,16 @@ public class BasketAuto extends LinearOpMode {
 
 
                 // align robot to 2nd sample
-                .splineToLinearHeading(new Pose2d(-59, -46, Math.toRadians(90)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(-58, -46, Math.toRadians(90)), Math.toRadians(90))
 
                 .afterTime(0, new SequentialAction(
                         new InstantAction(() -> {
                             intakeSlidePosition = IntakeSlide.SlidePositions.INTAKE;
-                        }),
-                        new InstantAction(() -> {
-                            pivot.deploy();
-                        })))
+                        })
+//                        ,new InstantAction(() -> {
+//                            pivot.deploy();
+//                        })))
+                ))
                 .afterTime(1, new SequentialAction(
                         new InstantAction(() -> {
                             intakeClaw.close();
@@ -173,10 +179,10 @@ public class BasketAuto extends LinearOpMode {
                 // transfer sequence
                 .afterTime(1.3, new SequentialAction(
                         new InstantAction(() -> {
-                            intakeSlidePosition = IntakeSlide.SlidePositions.HOMED;
+                            pivot.home();
                         }),
                         new InstantAction(() -> {
-                            pivot.home();
+                            intakeSlidePosition = IntakeSlide.SlidePositions.HOMED;
                         })))
                 .afterTime(2,
                         new InstantAction(() -> {
@@ -185,6 +191,10 @@ public class BasketAuto extends LinearOpMode {
                 .afterTime(2.5,
                         new InstantAction(() -> {
                             intakeClaw.open();
+                        }))
+                .afterTime(3,
+                        new InstantAction(() -> {
+                            pivot.deploy();
                         }))
                 .waitSeconds(2)
 
@@ -229,7 +239,7 @@ public class BasketAuto extends LinearOpMode {
 
 
                 // align to 3rd sample
-                .splineToSplineHeading(new Pose2d(-49, -27, Math.toRadians(180)), Math.toRadians(90))
+                .splineToSplineHeading(new Pose2d(-49, -26, Math.toRadians(180)), Math.toRadians(90))
 
 
                 .afterTime(0, new SequentialAction(
@@ -250,10 +260,10 @@ public class BasketAuto extends LinearOpMode {
                             intakeClawSwivel.transfer();
                         }),
                         new InstantAction(() -> {
-                            intakeSlidePosition = IntakeSlide.SlidePositions.HOMED;
+                            pivot.home();
                         }),
                         new InstantAction(() -> {
-                            pivot.home();
+                            intakeSlidePosition = IntakeSlide.SlidePositions.HOMED;
                         })))
                 .afterTime(2,
                         new InstantAction(() -> {
@@ -262,6 +272,10 @@ public class BasketAuto extends LinearOpMode {
                 .afterTime(2.5,
                         new InstantAction(() -> {
                             intakeClaw.open();
+                        }))
+                .afterTime(3,
+                        new InstantAction(() -> {
+                            pivot.deploy();
                         }))
                 .waitSeconds(2)
 
@@ -300,16 +314,16 @@ public class BasketAuto extends LinearOpMode {
                 .waitSeconds(2.25)
 
                 // zero mechanisms to end auto
-                .afterTime(2,
-                        new InstantAction(() -> {
-                            pivot.deploy();
-                        }))
+//                .afterTime(2,
+//                        new InstantAction(() -> {
+//                            pivot.deploy();
+//                        }))
                 .afterTime(2.25, new SequentialAction(
                         new InstantAction(() -> {
                             armSlidePosition = ArmSlide.SlidePositions.NEGATIVE;
                         }),
                         new InstantAction(() -> {
-                            rotation.specimenIntakePosition();
+                            rotation.autoEndPosition();
                         }),
                         new InstantAction(() -> {
                             wrist.intakeSpecimen();
@@ -382,6 +396,9 @@ public class BasketAuto extends LinearOpMode {
                     armClaw.close();
                 }),
                 new InstantAction(() -> {
+                    pivot.deploy();
+                }),
+                new InstantAction(() -> {
                     intakeClaw.open();
                 }),
                 new InstantAction(() -> {
@@ -395,9 +412,6 @@ public class BasketAuto extends LinearOpMode {
                 }),
                 new InstantAction(() -> {
                     wrist.transfer();
-                }),
-                new InstantAction(() -> {
-                    pivot.home();
                 })
         );
     }

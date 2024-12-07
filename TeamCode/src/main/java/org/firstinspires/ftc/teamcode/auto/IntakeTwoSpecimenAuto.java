@@ -62,40 +62,24 @@ public class IntakeTwoSpecimenAuto extends LinearOpMode {
                 // drive to chamber
                 .setTangent(Math.toRadians(90))
                 .splineToSplineHeading(new Pose2d(6, -37, Math.toRadians(270)), Math.toRadians(90))
-                .waitSeconds(0.5)
+                .afterTime(0, new InstantAction(() -> {
+                    intakeSlidePosition = IntakeSlide.SlidePositions.READY;
+                }))
 
-                // raise arm
-//                .afterTime(0, new InstantAction(() -> {
-//                    armSlidePosition = ArmSlide.SlidePositions.LOW_SPECIMEN;
-//                }))
                 .waitSeconds(0.5)
 
                 // drive all the way up to the chamber
                 .lineToY(-32, new TranslationalVelConstraint(5))
 
                 // scoring sequence
-                .afterTime(0, new SequentialAction(
-                        new InstantAction(() -> {
-                            rotation.specimenLowPosition();
-                        }),
-                        new InstantAction(() -> {
-                            wrist.scoreLowSpecimen();
-                        }))
-                )
-                .afterTime(1, new SequentialAction(
-                        new InstantAction(() -> {
-                            rotation.specimenIntakePosition();
-                        }),
-                        new InstantAction(() -> {
-                            wrist.intakeSpecimen();
-                        }))
-                )
-                .afterTime(1.1, new InstantAction(() -> {
+                .afterTime(0, new InstantAction(() -> {
                     armClaw.open();
                 }))
-                .waitSeconds(1.2)
+                .waitSeconds(0.01)
 
-                // TODO: tune, prepare arm to transfer specimen from intake
+                .lineToY(-37, new TranslationalVelConstraint(7))
+
+                // return to transfer
                 .afterTime(0, new SequentialAction(
                         new InstantAction(() -> {
                             armSlidePosition = ArmSlide.SlidePositions.TRANSFER;
@@ -107,6 +91,12 @@ public class IntakeTwoSpecimenAuto extends LinearOpMode {
                             wrist.transfer();
                         }))
                 )
+                .afterTime(1, new SequentialAction(
+                        new InstantAction(() -> {
+                            intakeSlidePosition = IntakeSlide.SlidePositions.HOMED;
+                        })
+                ))
+                .waitSeconds(1)
 
                 // drive to sample push position
                 .splineToLinearHeading(new Pose2d(36, -35, Math.toRadians(180)), Math.toRadians(90))
@@ -126,12 +116,12 @@ public class IntakeTwoSpecimenAuto extends LinearOpMode {
                 // TODO: intake sequence, stagger the actions
                 .afterTime(1, new SequentialAction(
                         new InstantAction(() -> {
-                            intakeSlidePosition = IntakeSlide.SlidePositions.INTAKE;
-                        }),
-                        new InstantAction(() -> {
-                            pivot.deploy();
-                        }))
-                )
+                            intakeSlidePosition = IntakeSlide.SlidePositions.SPECIMEN_INTAKE;
+                        })
+//                        , new InstantAction(() -> {
+//                            pivot.deploy();
+//                        })
+                        ))
 
 
                 // drive to intake specimen #1
@@ -144,14 +134,14 @@ public class IntakeTwoSpecimenAuto extends LinearOpMode {
                 .afterTime(0.3, new InstantAction(() -> {
                     intakeClaw.close();
                 }))
+                .afterTime(0.4, new InstantAction(() -> {
+                    pivot.home();
+                }))
                 .afterTime(0.5, new SequentialAction(
                         new InstantAction(() -> {
                             intakeSlidePosition = IntakeSlide.SlidePositions.HOMED;
-                        }),
-                        new InstantAction(() -> {
-                            pivot.home();
-                        }))
-                )
+                        })
+                ))
                 .afterTime(1, new SequentialAction(
                         new InstantAction(() -> {
                             intakeClaw.open();
@@ -166,29 +156,38 @@ public class IntakeTwoSpecimenAuto extends LinearOpMode {
 
                 // drive and align to  chamber
                 .setTangent(Math.toRadians(180))
-                .splineToConstantHeading(new Vector2d(4, -37), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(5, -37), Math.toRadians(90))
                 .waitSeconds(0.5)
 
                 // drive all the way up to the chamber
                 .lineToY(-32, new TranslationalVelConstraint(5))
 
                 // scoring sequence
+                .afterTime(0, new InstantAction(() -> {
+                    armClaw.open();
+                }))
+                .waitSeconds(0.01)
+
+                .lineToY(-37, new TranslationalVelConstraint(7))
+
+                // return to transfer
                 .afterTime(0, new SequentialAction(
                         new InstantAction(() -> {
-                            rotation.specimenLowPosition();
+                            armSlidePosition = ArmSlide.SlidePositions.TRANSFER;
                         }),
                         new InstantAction(() -> {
-                            wrist.scoreLowSpecimen();
+                            rotation.transferPosition();
+                        }),
+                        new InstantAction(() -> {
+                            wrist.transfer();
                         }))
                 )
                 .afterTime(1, new SequentialAction(
                         new InstantAction(() -> {
-                            rotation.specimenIntakePosition();
-                        }),
-                        new InstantAction(() -> {
-                            wrist.intakeSpecimen();
-                        }))
-                )
+                            intakeSlidePosition = IntakeSlide.SlidePositions.HOMED;
+                        })
+                ))
+                .waitSeconds(1)
 
 
                 // drive to intake specimen #2
@@ -215,14 +214,14 @@ public class IntakeTwoSpecimenAuto extends LinearOpMode {
                             armSlidePosition = ArmSlide.SlidePositions.NEGATIVE;
                         }),
                         new InstantAction(() -> {
-                            rotation.specimenIntakePosition();
+                            rotation.autoEndPosition();
                         }),
                         new InstantAction(() -> {
                             wrist.intakeSpecimen();
                         })
 
                 ))
-                .waitSeconds(2)
+                .waitSeconds(2.25)
 
                 .build();
 
@@ -284,8 +283,11 @@ public class IntakeTwoSpecimenAuto extends LinearOpMode {
                 new InstantAction(() -> {
                     armClaw.close();
                 }),
+//                new InstantAction(() -> {
+//                    armSlidePosition = ArmSlide.SlidePositions.HIGH_SPECIMEN;
+//                }),
                 new InstantAction(() -> {
-                    armSlidePosition = ArmSlide.SlidePositions.HIGH_SPECIMEN;
+                    pivot.deploy();
                 }),
                 new InstantAction(() -> {
                     rotation.specimenHighPosition();
@@ -294,13 +296,7 @@ public class IntakeTwoSpecimenAuto extends LinearOpMode {
                     intakeClawSwivel.transfer();
                 }),
                 new InstantAction(() -> {
-                    armClaw.open();
-                }),
-                new InstantAction(() -> {
                     wrist.scoreHighSpecimen();
-                }),
-                new InstantAction(() -> {
-                    pivot.deploy();
                 })
         );
     }
