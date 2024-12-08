@@ -20,9 +20,8 @@ public class MeepMeepTesting {
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
                 .build();
 
-        //starting pose 6, -62 for specimen, -37, -62
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(6, -62, Math.toRadians(0)))
-
+        //starting pose 9, -62 for specimen, -37, -62
+        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(9, -62, Math.toRadians(0)))
 
 
 

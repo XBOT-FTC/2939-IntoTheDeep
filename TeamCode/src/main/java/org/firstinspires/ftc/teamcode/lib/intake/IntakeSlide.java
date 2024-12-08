@@ -22,7 +22,8 @@ public class IntakeSlide {
         INTAKE,
         HOMED,
         SPECIMEN_INTAKE,
-        AUTO_INTAKE
+        AUTO_INTAKE,
+        NEGATIVE
     }
     PIDManager slidePID = new PIDManager(0.0043,0,0.5,0); // TODO: tune
 
@@ -62,6 +63,9 @@ public class IntakeSlide {
                 break;
             case HOMED:
                 targetPosition = 0;
+                break;
+            case NEGATIVE:
+                targetPosition = -30;
                 break;
         }
 
