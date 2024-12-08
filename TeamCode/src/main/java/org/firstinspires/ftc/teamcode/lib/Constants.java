@@ -28,7 +28,7 @@ public class Constants {
     public static double specimenHighArmPosition = 0.82;
     public static double specimenLowArmPosition = 0.45;
     public static double transferArmPosition = 0.0;
-    public static double autoEndArmPosition = 0.05;
+    public static double autoEndArmPosition = 0.08;
 
     // SUBLIST: SLIDES
     public static int maxArmSlideExtension = 3000;

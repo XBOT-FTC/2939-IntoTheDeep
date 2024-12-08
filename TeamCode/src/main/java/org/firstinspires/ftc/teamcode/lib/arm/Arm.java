@@ -79,12 +79,12 @@ public class Arm {
             specimenFinished = false;
         }
 
-        if (leftBumper.isToggled()) { // individually control grabber
-            grabber.open();
-        }
-        else {
-            grabber.close();
-        }
+//        if (leftBumper.isToggled()) { // individually control grabber
+//            grabber.open();
+//        }
+//        else {
+//            grabber.close();
+//        }
 
         telemetry.addData("Up Toggle", dpadUp.isToggled());
         telemetry.addData("Down Toggle", dpadDown.isToggled());
@@ -136,13 +136,13 @@ public class Arm {
 //        else {
 //            x.letGo();
 //        }
-
-        if (gamepad.left_bumper) {
-            leftBumper.press();
-        }
-        else {
-            leftBumper.letGo();
-        }
+//
+//        if (gamepad.left_bumper) {
+//            leftBumper.press();
+//        }
+//        else {
+//            leftBumper.letGo();
+//        }
     }
 
     // clear toggle for all buttons except the button corresponding to the position parameter

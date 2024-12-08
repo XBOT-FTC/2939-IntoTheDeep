@@ -48,7 +48,7 @@ public class IntakeTwoSpecimenAuto extends LinearOpMode {
         pivot = new IntakePivot(hardwareMap);
         intakeClaw = new IntakeClaw(hardwareMap);
         intakeClawSwivel = new IntakeClawSwivel(hardwareMap);
-        armSlidePosition = ArmSlide.SlidePositions.HOMED;
+        armSlidePosition = ArmSlide.SlidePositions.ZERO;
         intakeSlide = new IntakeSlide(hardwareMap);
         intakeSlidePosition = IntakeSlide.SlidePositions.HOMED;
 
@@ -61,7 +61,7 @@ public class IntakeTwoSpecimenAuto extends LinearOpMode {
 
                 // drive to chamber
                 .setTangent(Math.toRadians(90))
-                .splineToSplineHeading(new Pose2d(6, -37, Math.toRadians(270)), Math.toRadians(90))
+                .splineToSplineHeading(new Pose2d(6, -44, Math.toRadians(270)), Math.toRadians(90))
                 .afterTime(0, new InstantAction(() -> {
                     intakeSlidePosition = IntakeSlide.SlidePositions.READY;
                 }))
@@ -69,15 +69,13 @@ public class IntakeTwoSpecimenAuto extends LinearOpMode {
                 .waitSeconds(0.5)
 
                 // drive all the way up to the chamber
-                .lineToY(-32, new TranslationalVelConstraint(5))
+                .lineToY(-27, new TranslationalVelConstraint(7))
 
                 // scoring sequence
                 .afterTime(0, new InstantAction(() -> {
                     armClaw.open();
                 }))
-                .waitSeconds(0.01)
-
-                .lineToY(-37, new TranslationalVelConstraint(7))
+                .lineToY(-44, new TranslationalVelConstraint(10))
 
                 // return to transfer
                 .afterTime(0, new SequentialAction(
@@ -91,26 +89,29 @@ public class IntakeTwoSpecimenAuto extends LinearOpMode {
                             wrist.transfer();
                         }))
                 )
-                .afterTime(1, new SequentialAction(
+                .afterTime(0.75, new SequentialAction(
                         new InstantAction(() -> {
                             intakeSlidePosition = IntakeSlide.SlidePositions.HOMED;
                         })
                 ))
-                .waitSeconds(1)
+                .waitSeconds(0.75)
 
                 // drive to sample push position
-                .splineToLinearHeading(new Pose2d(36, -35, Math.toRadians(180)), Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(47, -10), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(36, -35, Math.toRadians(180)), Math.toRadians(90),
+                        new TranslationalVelConstraint(60))
+                .splineToConstantHeading(new Vector2d(47, -10), Math.toRadians(0),
+                        new TranslationalVelConstraint(60))
 
                 // push sample
-                .strafeTo(new Vector2d(47, -54))
+                .strafeTo(new Vector2d(47, -48), new TranslationalVelConstraint(60))
 
                 // drive to sample push position
                 .setTangent(Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(58, -10), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(58, -10), Math.toRadians(0),
+                        new TranslationalVelConstraint(60))
 
                 // push sample
-                .strafeTo(new Vector2d(58, -54))
+                .strafeTo(new Vector2d(58, -48), new TranslationalVelConstraint(60))
 
 
                 // TODO: intake sequence, stagger the actions
@@ -126,23 +127,23 @@ public class IntakeTwoSpecimenAuto extends LinearOpMode {
 
                 // drive to intake specimen #1
                 .setTangent(Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(47, -48, Math.toRadians(270)), Math.toRadians(180))
-                .waitSeconds(0.01)
-                .lineToY(-51)
+                .splineToLinearHeading(new Pose2d(47, -39, Math.toRadians(270)), Math.toRadians(180))
+                .waitSeconds(0.5)
+                .lineToY(-42)
 
                 // transfer specimen sequence
-                .afterTime(0.3, new InstantAction(() -> {
+                .afterTime(0, new InstantAction(() -> {
                     intakeClaw.close();
                 }))
-                .afterTime(0.4, new InstantAction(() -> {
+                .afterTime(0.5, new InstantAction(() -> {
                     pivot.home();
                 }))
-                .afterTime(0.5, new SequentialAction(
+                .afterTime(0.7, new SequentialAction(
                         new InstantAction(() -> {
                             intakeSlidePosition = IntakeSlide.SlidePositions.HOMED;
                         })
                 ))
-                .afterTime(1, new SequentialAction(
+                .afterTime(1.25, new SequentialAction(
                         new InstantAction(() -> {
                             intakeClaw.open();
                         }),
@@ -150,17 +151,37 @@ public class IntakeTwoSpecimenAuto extends LinearOpMode {
                             armClaw.close();
                         }))
                 )
-                .waitSeconds(1)
+                .waitSeconds(1.25)
 
 
 
                 // drive and align to  chamber
                 .setTangent(Math.toRadians(180))
-                .splineToConstantHeading(new Vector2d(5, -37), Math.toRadians(90))
-                .waitSeconds(0.5)
+                .splineToConstantHeading(new Vector2d(5, -44), Math.toRadians(90))
+
+                .afterTime(0, new SequentialAction(
+                        new InstantAction(() -> {
+                            intakeSlidePosition = IntakeSlide.SlidePositions.READY;
+                        }),
+                        new InstantAction(() -> {
+                            armSlidePosition = ArmSlide.SlidePositions.LOW_SPECIMEN;
+                        }))
+                )
+                .afterTime(0.25, new SequentialAction(
+                        new InstantAction(() -> {
+                            rotation.specimenHighPosition();
+                        }),
+                        new InstantAction(() -> {
+                            wrist.scoreHighSpecimen();
+                        })
+                ))
+                .afterTime(1.5, new InstantAction(() -> {
+                    armSlidePosition = ArmSlide.SlidePositions.ZERO;
+                }))
+                .waitSeconds(2)
 
                 // drive all the way up to the chamber
-                .lineToY(-32, new TranslationalVelConstraint(5))
+                .lineToY(-27, new TranslationalVelConstraint(7))
 
                 // scoring sequence
                 .afterTime(0, new InstantAction(() -> {
@@ -168,7 +189,7 @@ public class IntakeTwoSpecimenAuto extends LinearOpMode {
                 }))
                 .waitSeconds(0.01)
 
-                .lineToY(-37, new TranslationalVelConstraint(7))
+                .lineToY(-40, new TranslationalVelConstraint(10))
 
                 // return to transfer
                 .afterTime(0, new SequentialAction(
@@ -192,18 +213,18 @@ public class IntakeTwoSpecimenAuto extends LinearOpMode {
 
                 // drive to intake specimen #2
                 .setTangent(Math.toRadians(270))
-                .splineToConstantHeading(new Vector2d(47, -48), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(47, -39), Math.toRadians(0))
                 .waitSeconds(0.01)
-                .lineToY(-51)
+                .lineToY(-42)
                 .waitSeconds(0.5)
 
                 // drive and align to  chamber
                 .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(4, -37, Math.toRadians(270)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(4, -40, Math.toRadians(270)), Math.toRadians(90))
                 .waitSeconds(0.5)
 
                 // drive all the way up to the chamber
-                .lineToY(-32, new TranslationalVelConstraint(5))
+                .lineToY(-32, new TranslationalVelConstraint(7))
 
 
 
@@ -211,16 +232,20 @@ public class IntakeTwoSpecimenAuto extends LinearOpMode {
                 // zero mechanisms to end auto
                 .afterTime(2.25, new SequentialAction(
                         new InstantAction(() -> {
-                            armSlidePosition = ArmSlide.SlidePositions.NEGATIVE;
+                            armSlidePosition = ArmSlide.SlidePositions.LOW_SPECIMEN;
                         }),
                         new InstantAction(() -> {
                             rotation.autoEndPosition();
                         }),
                         new InstantAction(() -> {
-                            wrist.intakeSpecimen();
+                            wrist.scoreLowSpecimen();   // 0.3 is better but lets see
                         })
 
                 ))
+                .afterTime(3, new SequentialAction(
+                        new InstantAction(() -> {
+                            armSlidePosition = ArmSlide.SlidePositions.NEGATIVE;
+                        })))
                 .waitSeconds(2.25)
 
                 .build();

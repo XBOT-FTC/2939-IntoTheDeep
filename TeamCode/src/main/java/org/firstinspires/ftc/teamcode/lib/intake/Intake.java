@@ -9,6 +9,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.lib.ButtonToggle;
 import org.firstinspires.ftc.teamcode.lib.Constants;
+import org.firstinspires.ftc.teamcode.lib.arm.ArmClaw;
 import org.firstinspires.ftc.teamcode.lib.arm.ArmSlide;
 
 public class Intake {
@@ -17,6 +18,7 @@ public class Intake {
     IntakeClaw claw;
     IntakeClawSwivel swivel;
     ArmSlide armSlide;
+    ArmClaw armClaw;
     ButtonToggle leftBumper = new ButtonToggle();
     ButtonToggle dpadLeft = new ButtonToggle();
     public final int EXTENSION_THRESHOLD = Constants.readyExtensionThreshold;
@@ -26,6 +28,7 @@ public class Intake {
         claw = new IntakeClaw(hardwareMap);
         swivel = new IntakeClawSwivel(hardwareMap);
         armSlide = new ArmSlide(hardwareMap);
+        armClaw = new ArmClaw(hardwareMap);
     }
 
     // method that runs everything
@@ -88,8 +91,8 @@ public class Intake {
             }
         }
         else { // back to home position
-            if (armSlide.getCurrentPosition() > Constants.homedSlideExtension - 30
-            && armSlide.getCurrentPosition() < Constants.homedSlideExtension + 30) {
+            if (armSlide.getCurrentPosition() > Constants.homedSlideExtension - 65
+            && armSlide.getCurrentPosition() < Constants.homedSlideExtension + 65) {
                 slide.slide(telemetry, IntakeSlide.SlidePositions.HOMED);
                 pivot.home();
                 if (gamepad.right_bumper) {
@@ -107,9 +110,11 @@ public class Intake {
 
         if (leftBumper.isToggled()) { // individually control grabber
             claw.close();
+            armClaw.open();
         }
         else {
             claw.open();
+            armClaw.close();
         }
     }
 
