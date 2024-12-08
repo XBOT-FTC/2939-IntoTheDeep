@@ -7,12 +7,10 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.teamcode.ElectricalContract;
 import org.firstinspires.ftc.teamcode.lib.ButtonToggle;
 import org.firstinspires.ftc.teamcode.lib.Constants;
-import org.firstinspires.ftc.teamcode.lib.arm.Arm;
 import org.firstinspires.ftc.teamcode.lib.arm.ArmClaw;
 import org.firstinspires.ftc.teamcode.lib.arm.ArmRotation;
 import org.firstinspires.ftc.teamcode.lib.arm.ArmWrist;
 import org.firstinspires.ftc.teamcode.lib.intake.IntakePivot;
-import org.firstinspires.ftc.teamcode.lib.intake.IntakeWheels;
 
 @TeleOp(name = "TelemetryTest", group= "Linear OpMode")
 public class TelemetryTest extends LinearOpMode {
@@ -46,7 +44,6 @@ public class TelemetryTest extends LinearOpMode {
         IntakePivot intakePivot = new IntakePivot(hardwareMap);
 
         // intake wheels
-        IntakeWheels intakeWheels = new IntakeWheels(hardwareMap);
 //
         // LIST: ARM SUBCOMPONENTS
         // arm claw
@@ -104,15 +101,6 @@ public class TelemetryTest extends LinearOpMode {
             telemetry.addData("Tester Toggle", testerFour.isToggled());
 //
 //             test continuous servos (intake wheels) by holding a button
-            if (gamepad2.right_trigger > 0.2) {
-                intakeWheels.intake();
-            }
-            else if (gamepad2.left_trigger > 0.2) {
-                intakeWheels.eject();
-            }
-            else {
-                intakeWheels.stop();
-            }
 
             if (testerFour.isToggled()) {
                 intakePivot.deploy();

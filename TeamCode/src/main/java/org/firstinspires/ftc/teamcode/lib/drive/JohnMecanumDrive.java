@@ -42,12 +42,12 @@ public class JohnMecanumDrive {
 
 
         // get the translation intent from joystick
-        double y = DriveLogic.exponentAndRetainSign(-gamepad.left_stick_y, 2);
-        double x = DriveLogic.exponentAndRetainSign(gamepad.left_stick_x, 2);
+        double y = DriveLogic.exponentAndRetainSign(-gamepad.left_stick_y, 3);
+        double x = DriveLogic.exponentAndRetainSign(gamepad.left_stick_x, 3);
 
         // get rotation intent from triggers
-        double rotateIntent = DriveLogic.exponentAndRetainSign(-gamepad.left_trigger, 2) +
-                DriveLogic.exponentAndRetainSign(gamepad.right_trigger, 2);
+        double rotateIntent = DriveLogic.exponentAndRetainSign(-gamepad.left_trigger, 3) +
+                DriveLogic.exponentAndRetainSign(gamepad.right_trigger, 3);
 
         // rightStick quick rotate
         double quickRotateY = -gamepad.right_stick_y;
@@ -73,7 +73,7 @@ public class JohnMecanumDrive {
             headingPower += DriveLogic.getQuickRotateToHeadingPower(botHeadingDegrees, -45, quickRotatePID, telemetry);
         }
 
-        precisionModeToggle.update(gamepad.a);
+//        precisionModeToggle.update(gamepad.a);
 
         // Normalize wheel powers to be less than 1.0
         double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rotateIntent), 1);
@@ -82,7 +82,7 @@ public class JohnMecanumDrive {
         double rightFrontPower = ((rotY - rotX - rotateIntent - headingPower) / denominator);
         double rightBackPower = ((rotY + rotX - rotateIntent - headingPower) / denominator);
 
-        if (precisionModeToggle.isToggled()) {
+        if (gamepad.a) {
             leftFrontDrive.setPower(leftFrontPower *= precisionModeLimit);
             leftBackDrive.setPower(leftBackPower *= precisionModeLimit);
             rightFrontDrive.setPower(rightFrontPower *= precisionModeLimit);

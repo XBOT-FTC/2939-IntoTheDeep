@@ -17,7 +17,7 @@ public class ArmSlide {
     public final int MIN_POSITION = -20;
     public final double IN_PER_TICK = 0; // TODO: tune
     public int targetPosition = 0;
-    private final PIDManager armPID = new PIDManager(0.0031,0,0, 0.0001); // TODO: tune
+    private final PIDManager armPID = new PIDManager(0.0033,0,0, 0.0001); // TODO: tune
     public final double positionTolerance = 20; // TODO: tune
     public final double velocityTolerance = 0.09; // TODO: tune
     public final int liftExtension = Constants.liftExtension;
@@ -33,7 +33,9 @@ public class ArmSlide {
         HANG,
         HOMED,
         TRANSFER,
-        ZERO
+        AUTO_TRANSFER,
+        ZERO,
+        NEGATIVE,
     }
 
     public ArmSlide(HardwareMap hardwareMap) {
@@ -89,7 +91,13 @@ public class ArmSlide {
             case TRANSFER:
                 targetPosition = Constants.transferSlideExtension;
                 break;
+            case AUTO_TRANSFER:
+                targetPosition = Constants.autoTransferSlideExtension;
+                break;
             case ZERO:
+                targetPosition = 0;
+                break;
+            case NEGATIVE:
                 targetPosition = -50;
                 break;
         }
@@ -108,6 +116,7 @@ public class ArmSlide {
             // PID for adjusting motor power
             power = armPID.pidfControl(linearSlideLeft.getCurrentPosition(), targetPosition, positionTolerance, velocityTolerance);
         }
+        power = armPID.pidfControl(linearSlideLeft.getCurrentPosition(), targetPosition, positionTolerance, velocityTolerance);
 
         // finally set power
         linearSlideLeft.setPower(power);

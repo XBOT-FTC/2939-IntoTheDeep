@@ -21,9 +21,11 @@ public class IntakeSlide {
         READY,
         INTAKE,
         HOMED,
-        AUTO_INTAKE
+        SPECIMEN_INTAKE,
+        AUTO_INTAKE,
+        NEGATIVE
     }
-    PIDManager slidePID = new PIDManager(0.0039,0,0,0); // TODO: tune
+    PIDManager slidePID = new PIDManager(0.0043,0,0.5,0); // TODO: tune
 
     public IntakeSlide(HardwareMap hardwareMap) {
         // motor for left linear slide, sets up encoders
@@ -53,11 +55,17 @@ public class IntakeSlide {
             case INTAKE:
                 targetPosition = Constants.intakeSlideExtension;
                 break;
+            case SPECIMEN_INTAKE:
+                targetPosition = Constants.specimenIntakeSlideExtension;
+                break;
             case AUTO_INTAKE:
                 targetPosition = Constants.autoIntakeSlideExtension;
                 break;
             case HOMED:
                 targetPosition = 0;
+                break;
+            case NEGATIVE:
+                targetPosition = -30;
                 break;
         }
 
@@ -78,7 +86,7 @@ public class IntakeSlide {
             power = 0; // if slides are in threshold for homed position, then kill power
         }
         else {
-            power = slidePID.pidfControl(linearSlideLeft.getCurrentPosition(), targetPosition, 40, 0.09);
+            power = slidePID.pidfControl(getCurrentPosition(), targetPosition, 50, 0.09);
         }
 
         // finally set power

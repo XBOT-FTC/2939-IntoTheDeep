@@ -20,6 +20,8 @@ public class Arm {
     ButtonToggle b = new ButtonToggle();
     ButtonToggle leftBumper = new ButtonToggle();
     public final int EXTENSION_THRESHOLD = Constants.scoringExtensionThreshold;
+    boolean specimenFinished = false;
+    boolean transferFinished = false;
 
     public Arm(HardwareMap hardwareMap) {
         rotation = new ArmRotation(hardwareMap);
@@ -54,55 +56,35 @@ public class Arm {
             }
         }
         else if (dpadLeft.isToggled()) {
-            if (gamepad.left_trigger > 0.2) {
-                slide.slide(telemetry, ArmSlide.SlidePositions.LIFT_INTAKE_SPECIMEN);
-            }
-            else {
-                slide.slide(telemetry, ArmSlide.SlidePositions.INTAKE_SPECIMEN);
-                rotation.specimenIntakePosition();
-                wrist.intakeSpecimen();
-            }
-        }
-        else if (b.isToggled()) {
-            if (gamepad.left_trigger > 0.2) {
-                slide.slide(telemetry, ArmSlide.SlidePositions.LIFT_HIGH_SPECIMEN);
+            if (!specimenFinished) {
+                slide.slide(telemetry, ArmSlide.SlidePositions.LOW_SPECIMEN);
                 rotation.specimenHighPosition();
                 wrist.scoreHighSpecimen();
-            }
-            else { // when release trigger, brings everything on the arm down
-                slide.slide(telemetry, ArmSlide.SlidePositions.HIGH_SPECIMEN);
-                rotation.specimenIntakePosition();
-                wrist.intakeSpecimen();
-            }
-        }
-        else if (x.isToggled()) {
-            slide.slide(telemetry, ArmSlide.SlidePositions.LOW_SPECIMEN);
-            if (gamepad.left_trigger > 0.2) {
-                rotation.basketPosition();
-                wrist.score();
-            }
-            else {
-                rotation.specimenLowPosition();
-                wrist.scoreLowSpecimen();
+                if (slide.getCurrentPosition() > Constants.lowSpecimenSlideExtension - 30) {
+                    slide.slide(telemetry, ArmSlide.SlidePositions.HIGH_SPECIMEN);
+                    specimenFinished = true;
+                }
             }
         }
-        else if (dpadRight.isToggled()) {
-            slide.slide(telemetry, ArmSlide.SlidePositions.TRANSFER);
-            rotation.transferPosition();
-            wrist.transfer();
-        }
+//        else if (dpadRight.isToggled()) {
+//            slide.slide(telemetry, ArmSlide.SlidePositions.TRANSFER);
+//            rotation.transferPosition();
+//            wrist.transfer();
+//        }
         else { // if nothing is toggled, bring everything to default position
             slide.slide(telemetry, ArmSlide.SlidePositions.HOMED);
             rotation.transferPosition();
             wrist.transfer();
+
+            specimenFinished = false;
         }
 
-        if (leftBumper.isToggled()) { // individually control grabber
-            grabber.open();
-        }
-        else {
-            grabber.close();
-        }
+//        if (leftBumper.isToggled()) { // individually control grabber
+//            grabber.open();
+//        }
+//        else {
+//            grabber.close();
+//        }
 
         telemetry.addData("Up Toggle", dpadUp.isToggled());
         telemetry.addData("Down Toggle", dpadDown.isToggled());
@@ -133,20 +115,6 @@ public class Arm {
         else {
             dpadLeft.letGo();
         }
-        if (gamepad.b) {
-            b.press();
-            toggleOthersOff(ArmSlide.SlidePositions.HIGH_SPECIMEN);
-        }
-        else {
-            b.letGo();
-        }
-        if (gamepad.x) {
-            x.press();
-            toggleOthersOff(ArmSlide.SlidePositions.LOW_SPECIMEN);
-        }
-        else {
-            x.letGo();
-        }
         if (gamepad.dpad_right) {
             dpadRight.press();
             toggleOthersOff(ArmSlide.SlidePositions.TRANSFER);
@@ -154,13 +122,27 @@ public class Arm {
         else {
             dpadRight.letGo();
         }
-
-        if (gamepad.left_bumper) {
-            leftBumper.press();
-        }
-        else {
-            leftBumper.letGo();
-        }
+//        if (gamepad.b) {
+//            b.press();
+//            toggleOthersOff(ArmSlide.SlidePositions.HIGH_SPECIMEN);
+//        }
+//        else {
+//            b.letGo();
+//        }
+//        if (gamepad.x) {
+//            x.press();
+//            toggleOthersOff(ArmSlide.SlidePositions.LOW_SPECIMEN);
+//        }
+//        else {
+//            x.letGo();
+//        }
+//
+//        if (gamepad.left_bumper) {
+//            leftBumper.press();
+//        }
+//        else {
+//            leftBumper.letGo();
+//        }
     }
 
     // clear toggle for all buttons except the button corresponding to the position parameter
@@ -177,34 +159,11 @@ public class Arm {
         if (position != ArmSlide.SlidePositions.TRANSFER) {
             dpadRight.setFalseToggle();
         }
-        if (position != ArmSlide.SlidePositions.HIGH_SPECIMEN) {
-            b.setFalseToggle();
-        }
-        if (position != ArmSlide.SlidePositions.LOW_SPECIMEN) {
-            x.setFalseToggle();
-        }
-    }
-
-    public void rotateToScore(Gamepad gamepad, ArmSlide.SlidePositions position) {
-        if (position == ArmSlide.SlidePositions.HIGH_BASKET) {
-            if (gamepad.left_trigger > 0.2 && slide.getCurrentPosition() > Constants.highBasketSlideExtension - EXTENSION_THRESHOLD) {
-                rotation.basketPosition();
-                wrist.score();
-            }
-            else {
-                rotation.transferPosition();
-                wrist.transfer();
-            }
-        }
-        else if (position == ArmSlide.SlidePositions.LOW_BASKET) {
-            if (gamepad.left_trigger > 0.2 && slide.getCurrentPosition() > Constants.lowBasketSlideExtension - EXTENSION_THRESHOLD) {
-                rotation.basketPosition();
-                wrist.score();
-            }
-            else {
-                rotation.transferPosition();
-                wrist.transfer();
-            }
-        }
+//        if (position != ArmSlide.SlidePositions.HIGH_SPECIMEN) {
+//            b.setFalseToggle();
+//        }
+//        if (position != ArmSlide.SlidePositions.LOW_SPECIMEN) {
+//            x.setFalseToggle();
+//        }
     }
 }

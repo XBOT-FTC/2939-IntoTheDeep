@@ -29,11 +29,11 @@ public class ElectricalContract {
     public static String rightArmSlideMotor() {
         return "ra_slide"; // Expansion Hub, Motor Port 1
     }
-    public static String leftIntakeServo() {
-        return "li_servo"; // Expansion Hub, Servo Port 5
+    public static String intakeClawServo() {
+        return "ic_servo"; // Expansion Hub, Servo Port 5
     }
-    public static String rightIntakeServo() {
-        return "ri_servo"; // Control Hub, Servo Port 3
+    public static String intakeClawSwivelServo() {
+        return "ics_servo"; // Control Hub, Servo Port 3
     }
     public static String leftPivotServo() {
         return "lp_servo"; // Expansion Hub, Servo Port 0

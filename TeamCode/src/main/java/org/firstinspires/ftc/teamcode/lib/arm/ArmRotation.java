@@ -38,5 +38,9 @@ public class ArmRotation {
         right.setPosition(Constants.transferArmPosition);
         left.setPosition(Constants.transferArmPosition);
     }
+    public void autoEndPosition() {
+        right.setPosition(Constants.autoEndArmPosition);
+        left.setPosition(Constants.autoEndArmPosition);
+    }
 
 }
