@@ -94,7 +94,7 @@ public class TwoSpecimenAuto extends LinearOpMode {
                             intakeSlidePosition = IntakeSlide.SlidePositions.HOMED;
                         })
                 ))
-                .waitSeconds(0.75)
+                .waitSeconds(0.5)
 
                 // drive to sample push position
                 .splineToLinearHeading(new Pose2d(36, -35, Math.toRadians(180)), Math.toRadians(90),
@@ -185,46 +185,50 @@ public class TwoSpecimenAuto extends LinearOpMode {
                 // return to transfer
                 .afterTime(0, new SequentialAction(
                         new InstantAction(() -> {
-                            armSlidePosition = ArmSlide.SlidePositions.TRANSFER;
-                        }),
-                        new InstantAction(() -> {
-                            rotation.transferPosition();
-                        }),
-                        new InstantAction(() -> {
-                            wrist.transfer();
-                        }))
-                )
-                .afterTime(1, new SequentialAction(
-                        new InstantAction(() -> {
-                            intakeSlidePosition = IntakeSlide.SlidePositions.HOMED;
-                        })
-                ))
-                .waitSeconds(1)
-
-                .splineToLinearHeading(new Pose2d(40, -55, Math.toRadians(90)), Math.toRadians(0))
-
-                // zero mechanisms to end auto
-                .afterTime(2.25, new SequentialAction(
-                        new InstantAction(() -> {
-                            armSlidePosition = ArmSlide.SlidePositions.LOW_SPECIMEN;
+                            armSlidePosition = ArmSlide.SlidePositions.HOMED;
                         }),
                         new InstantAction(() -> {
                             rotation.autoEndPosition();
                         }),
                         new InstantAction(() -> {
-                            wrist.scoreLowSpecimen();   // 0.3 is better but lets see
-                        })
-
-                ))
-                .afterTime(3, new SequentialAction(
+                            wrist.scoreLowSpecimen();
+                        }))
+                )
+                .afterTime(0.75, new SequentialAction(
                         new InstantAction(() -> {
-                            armSlidePosition = ArmSlide.SlidePositions.NEGATIVE;
+                            armSlidePosition =  ArmSlide.SlidePositions.NEGATIVE;
                         }),
                         new InstantAction(() -> {
                             intakeSlidePosition = IntakeSlide.SlidePositions.NEGATIVE;
                         })
                 ))
-                .waitSeconds(2.25)
+                .waitSeconds(0.5)
+
+                .splineToLinearHeading(new Pose2d(40, -55, Math.toRadians(90)), Math.toRadians(0))
+
+//                // zero mechanisms to end auto
+//                .afterTime(2.25, new SequentialAction(
+//                        new InstantAction(() -> {
+//                            armSlidePosition = ArmSlide.SlidePositions.LOW_SPECIMEN;
+//                        }),
+//                        new InstantAction(() -> {
+//                            rotation.autoEndPosition();
+//                        }),
+//                        new InstantAction(() -> {
+//                            wrist.scoreLowSpecimen();   // 0.3 is better but lets see
+//                        })
+//
+//                ))
+//                .afterTime(3, new SequentialAction(
+//                        new InstantAction(() -> {
+//                            armSlidePosition = ArmSlide.SlidePositions.NEGATIVE;
+//                        }),
+//                        new InstantAction(() -> {
+//                            intakeSlidePosition = IntakeSlide.SlidePositions.NEGATIVE;
+//                        })
+//                ))
+//                .waitSeconds(2.25)
+                .waitSeconds(0.5)
 
                 .build();
 

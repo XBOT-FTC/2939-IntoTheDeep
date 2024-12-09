@@ -61,7 +61,7 @@ public class Constants {
     public static Servo.Direction leftPivotDirection = Servo.Direction.FORWARD;
     public static Servo.Direction rightPivotDirection = Servo.Direction.REVERSE;
     public static double homedPivotPosition = 0.01;
-    public static double deployedPivotPosition = 0.87;
+    public static double deployedPivotPosition = 0.88;
 
     // SUBLIST: SLIDES
     public static int maxIntakeSlideExtension = 1450;

@@ -90,7 +90,7 @@ public class BasketAuto extends LinearOpMode {
                 .waitSeconds(2.25)
 
                 // align robot to 1st sample
-                .splineToLinearHeading(new Pose2d(-48, -46, Math.toRadians(90)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(-48, -45.5, Math.toRadians(90)), Math.toRadians(90))
 
                 .afterTime(0, new SequentialAction(
                         new InstantAction(() -> {
@@ -161,7 +161,7 @@ public class BasketAuto extends LinearOpMode {
 
 
                 // align robot to 2nd sample
-                .splineToLinearHeading(new Pose2d(-59, -46, Math.toRadians(90)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(-59, -45.5, Math.toRadians(90)), Math.toRadians(90))
 
                 .afterTime(0, new SequentialAction(
                         new InstantAction(() -> {
@@ -239,7 +239,7 @@ public class BasketAuto extends LinearOpMode {
 
 
                 // align to 3rd sample
-                .splineToSplineHeading(new Pose2d(-49, -27, Math.toRadians(180)), Math.toRadians(90))
+                .splineToSplineHeading(new Pose2d(-49.5, -27, Math.toRadians(180)), Math.toRadians(90))
 
 
                 .afterTime(0, new SequentialAction(
